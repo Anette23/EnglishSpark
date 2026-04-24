@@ -2,7 +2,7 @@
 
 A habit-forming app for daily English practice, built on the **2-minute rule** from James Clear's *Atomic Habits*.
 
-🌐 **Live app:** [myenglishspark.vercel.app](https://myenglishspark.vercel.app)
+🌐 **Live app:** [myenglishspark.vercel.app](https://myenglishspark.vercel.app/)
 
 ---
 

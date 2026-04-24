@@ -119,18 +119,24 @@ export default function TaskSession({ taskType, duration, onComplete, onBack }) 
             <p>🎤 Speak out loud for {formatDuration(duration)}.</p>
             <p>No recording needed — just talk! Use a mirror, record on your phone, or simply speak to yourself.</p>
           </div>
-          {timerDone && (
-            <div className="writing-area">
-              <label className="input-label">What did you say? <span className="optional">(optional, for AI feedback)</span></label>
-              <textarea
-                placeholder="Write a few sentences you said out loud..."
-                value={speakingNotes}
-                onChange={e => setSpeakingNotes(e.target.value)}
-                className="text-input"
-                rows={4}
-              />
-            </div>
-          )}
+          <div className="writing-area">
+            <label className="input-label">
+              What did you say?
+              {hasApiKey
+                ? <span className="optional"> — write it down to get AI feedback</span>
+                : <span className="optional"> (optional)</span>
+              }
+            </label>
+            <textarea
+              placeholder={timerDone
+                ? "Write a few sentences you said out loud..."
+                : "You can start writing here while you speak, or after the timer..."}
+              value={speakingNotes}
+              onChange={e => setSpeakingNotes(e.target.value)}
+              className="text-input"
+              rows={4}
+            />
+          </div>
         </>
       )}
 
