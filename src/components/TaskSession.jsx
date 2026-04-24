@@ -35,6 +35,8 @@ export default function TaskSession({ taskType, duration, onComplete, onBack }) 
       } catch (e) {
         if (e.message === 'NOT_CONFIGURED') {
           setFeedbackError('AI feedback is not set up yet. See ⚙️ Settings for instructions.')
+        } else if (e.message === 'UNAUTHORIZED') {
+          setFeedbackError('Feedback token mismatch. Try redeploying the app.')
         } else {
           setFeedbackError('Could not load feedback. Try again later.')
         }

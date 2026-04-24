@@ -1,7 +1,13 @@
 export default async function handler(req, res) {
-  // Only POST allowed
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
+  }
+
+  // Auth: validate secret token sent by frontend
+  const clientToken = req.headers['x-feedback-token']
+  const serverSecret = process.env.FEEDBACK_SECRET
+  if (!serverSecret || clientToken !== serverSecret) {
+    return res.status(401).json({ error: 'Unauthorized' })
   }
 
   const apiKey = process.env.ANTHROPIC_API_KEY
@@ -22,13 +28,13 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Invalid taskType' })
   }
 
-  // Sanitize: strip HTML tags and control characters that could affect prompt structure
+  // Sanitize: strip HTML, control chars, and close-tag that could escape XML delimiter
   const sanitized = text
     .replace(/<[^>]*>/g, '')
     .replace(/[\x00-\x08\x0b-\x1f\x7f]/g, '')
+    .replace(/<\/student_text>/gi, '[/student_text]')
     .slice(0, 2000)
 
-  // Delimiters prevent injected content from escaping into instruction area
   const taskLabel = taskType === 'writing' ? 'written' : 'spoken'
   const userPrompt = `Give feedback on this English text ${taskLabel} by a Slovak learner:
 
@@ -65,8 +71,12 @@ Respond ONLY with the JSON object, no other text.`,
     }
 
     const data = await response.json()
-    const raw = data.content[0].text
-    const json = JSON.parse(raw.match(/\{[\s\S]*\}/)[0])
+    const raw = data.content?.[0]?.text ?? ''
+    const match = raw.match(/\{[\s\S]*\}/)
+    if (!match) {
+      return res.status(502).json({ error: 'Unexpected AI response format' })
+    }
+    const json = JSON.parse(match[0])
     return res.status(200).json(json)
   } catch {
     return res.status(500).json({ error: 'Internal server error' })
