@@ -593,3 +593,234 @@ body {
   text-align: right;
   margin-top: 4px;
 }
+
+/* ── Dashboard header actions ──────────────────── */
+
+.dash-header-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* ── Speech Recorder ───────────────────────────── */
+
+.speech-recorder {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-record {
+  background: var(--green);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: opacity .15s, transform .1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-record:active { transform: scale(.97); }
+.btn-recording {
+  background: #ef4444;
+  animation: pulse-red 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-red {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,.4); }
+  50%       { box-shadow: 0 0 0 8px rgba(239,68,68,0); }
+}
+
+.recording-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #ef4444;
+  font-weight: 600;
+}
+
+.rec-dot {
+  width: 8px;
+  height: 8px;
+  background: #ef4444;
+  border-radius: 50%;
+  animation: blink 1s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: .2; }
+}
+
+.rec-error { font-size: 13px; color: #dc2626; }
+
+.transcript-box {
+  background: var(--green-light);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+.transcript-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: #065f46;
+  margin-bottom: 6px;
+}
+.transcript-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #065f46;
+}
+.interim { opacity: .5; }
+
+/* ── History View ──────────────────────────────── */
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.history-entry {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.history-entry-header {
+  width: 100%;
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.history-date { font-size: 14px; font-weight: 600; flex: 1; }
+.history-badges { display: flex; gap: 4px; }
+.history-badge {
+  font-size: 16px;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.badge-purple { background: var(--purple-light); }
+.badge-green  { background: var(--green-light); }
+.badge-empty  { opacity: .25; }
+.history-xp   { font-size: 12px; font-weight: 700; color: var(--green); }
+.history-toggle { font-size: 11px; color: var(--muted); }
+
+.history-details {
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.history-session {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.history-session:last-child { border-bottom: none; }
+.history-session-purple { border-left: 3px solid var(--purple); }
+.history-session-green  { border-left: 3px solid var(--green); }
+
+.history-session-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.history-session-prompt {
+  font-size: 13px;
+  font-style: italic;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.history-session-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.feedback-mini {
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.mini-row { display: flex; gap: 6px; flex-wrap: wrap; line-height: 1.5; }
+.mini-label { font-weight: 700; flex-shrink: 0; }
+.mini-label.corrections { color: #dc2626; }
+.mini-label.suggestions { color: #2563eb; }
+.mini-praise { color: var(--purple); font-weight: 600; }
+
+/* ── Streak Calendar ───────────────────────────── */
+
+.calendar-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+.calendar-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 4px;
+}
+.cal-cell {
+  aspect-ratio: 1;
+  border-radius: 6px;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+.cal-full  { background: var(--green);        color: #fff; }
+.cal-half  { background: var(--green-light);  color: #065f46; }
+.cal-empty { background: #f1f5f9;             color: var(--muted); }
+
+.calendar-legend {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.cal-legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  display: inline-block;
+}

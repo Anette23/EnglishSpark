@@ -1,6 +1,6 @@
 import { MILESTONES, getLevel, getNextMilestone, getSessionDuration, formatDuration } from '../habitStore'
 
-export default function Dashboard({ state, todayStatus, onStartTask, onOpenSettings }) {
+export default function Dashboard({ state, todayStatus, onStartTask, onOpenSettings, onOpenHistory }) {
   const { streak, longestStreak, totalDays, xp, unlockedMilestones } = state
   const { level, progress, nextXp, currentFloor } = getLevel(xp)
   const nextMilestone = getNextMilestone(streak, unlockedMilestones)
@@ -18,7 +18,10 @@ export default function Dashboard({ state, todayStatus, onStartTask, onOpenSetti
           <h1>EnglishSpark <span className="spark">⚡</span></h1>
           <p className="dash-subtitle">2-minute daily English practice</p>
         </div>
-        <button className="btn-settings" onClick={onOpenSettings} title="Settings">⚙️</button>
+        <div className="dash-header-actions">
+          <button className="btn-settings" onClick={onOpenHistory} title="History">📚</button>
+          <button className="btn-settings" onClick={onOpenSettings} title="Settings">⚙️</button>
+        </div>
       </div>
 
       {/* Streak card */}

@@ -26,7 +26,7 @@ export function formatDuration(seconds) {
   return `${m}:${s.toString().padStart(2, '0')}`
 }
 
-function todayStr() {
+export function todayStr() {
   return new Date().toISOString().slice(0, 10)
 }
 
@@ -34,7 +34,6 @@ function daysBetween(a, b) {
   return Math.round((new Date(b) - new Date(a)) / 86400000)
 }
 
-// djb2 hash with seed — fast, synchronous, sufficient for tamper detection
 function computeHash(data) {
   const str = INTEGRITY_SEED + data
   let hash = 5381
@@ -60,21 +59,14 @@ export function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
     if (!raw) return { ...DEFAULT_STATE }
-
     const wrapper = JSON.parse(raw)
-
-    // Legacy format: plain JSON without integrity wrapper → migrate it
-    if (!wrapper.d || !wrapper.h) {
-      return { ...DEFAULT_STATE, ...wrapper }
-    }
-
+    if (!wrapper.d || !wrapper.h) return { ...DEFAULT_STATE, ...wrapper }
     const json = atob(wrapper.d)
     if (computeHash(json) !== wrapper.h) {
       console.warn('EnglishSpark: state integrity check failed, resetting.')
       localStorage.removeItem(STORAGE_KEY)
       return { ...DEFAULT_STATE }
     }
-
     return { ...DEFAULT_STATE, ...JSON.parse(json) }
   } catch {
     return { ...DEFAULT_STATE }
@@ -110,10 +102,7 @@ export function completeTask(taskType) {
   }
 
   const field = taskType === 'writing' ? 'writingDone' : 'speakingDone'
-  if (entry[field]) {
-    saveState(state)
-    return state
-  }
+  if (entry[field]) { saveState(state); return state }
   entry[field] = true
 
   const xpGain = 25
@@ -127,9 +116,7 @@ export function completeTask(taskType) {
       state.streak = gap === 1 ? state.streak + 1 : 1
       state.lastCompletedDate = today
       state.totalDays += 1
-      if (state.streak > state.longestStreak) {
-        state.longestStreak = state.streak
-      }
+      if (state.streak > state.longestStreak) state.longestStreak = state.streak
 
       state.xp += 25
       entry.xpEarned += 25
@@ -150,6 +137,23 @@ export function completeTask(taskType) {
   return state
 }
 
+// Save text + feedback + prompt for a completed task (called after feedback arrives)
+export function saveTaskResult(date, taskType, { text, feedback, prompt }) {
+  const state = loadState()
+  const entry = state.history.find(h => h.date === date)
+  if (!entry) return
+  if (taskType === 'writing') {
+    entry.writingText     = text
+    entry.writingFeedback = feedback ?? null
+    entry.writingPrompt   = prompt
+  } else {
+    entry.speakingText     = text
+    entry.speakingFeedback = feedback ?? null
+    entry.speakingPrompt   = prompt
+  }
+  saveState(state)
+}
+
 export function clearNewMilestone() {
   const state = loadState()
   state.newMilestone = null
@@ -164,7 +168,7 @@ export function getLevel(xp) {
     else break
   }
   const currentFloor = levels[Math.min(level - 1, levels.length - 1)]
-  const nextCeil    = levels[Math.min(level,     levels.length - 1)]
+  const nextCeil     = levels[Math.min(level,     levels.length - 1)]
   const progress = nextCeil > currentFloor
     ? ((xp - currentFloor) / (nextCeil - currentFloor)) * 100
     : 100
