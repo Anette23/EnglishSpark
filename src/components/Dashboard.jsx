@@ -15,7 +15,7 @@ export default function Dashboard({ state, todayStatus, onStartTask, onOpenSetti
       {/* Header */}
       <div className="dash-header">
         <div>
-          <h1>English Habit <span className="spark">⚡</span></h1>
+          <h1>EnglishSpark <span className="spark">⚡</span></h1>
           <p className="dash-subtitle">2-minute daily English practice</p>
         </div>
         <button className="btn-settings" onClick={onOpenSettings} title="Settings">⚙️</button>
