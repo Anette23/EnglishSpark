@@ -451,3 +451,138 @@ body {
   0%   { transform: translateY(0) rotate(0deg);   opacity: 1; }
   100% { transform: translateY(400px) rotate(360deg); opacity: 0; }
 }
+
+/* ── Settings button ───────────────────────────── */
+
+.dash-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.btn-settings {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 20px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: var(--shadow);
+}
+
+/* ── Feedback ──────────────────────────────────── */
+
+.feedback-box {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: var(--shadow);
+}
+
+.feedback-loading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.feedback-spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid var(--purple-light);
+  border-top-color: var(--purple);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.feedback-error { color: #b91c1c; font-size: 14px; }
+.feedback-hint  { color: var(--muted); font-size: 14px; line-height: 1.5; }
+
+.feedback-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.feedback-section { margin-bottom: 12px; }
+.feedback-section-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin-bottom: 6px;
+}
+.feedback-section-label.corrections { color: #dc2626; }
+.feedback-section-label.suggestions { color: #2563eb; }
+
+.feedback-section ul {
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.feedback-section li { font-size: 14px; line-height: 1.5; }
+.feedback-perfect { font-size: 14px; color: var(--green); font-weight: 600; }
+
+.feedback-praise {
+  background: var(--purple-light);
+  color: var(--purple);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+/* ── Session complete inline ───────────────────── */
+
+.session-complete-inline {
+  text-align: center;
+  padding: 20px 0 8px;
+}
+.session-complete-inline .complete-icon {
+  font-size: 60px;
+  animation: pop .5s cubic-bezier(.34,1.56,.64,1);
+}
+.session-complete-inline h2 { font-size: 24px; font-weight: 900; margin-top: 8px; }
+.xp-gain { font-size: 16px; color: var(--green); font-weight: 700; margin-top: 4px; }
+
+/* ── Settings page ─────────────────────────────── */
+
+.settings-steps {
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.input-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.optional { font-weight: 400; color: var(--muted); }
+
+.settings-note {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 6px;
+  line-height: 1.4;
+}

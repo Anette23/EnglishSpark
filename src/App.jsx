@@ -1,20 +1,16 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Dashboard from './components/Dashboard'
 import TaskSession from './components/TaskSession'
 import MilestoneModal from './components/MilestoneModal'
+import Settings from './components/Settings'
 import { loadState, getTodayStatus, completeTask, getSessionDuration } from './habitStore'
 
 export default function App() {
   const [state, setState] = useState(() => loadState())
-  const [view, setView] = useState('dashboard') // 'dashboard' | 'writing' | 'speaking'
+  const [view, setView] = useState('dashboard') // 'dashboard' | 'writing' | 'speaking' | 'settings'
   const [showMilestone, setShowMilestone] = useState(null)
 
-  const todayStatus = getTodayStatus(state)
   const duration = getSessionDuration(state.totalDays)
-
-  function handleStartTask(taskType) {
-    setView(taskType)
-  }
 
   function handleCompleteTask(taskType) {
     const newState = completeTask(taskType)
@@ -35,7 +31,8 @@ export default function App() {
         <Dashboard
           state={state}
           todayStatus={getTodayStatus(state)}
-          onStartTask={handleStartTask}
+          onStartTask={setView}
+          onOpenSettings={() => setView('settings')}
         />
       )}
       {(view === 'writing' || view === 'speaking') && (
@@ -45,6 +42,9 @@ export default function App() {
           onComplete={() => handleCompleteTask(view)}
           onBack={handleBack}
         />
+      )}
+      {view === 'settings' && (
+        <Settings onBack={handleBack} />
       )}
       {showMilestone && (
         <MilestoneModal
