@@ -1,16 +1,4 @@
-import { useState } from 'react'
-import { getApiKey, saveApiKey } from '../api'
-
 export default function Settings({ onBack }) {
-  const [key, setKey] = useState(getApiKey())
-  const [saved, setSaved] = useState(false)
-
-  function handleSave() {
-    saveApiKey(key)
-    setSaved(true)
-    setTimeout(() => setSaved(false), 2000)
-  }
-
   return (
     <div className="task-session">
       <button className="btn-back" onClick={onBack}>← Back</button>
@@ -18,36 +6,27 @@ export default function Settings({ onBack }) {
         <span className="task-icon">⚙️</span>
         <div>
           <h2>Settings</h2>
-          <p className="task-subtitle">Anthropic API key for feedback</p>
+          <p className="task-subtitle">AI feedback configuration</p>
         </div>
       </div>
 
       <div className="prompt-box">
-        <div className="prompt-label">How to get a free API key</div>
+        <div className="prompt-label">How AI feedback works</div>
+        <p style={{ fontSize: '14px', lineHeight: '1.6', color: 'var(--text)' }}>
+          AI feedback runs securely on the server — your API key is never stored in the browser.
+          To enable it, add your Anthropic API key as an environment variable in your Vercel project.
+        </p>
+      </div>
+
+      <div className="prompt-box">
+        <div className="prompt-label">Setup steps</div>
         <ol className="settings-steps">
-          <li>Go to <strong>console.anthropic.com</strong></li>
-          <li>Create a free account</li>
-          <li>Go to <strong>API Keys</strong> → create new key</li>
-          <li>Paste it below</li>
+          <li>Go to <strong>vercel.com</strong> → your project → <strong>Settings → Environment Variables</strong></li>
+          <li>Add variable: <strong>ANTHROPIC_API_KEY</strong> = your key</li>
+          <li>Get a key at <strong>console.anthropic.com</strong> → API Keys</li>
+          <li>Redeploy the project</li>
         </ol>
       </div>
-
-      <div className="writing-area">
-        <label className="input-label">Anthropic API Key</label>
-        <input
-          type="password"
-          className="text-input"
-          style={{ padding: '12px 14px', fontSize: '14px' }}
-          placeholder="sk-ant-..."
-          value={key}
-          onChange={e => setKey(e.target.value)}
-        />
-        <p className="settings-note">Stored only in your browser. Never sent anywhere except Anthropic.</p>
-      </div>
-
-      <button className="btn-primary" onClick={handleSave} disabled={!key.trim()}>
-        {saved ? '✓ Saved!' : 'Save Key'}
-      </button>
     </div>
   )
 }

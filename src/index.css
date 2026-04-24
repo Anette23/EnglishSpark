@@ -586,3 +586,10 @@ body {
   margin-top: 6px;
   line-height: 1.4;
 }
+
+.char-count {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: right;
+  margin-top: 4px;
+}

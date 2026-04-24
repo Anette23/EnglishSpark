@@ -3,7 +3,9 @@ import Timer from './Timer'
 import FeedbackView from './FeedbackView'
 import { getDailyPrompt, WRITING_PROMPTS, SPEAKING_PROMPTS } from '../prompts'
 import { formatDuration } from '../habitStore'
-import { getFeedback, getApiKey } from '../api'
+import { getFeedback } from '../api'
+
+const MAX_LENGTH = 2000
 
 export default function TaskSession({ taskType, duration, onComplete, onBack }) {
   const [text, setText] = useState('')
@@ -18,25 +20,21 @@ export default function TaskSession({ taskType, duration, onComplete, onBack }) 
   const prompt = getDailyPrompt(isWriting ? WRITING_PROMPTS : SPEAKING_PROMPTS)
   const icon = isWriting ? '✍️' : '🎤'
   const accentColor = isWriting ? 'accent-purple' : 'accent-green'
-  const hasApiKey = !!getApiKey()
-
   const feedbackText = isWriting ? text : speakingNotes
 
   async function handleSubmit() {
     setSubmitted(true)
     onComplete()
 
-    if (hasApiKey && feedbackText.trim()) {
+    if (feedbackText.trim()) {
       setFeedbackLoading(true)
       setFeedbackError(null)
       try {
         const result = await getFeedback(taskType, feedbackText)
         setFeedback(result)
       } catch (e) {
-        if (e.message === 'NO_KEY') {
-          setFeedbackError('Add your API key in Settings to get feedback.')
-        } else if (e.message === 'INVALID_KEY') {
-          setFeedbackError('Invalid API key. Check your key in Settings.')
+        if (e.message === 'NOT_CONFIGURED') {
+          setFeedbackError('AI feedback is not set up yet. See ⚙️ Settings for instructions.')
         } else {
           setFeedbackError('Could not load feedback. Try again later.')
         }
@@ -56,20 +54,10 @@ export default function TaskSession({ taskType, duration, onComplete, onBack }) 
           <p className="xp-gain">+25 XP earned</p>
         </div>
 
-        {(feedbackLoading || feedback || feedbackError) && (
-          <FeedbackView
-            feedback={feedback}
-            loading={feedbackLoading}
-            error={feedbackError}
-            taskType={taskType}
-          />
-        )}
-
-        {!hasApiKey && (
-          <div className="feedback-box feedback-hint">
-            💡 Add an Anthropic API key in <strong>Settings</strong> to get AI feedback on your English.
-          </div>
-        )}
+        {feedbackText.trim()
+          ? <FeedbackView feedback={feedback} loading={feedbackLoading} error={feedbackError} />
+          : <div className="feedback-box feedback-hint">💡 Next time write something to get AI feedback on your English.</div>
+        }
 
         {!feedbackLoading && (
           <button className="btn-primary" onClick={onBack}>Back to Dashboard</button>
@@ -109,7 +97,9 @@ export default function TaskSession({ taskType, duration, onComplete, onBack }) 
             onChange={e => setText(e.target.value)}
             className="text-input"
             rows={6}
+            maxLength={MAX_LENGTH}
           />
+          <div className="char-count">{text.length} / {MAX_LENGTH}</div>
         </div>
       )}
 
@@ -121,28 +111,26 @@ export default function TaskSession({ taskType, duration, onComplete, onBack }) 
           </div>
           <div className="writing-area">
             <label className="input-label">
-              What did you say?
-              {hasApiKey
-                ? <span className="optional"> — write it down to get AI feedback</span>
-                : <span className="optional"> (optional)</span>
-              }
+              What did you say? <span className="optional"> — write it down for AI feedback</span>
             </label>
             <textarea
               placeholder={timerDone
-                ? "Write a few sentences you said out loud..."
-                : "You can start writing here while you speak, or after the timer..."}
+                ? 'Write a few sentences you said out loud...'
+                : 'You can start writing here while you speak, or after the timer...'}
               value={speakingNotes}
               onChange={e => setSpeakingNotes(e.target.value)}
               className="text-input"
               rows={4}
+              maxLength={MAX_LENGTH}
             />
+            <div className="char-count">{speakingNotes.length} / {MAX_LENGTH}</div>
           </div>
         </>
       )}
 
       {timerDone && (
         <button className="btn-primary btn-done" onClick={handleSubmit}>
-          {feedbackText.trim() && hasApiKey ? 'Submit & Get Feedback ✓' : 'Mark as Done ✓'}
+          {feedbackText.trim() ? 'Submit & Get Feedback ✓' : 'Mark as Done ✓'}
         </button>
       )}
     </div>
