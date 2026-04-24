@@ -1,4 +1,5 @@
 const STORAGE_KEY = 'english_habit_v1'
+const INTEGRITY_SEED = 'es_k9x2mQ7vR4nL'
 
 export const MILESTONES = [
   { days: 3,   emoji: '🌱', label: 'First Sprout',    xp: 50  },
@@ -11,13 +12,12 @@ export const MILESTONES = [
   { days: 365, emoji: '🌟', label: 'Year Legend',     xp: 5000},
 ]
 
-// Session duration in seconds based on total days completed
 export function getSessionDuration(totalDays) {
-  if (totalDays < 30)  return 120   // 2:00
-  if (totalDays < 60)  return 150   // 2:30
-  if (totalDays < 90)  return 180   // 3:00
-  if (totalDays < 120) return 210   // 3:30
-  return 240                        // 4:00
+  if (totalDays < 30)  return 120
+  if (totalDays < 60)  return 150
+  if (totalDays < 90)  return 180
+  if (totalDays < 120) return 210
+  return 240
 }
 
 export function formatDuration(seconds) {
@@ -31,8 +31,18 @@ function todayStr() {
 }
 
 function daysBetween(a, b) {
-  const msPerDay = 86400000
-  return Math.round((new Date(b) - new Date(a)) / msPerDay)
+  return Math.round((new Date(b) - new Date(a)) / 86400000)
+}
+
+// djb2 hash with seed — fast, synchronous, sufficient for tamper detection
+function computeHash(data) {
+  const str = INTEGRITY_SEED + data
+  let hash = 5381
+  for (let i = 0; i < str.length; i++) {
+    hash = ((hash << 5) + hash) + str.charCodeAt(i)
+    hash = hash & hash
+  }
+  return (hash >>> 0).toString(36)
 }
 
 const DEFAULT_STATE = {
@@ -42,35 +52,54 @@ const DEFAULT_STATE = {
   lastCompletedDate: null,
   xp: 0,
   unlockedMilestones: [],
-  history: [],        // [{date, writingDone, speakingDone, xpEarned}]
-  newMilestone: null, // milestone just earned (cleared after shown)
+  history: [],
+  newMilestone: null,
 }
 
 export function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    return raw ? { ...DEFAULT_STATE, ...JSON.parse(raw) } : { ...DEFAULT_STATE }
+    if (!raw) return { ...DEFAULT_STATE }
+
+    const wrapper = JSON.parse(raw)
+
+    // Legacy format: plain JSON without integrity wrapper → migrate it
+    if (!wrapper.d || !wrapper.h) {
+      return { ...DEFAULT_STATE, ...wrapper }
+    }
+
+    const json = atob(wrapper.d)
+    if (computeHash(json) !== wrapper.h) {
+      console.warn('EnglishSpark: state integrity check failed, resetting.')
+      localStorage.removeItem(STORAGE_KEY)
+      return { ...DEFAULT_STATE }
+    }
+
+    return { ...DEFAULT_STATE, ...JSON.parse(json) }
   } catch {
     return { ...DEFAULT_STATE }
   }
 }
 
 function saveState(state) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
+  const json = JSON.stringify(state)
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({
+    d: btoa(json),
+    h: computeHash(json),
+  }))
 }
 
 export function getTodayStatus(state) {
   const today = todayStr()
   const entry = state.history.find(h => h.date === today)
   return {
-    writingDone: entry?.writingDone ?? false,
+    writingDone:  entry?.writingDone  ?? false,
     speakingDone: entry?.speakingDone ?? false,
-    allDone: (entry?.writingDone && entry?.speakingDone) ?? false,
+    allDone:     (entry?.writingDone && entry?.speakingDone) ?? false,
   }
 }
 
 export function completeTask(taskType) {
-  // taskType: 'writing' | 'speaking'
   const state = loadState()
   const today = todayStr()
 
@@ -83,7 +112,7 @@ export function completeTask(taskType) {
   const field = taskType === 'writing' ? 'writingDone' : 'speakingDone'
   if (entry[field]) {
     saveState(state)
-    return state // already done
+    return state
   }
   entry[field] = true
 
@@ -91,27 +120,20 @@ export function completeTask(taskType) {
   entry.xpEarned = (entry.xpEarned || 0) + xpGain
   state.xp += xpGain
 
-  // If both tasks done today and this is a new day
   if (entry.writingDone && entry.speakingDone) {
     const last = state.lastCompletedDate
     if (last !== today) {
       const gap = last ? daysBetween(last, today) : 1
-      if (gap === 1) {
-        state.streak += 1
-      } else if (gap > 1) {
-        state.streak = 1
-      }
+      state.streak = gap === 1 ? state.streak + 1 : 1
       state.lastCompletedDate = today
       state.totalDays += 1
       if (state.streak > state.longestStreak) {
         state.longestStreak = state.streak
       }
 
-      // Bonus XP for completing both
       state.xp += 25
       entry.xpEarned += 25
 
-      // Check milestones
       const newMilestone = MILESTONES.find(
         m => m.days === state.streak && !state.unlockedMilestones.includes(m.days)
       )
@@ -142,7 +164,7 @@ export function getLevel(xp) {
     else break
   }
   const currentFloor = levels[Math.min(level - 1, levels.length - 1)]
-  const nextCeil = levels[Math.min(level, levels.length - 1)]
+  const nextCeil    = levels[Math.min(level,     levels.length - 1)]
   const progress = nextCeil > currentFloor
     ? ((xp - currentFloor) / (nextCeil - currentFloor)) * 100
     : 100
