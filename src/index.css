@@ -21,6 +21,20 @@
   --shadow: 0 2px 16px rgba(0,0,0,.08);
 }
 
+[data-theme="dark"] {
+  --bg:     #0f172a;
+  --card:   #1e293b;
+  --text:   #f1f5f9;
+  --muted:  #94a3b8;
+  --border: #334155;
+  --shadow: 0 2px 16px rgba(0,0,0,.3);
+  --purple-light: #1e1b4b;
+  --green-light:  #064e3b;
+  --blue-light:   #1e3a5f;
+  --orange-light: #431407;
+  --teal-light:   #134e4a;
+}
+
 body {
   font-family: 'Inter', system-ui, sans-serif;
   background: var(--bg);
@@ -262,6 +276,8 @@ body {
 }
 .prep-input:focus   { border-color: var(--purple); }
 .prep-input:disabled { background: #f8fafc; color: var(--muted); }
+[data-theme="dark"] .prep-input { background: var(--card); color: var(--text); }
+[data-theme="dark"] .prep-input:disabled { background: #0f172a; }
 .btn-check {
   width: auto;
   flex-shrink: 0;
@@ -327,6 +343,7 @@ body {
   border: 1.5px dashed var(--border);
   color: var(--muted);
 }
+[data-theme="dark"] .milestone-chip.locked { background: #1e293b; }
 .m-emoji { font-size: 22px; flex-shrink: 0; }
 .m-label { flex: 1; font-weight: 600; line-height: 1.2; }
 .m-days { font-size: 11px; color: var(--muted); flex-shrink: 0; }
@@ -443,6 +460,7 @@ body {
   color: var(--text);
 }
 .text-input:focus { border-color: var(--purple); }
+[data-theme="dark"] .text-input { background: var(--card); color: var(--text); }
 
 /* Speaking hint */
 .speaking-hint {

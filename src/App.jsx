@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Dashboard from './components/Dashboard'
 import TaskSession from './components/TaskSession'
 import MilestoneModal from './components/MilestoneModal'
@@ -9,8 +9,14 @@ import { loadState, getTodayStatus, completeTask, getSessionDuration } from './h
 
 export default function App() {
   const [state, setState] = useState(() => loadState())
-  const [view, setView]   = useState('dashboard') // 'dashboard' | 'writing' | 'speaking' | 'settings' | 'history'
+  const [view, setView]   = useState('dashboard')
   const [showMilestone, setShowMilestone] = useState(null)
+  const [darkMode, setDarkMode] = useState(() => localStorage.getItem('theme') === 'dark')
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light')
+    localStorage.setItem('theme', darkMode ? 'dark' : 'light')
+  }, [darkMode])
 
   const duration = getSessionDuration(state.totalDays)
 
@@ -34,6 +40,8 @@ export default function App() {
           onStartTask={setView}
           onOpenSettings={() => setView('settings')}
           onOpenHistory={() => setView('history')}
+          darkMode={darkMode}
+          onToggleDark={() => setDarkMode(d => !d)}
         />
       )}
       {(view === 'writing' || view === 'speaking') && (
