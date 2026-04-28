@@ -54,7 +54,7 @@ export default function App() {
       )}
       {view === 'settings' && <Settings onBack={handleBack} />}
       {view === 'history'  && <HistoryView state={state} onBack={handleBack} />}
-      {(view === 'synonyms' || view === 'prepositions' || view === 'shadowing') && (
+      {(view === 'synonyms' || view === 'prepositions' || view === 'idioms' || view === 'shadowing') && (
         <BonusSession type={view} onBack={handleBack} />
       )}
       {showMilestone && (

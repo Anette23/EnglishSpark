@@ -1,22 +1,38 @@
 import { useState } from 'react'
 import SpeechRecorder from './SpeechRecorder'
-import { SYNONYM_WORDS, PREPOSITION_PHRASES, SHADOWING_SENTENCES } from '../bonusExercises'
+import { SYNONYM_WORDS, PREPOSITION_PHRASES, IDIOM_PHRASES, SHADOWING_SENTENCES, getListForLevel } from '../bonusExercises'
 
 function dailyStart(arr) {
   const seed = parseInt(new Date().toISOString().slice(0, 10).replace(/-/g, ''))
   return seed % arr.length
 }
 
+const LEVELS = ['A2', 'B1', 'B2']
+
 export default function BonusSession({ type, onBack }) {
-  const list = type === 'synonyms'     ? SYNONYM_WORDS
-             : type === 'prepositions' ? PREPOSITION_PHRASES
-             : SHADOWING_SENTENCES
+  const [level, setLevel] = useState(() => localStorage.getItem('exerciseLevel') || 'B1')
+
+  const fullList = type === 'synonyms'     ? SYNONYM_WORDS
+                 : type === 'prepositions' ? PREPOSITION_PHRASES
+                 : type === 'idioms'       ? IDIOM_PHRASES
+                 : SHADOWING_SENTENCES
+
+  const list = getListForLevel(fullList, level)
 
   const [idx, setIdx]           = useState(() => dailyStart(list))
   const [input, setInput]       = useState('')
   const [checked, setChecked]   = useState(false)
   const [transcript, setTranscript] = useState('')
   const [isSpeaking, setIsSpeaking] = useState(false)
+
+  function changeLevel(l) {
+    localStorage.setItem('exerciseLevel', l)
+    setLevel(l)
+    setIdx(dailyStart(getListForLevel(fullList, l)))
+    setInput('')
+    setChecked(false)
+    setTranscript('')
+  }
 
   function next() {
     setIdx(i => (i + 1) % list.length)
@@ -29,8 +45,11 @@ export default function BonusSession({ type, onBack }) {
   const config = {
     synonyms:     { title: 'Synonyms',     icon: '🔤', accent: 'accent-blue' },
     prepositions: { title: 'Prepositions', icon: '📝', accent: 'accent-orange' },
+    idioms:       { title: 'Idioms',       icon: '💬', accent: 'accent-purple' },
     shadowing:    { title: 'Shadowing',    icon: '🎧', accent: 'accent-teal' },
   }[type]
+
+  const item = list[idx % list.length]
 
   return (
     <div className="task-session">
@@ -44,9 +63,21 @@ export default function BonusSession({ type, onBack }) {
         </div>
       </div>
 
+      <div className="level-toggle">
+        {LEVELS.map(l => (
+          <button
+            key={l}
+            className={`level-btn ${level === l ? 'level-btn-active' : ''}`}
+            onClick={() => changeLevel(l)}
+          >
+            {l}
+          </button>
+        ))}
+      </div>
+
       {type === 'synonyms' && (
         <SynonymsExercise
-          item={list[idx]}
+          item={item}
           input={input} setInput={setInput}
           checked={checked} setChecked={setChecked}
           onNext={next}
@@ -54,7 +85,15 @@ export default function BonusSession({ type, onBack }) {
       )}
       {type === 'prepositions' && (
         <PrepositionsExercise
-          item={list[idx]}
+          item={item}
+          input={input} setInput={setInput}
+          checked={checked} setChecked={setChecked}
+          onNext={next}
+        />
+      )}
+      {type === 'idioms' && (
+        <PrepositionsExercise
+          item={item}
           input={input} setInput={setInput}
           checked={checked} setChecked={setChecked}
           onNext={next}
@@ -62,8 +101,8 @@ export default function BonusSession({ type, onBack }) {
       )}
       {type === 'shadowing' && (
         <ShadowingExercise
-          sentence={list[idx]}
-          recKey={idx}
+          sentence={item.sentence}
+          recKey={`${level}-${idx}`}
           transcript={transcript} setTranscript={setTranscript}
           isSpeaking={isSpeaking} setIsSpeaking={setIsSpeaking}
           onNext={next}
@@ -110,7 +149,7 @@ function SynonymsExercise({ item, input, setInput, checked, setChecked, onNext }
         <div className="bonus-result">
           {correct.length > 0
             ? <p className="result-correct">✅ You got {correct.length}: <strong>{correct.join(', ')}</strong></p>
-            : <p className="result-wrong">❌ No exact matches — but keep trying!</p>
+            : <p className="result-wrong">❌ No exact matches — keep trying!</p>
           }
           {wrong.length > 0 && (
             <p>Not quite: <span className="result-wrong-words">{wrong.join(', ')}</span></p>
@@ -137,7 +176,7 @@ function PrepositionsExercise({ item, input, setInput, checked, setChecked, onNe
   return (
     <>
       <div className="prompt-box">
-        <div className="prompt-label">Fill in the preposition</div>
+        <div className="prompt-label">Fill in the missing word</div>
         <p className="prompt-text">
           {checked ? (
             <>
@@ -157,7 +196,7 @@ function PrepositionsExercise({ item, input, setInput, checked, setChecked, onNe
         <input
           className="prep-input"
           type="text"
-          placeholder="preposition..."
+          placeholder="your answer..."
           value={input}
           onChange={e => setInput(e.target.value)}
           disabled={checked}
@@ -178,7 +217,7 @@ function PrepositionsExercise({ item, input, setInput, checked, setChecked, onNe
             {isCorrect ? '✅ Correct!' : `❌ The answer is: ${item.answer.join(' or ')}`}
           </p>
           <p className="hint-text">💡 {item.hint}</p>
-          <button className="btn-primary" onClick={onNext}>Next phrase →</button>
+          <button className="btn-primary" onClick={onNext}>Next →</button>
         </div>
       )}
     </>

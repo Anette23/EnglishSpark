@@ -983,3 +983,74 @@ body {
   border-radius: 3px;
   display: inline-block;
 }
+
+/* ── Activity Graph ─────────────────────────────── */
+
+.activity-graph {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+
+.activity-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.activity-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 4px;
+}
+
+.act-dot {
+  aspect-ratio: 1;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.act-day {
+  font-size: 9px;
+  font-weight: 600;
+  opacity: 0.6;
+  line-height: 1;
+}
+
+.cal-full  .act-day { color: #fff; opacity: 0.8; }
+.cal-half  .act-day { color: #065f46; }
+.cal-empty .act-day { color: var(--muted); }
+
+/* ── Level toggle ───────────────────────────────── */
+
+.level-toggle {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.level-btn {
+  border: 2px solid var(--border);
+  background: var(--card);
+  color: var(--muted);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 6px 16px;
+  cursor: pointer;
+  transition: all .15s;
+}
+
+.level-btn:hover { border-color: var(--purple); color: var(--purple); }
+
+.level-btn-active {
+  background: var(--purple);
+  border-color: var(--purple);
+  color: #fff;
+}

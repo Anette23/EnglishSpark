@@ -78,6 +78,8 @@ export default function Dashboard({ state, todayStatus, onStartTask, onOpenSetti
             </div>
           </div>
 
+          <ActivityGraph history={state.history} />
+
           <div className="milestones-section">
             <h3>Milestones</h3>
             <div className="milestones-grid">
@@ -144,6 +146,11 @@ export default function Dashboard({ state, todayStatus, onStartTask, onOpenSetti
                 color="orange" onStart={() => onStartTask('prepositions')}
               />
               <BonusCard
+                icon="💬" title="Idioms"
+                desc="Fill in the missing word in an idiom"
+                color="purple" onStart={() => onStartTask('idioms')}
+              />
+              <BonusCard
                 icon="🎧" title="Shadowing"
                 desc="Listen and repeat a sentence"
                 color="teal" onStart={() => onStartTask('shadowing')}
@@ -151,6 +158,41 @@ export default function Dashboard({ state, todayStatus, onStartTask, onOpenSetti
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  )
+}
+
+function ActivityGraph({ history }) {
+  const DAYS = 30
+  const today = new Date()
+  const cells = Array.from({ length: DAYS }, (_, i) => {
+    const d = new Date(today)
+    d.setDate(d.getDate() - (DAYS - 1 - i))
+    const dateStr = d.toISOString().slice(0, 10)
+    const entry = history.find(h => h.date === dateStr)
+    const cls = !entry                                      ? 'cal-empty'
+              : entry.writingDone && entry.speakingDone     ? 'cal-full'
+              : (entry.writingDone || entry.speakingDone)   ? 'cal-half'
+              : 'cal-empty'
+    const day = d.getDate()
+    return { dateStr, cls, day }
+  })
+
+  return (
+    <div className="activity-graph">
+      <div className="activity-label">Last 30 days</div>
+      <div className="activity-grid">
+        {cells.map(({ dateStr, cls, day }) => (
+          <div key={dateStr} className={`act-dot ${cls}`} title={dateStr}>
+            <span className="act-day">{day}</span>
+          </div>
+        ))}
+      </div>
+      <div className="calendar-legend">
+        <span className="cal-legend-dot" style={{ background: 'var(--green)' }} />both
+        <span className="cal-legend-dot" style={{ background: 'var(--green-light)', border: '1px solid var(--green)' }} />one
+        <span className="cal-legend-dot" style={{ background: 'var(--border)' }} />none
       </div>
     </div>
   )
