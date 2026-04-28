@@ -49,6 +49,23 @@ body {
   padding: 0 0 40px;
 }
 
+@media (min-width: 860px) {
+  .app { max-width: 940px; }
+  .dashboard { padding: 28px 32px; }
+  .dash-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+  .dash-left, .dash-right {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .bonus-section { border-top: 2px dashed var(--border); padding-top: 8px; }
+}
+
 /* ── Dashboard ─────────────────────────────────── */
 
 .dashboard {

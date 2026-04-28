@@ -25,129 +25,131 @@ export default function Dashboard({ state, todayStatus, onStartTask, onOpenSetti
         </div>
       </div>
 
-      {/* Streak card */}
-      <div className="streak-card">
-        <div className="streak-flame">🔥</div>
-        <div className="streak-number">{streak}</div>
-        <div className="streak-label">day streak</div>
-        <div className="streak-best">Best: {longestStreak} days</div>
+      <div className="dash-columns">
+        {/* Left column: progress & stats */}
+        <div className="dash-left">
+          <div className="streak-card">
+            <div className="streak-flame">🔥</div>
+            <div className="streak-number">{streak}</div>
+            <div className="streak-label">day streak</div>
+            <div className="streak-best">Best: {longestStreak} days</div>
 
-        {nextMilestone && (
-          <div className="milestone-progress">
-            <div className="milestone-progress-label">
-              Next: {nextMilestone.emoji} {nextMilestone.label} ({nextMilestone.days} days)
+            {nextMilestone && (
+              <div className="milestone-progress">
+                <div className="milestone-progress-label">
+                  Next: {nextMilestone.emoji} {nextMilestone.label} ({nextMilestone.days} days)
+                </div>
+                <div className="progress-bar">
+                  <div
+                    className="progress-fill progress-streak"
+                    style={{ width: `${Math.min(streakMilestoneProgress, 100)}%` }}
+                  />
+                </div>
+                <div className="progress-text">{streak} / {nextMilestone.days}</div>
+              </div>
+            )}
+          </div>
+
+          <div className="xp-card">
+            <div className="xp-left">
+              <div className="level-badge">Lv {level}</div>
+              <div className="xp-total">{xp} XP total</div>
             </div>
-            <div className="progress-bar">
-              <div
-                className="progress-fill progress-streak"
-                style={{ width: `${Math.min(streakMilestoneProgress, 100)}%` }}
+            <div className="xp-right">
+              <div className="progress-bar">
+                <div className="progress-fill progress-xp" style={{ width: `${progress}%` }} />
+              </div>
+              <div className="xp-label">{xp - currentFloor} / {nextXp - currentFloor} to level {level + 1}</div>
+            </div>
+          </div>
+
+          <div className="stats-row">
+            <div className="stat-box">
+              <div className="stat-number">{totalDays}</div>
+              <div className="stat-label">Days completed</div>
+            </div>
+            <div className="stat-box">
+              <div className="stat-number">{unlockedMilestones.length}</div>
+              <div className="stat-label">Milestones</div>
+            </div>
+            <div className="stat-box">
+              <div className="stat-number">{formatDuration(duration)}</div>
+              <div className="stat-label">Session length</div>
+            </div>
+          </div>
+
+          <div className="milestones-section">
+            <h3>Milestones</h3>
+            <div className="milestones-grid">
+              {MILESTONES.map(m => {
+                const unlocked = unlockedMilestones.includes(m.days)
+                return (
+                  <div key={m.days} className={`milestone-chip ${unlocked ? 'unlocked' : 'locked'}`}>
+                    <span className="m-emoji">{unlocked ? m.emoji : '🔒'}</span>
+                    <span className="m-label">{m.label}</span>
+                    <span className="m-days">{m.days}d</span>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Right column: today's tasks & bonus */}
+        <div className="dash-right">
+          <div className="today-section">
+            <h3>Today's Challenge <span className="duration-badge">{formatDuration(duration)} each</span></h3>
+            <div className="tasks-grid">
+              <TaskCard
+                icon="✍️"
+                title="Writing"
+                desc="Write in English for the prompt of the day"
+                done={todayStatus.writingDone}
+                color="purple"
+                onStart={() => onStartTask('writing')}
+              />
+              <TaskCard
+                icon="🎤"
+                title="Speaking"
+                desc="Speak out loud about the prompt of the day"
+                done={todayStatus.speakingDone}
+                color="green"
+                onStart={() => onStartTask('speaking')}
               />
             </div>
-            <div className="progress-text">{streak} / {nextMilestone.days}</div>
-          </div>
-        )}
-      </div>
 
-      {/* XP / Level */}
-      <div className="xp-card">
-        <div className="xp-left">
-          <div className="level-badge">Lv {level}</div>
-          <div className="xp-total">{xp} XP total</div>
-        </div>
-        <div className="xp-right">
-          <div className="progress-bar">
-            <div className="progress-fill progress-xp" style={{ width: `${progress}%` }} />
-          </div>
-          <div className="xp-label">{xp - currentFloor} / {nextXp - currentFloor} to level {level + 1}</div>
-        </div>
-      </div>
-
-      {/* Today's tasks */}
-      <div className="today-section">
-        <h3>Today's Challenge <span className="duration-badge">{formatDuration(duration)} each</span></h3>
-        <div className="tasks-grid">
-          <TaskCard
-            icon="✍️"
-            title="Writing"
-            desc="Write in English for the prompt of the day"
-            done={todayStatus.writingDone}
-            color="purple"
-            onStart={() => onStartTask('writing')}
-          />
-          <TaskCard
-            icon="🎤"
-            title="Speaking"
-            desc="Speak out loud about the prompt of the day"
-            done={todayStatus.speakingDone}
-            color="green"
-            onStart={() => onStartTask('speaking')}
-          />
-        </div>
-
-        {todayStatus.writingDone && todayStatus.speakingDone ? (
-          <div className="all-done-banner">
-            🎉 Both tasks done for today! See you tomorrow!
-          </div>
-        ) : (todayStatus.writingDone || todayStatus.speakingDone) ? (
-          <div className="streak-done-banner">
-            🔥 Streak secured! Complete the other task for extra XP.
-          </div>
-        ) : null}
-      </div>
-
-      {/* Bonus exercises */}
-      <div className="bonus-section">
-        <h3>Extra Practice</h3>
-        <p className="bonus-note">Optional — not required for streak</p>
-        <div className="tasks-grid">
-          <BonusCard
-            icon="🔤" title="Synonyms"
-            desc="Find synonyms for today's word"
-            color="blue" onStart={() => onStartTask('synonyms')}
-          />
-          <BonusCard
-            icon="📝" title="Prepositions"
-            desc="Fill in the missing preposition"
-            color="orange" onStart={() => onStartTask('prepositions')}
-          />
-          <BonusCard
-            icon="🎧" title="Shadowing"
-            desc="Listen and repeat a sentence"
-            color="teal" onStart={() => onStartTask('shadowing')}
-          />
-        </div>
-      </div>
-
-      {/* Milestones */}
-      <div className="milestones-section">
-        <h3>Milestones</h3>
-        <div className="milestones-grid">
-          {MILESTONES.map(m => {
-            const unlocked = unlockedMilestones.includes(m.days)
-            return (
-              <div key={m.days} className={`milestone-chip ${unlocked ? 'unlocked' : 'locked'}`}>
-                <span className="m-emoji">{unlocked ? m.emoji : '🔒'}</span>
-                <span className="m-label">{m.label}</span>
-                <span className="m-days">{m.days}d</span>
+            {todayStatus.writingDone && todayStatus.speakingDone ? (
+              <div className="all-done-banner">
+                🎉 Both tasks done for today! See you tomorrow!
               </div>
-            )
-          })}
-        </div>
-      </div>
+            ) : (todayStatus.writingDone || todayStatus.speakingDone) ? (
+              <div className="streak-done-banner">
+                🔥 Streak secured! Complete the other task for extra XP.
+              </div>
+            ) : null}
+          </div>
 
-      {/* Stats */}
-      <div className="stats-row">
-        <div className="stat-box">
-          <div className="stat-number">{totalDays}</div>
-          <div className="stat-label">Days completed</div>
-        </div>
-        <div className="stat-box">
-          <div className="stat-number">{unlockedMilestones.length}</div>
-          <div className="stat-label">Milestones</div>
-        </div>
-        <div className="stat-box">
-          <div className="stat-number">{formatDuration(duration)}</div>
-          <div className="stat-label">Session length</div>
+          <div className="bonus-section">
+            <h3>Extra Practice</h3>
+            <p className="bonus-note">Optional — not required for streak</p>
+            <div className="tasks-grid">
+              <BonusCard
+                icon="🔤" title="Synonyms"
+                desc="Find synonyms for today's word"
+                color="blue" onStart={() => onStartTask('synonyms')}
+              />
+              <BonusCard
+                icon="📝" title="Prepositions"
+                desc="Fill in the missing preposition"
+                color="orange" onStart={() => onStartTask('prepositions')}
+              />
+              <BonusCard
+                icon="🎧" title="Shadowing"
+                desc="Listen and repeat a sentence"
+                color="teal" onStart={() => onStartTask('shadowing')}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
