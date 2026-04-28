@@ -53,6 +53,7 @@ const DEFAULT_STATE = {
   unlockedMilestones: [],
   history: [],
   newMilestone: null,
+  weeklyDone: [],
 }
 
 export function loadState() {
@@ -152,6 +153,15 @@ export function saveTaskResult(date, taskType, { text, feedback, prompt }) {
     entry.speakingPrompt   = prompt
   }
   saveState(state)
+}
+
+export function completeWeeklyChallenge(week) {
+  const state = loadState()
+  if ((state.weeklyDone || []).includes(week)) return state
+  state.weeklyDone = [...(state.weeklyDone || []), week]
+  state.xp += 50
+  saveState(state)
+  return state
 }
 
 export function clearNewMilestone() {

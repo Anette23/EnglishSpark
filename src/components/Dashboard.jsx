@@ -1,10 +1,14 @@
 import { MILESTONES, getLevel, getNextMilestone, getSessionDuration, formatDuration } from '../habitStore'
+import { getCurrentChallenge, isWeeklyChallengeComplete } from '../weeklyChallenge'
 
 export default function Dashboard({ state, todayStatus, onStartTask, onOpenSettings, onOpenHistory, darkMode, onToggleDark }) {
   const { streak, longestStreak, totalDays, xp, unlockedMilestones } = state
   const { level, progress, nextXp, currentFloor } = getLevel(xp)
   const nextMilestone = getNextMilestone(streak, unlockedMilestones)
   const duration = getSessionDuration(totalDays)
+
+  const weeklyChallenge = getCurrentChallenge()
+  const weeklyDone      = isWeeklyChallengeComplete(state)
 
   const streakMilestoneProgress = nextMilestone
     ? ((streak / nextMilestone.days) * 100)
@@ -129,6 +133,23 @@ export default function Dashboard({ state, todayStatus, onStartTask, onOpenSetti
                 🔥 Streak secured! Complete the other task for extra XP.
               </div>
             ) : null}
+          </div>
+
+          <div className={`weekly-card ${weeklyDone ? 'weekly-done' : ''}`}>
+            <div className="weekly-top">
+              <span className="weekly-icon">🏆</span>
+              <div>
+                <div className="weekly-label">Weekly Challenge</div>
+                <div className="weekly-title">{weeklyChallenge.title}</div>
+              </div>
+              {weeklyDone && <div className="weekly-badge">Done!</div>}
+            </div>
+            <p className="weekly-prompt">{weeklyChallenge.prompt}</p>
+            {!weeklyDone && (
+              <button className="btn-weekly-start" onClick={() => onStartTask('weekly')}>
+                Start Challenge +50 XP
+              </button>
+            )}
           </div>
 
           <div className="bonus-section">

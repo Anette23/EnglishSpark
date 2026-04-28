@@ -5,7 +5,9 @@ import MilestoneModal from './components/MilestoneModal'
 import Settings from './components/Settings'
 import HistoryView from './components/HistoryView'
 import BonusSession from './components/BonusSession'
-import { loadState, getTodayStatus, completeTask, getSessionDuration } from './habitStore'
+import WeeklySession from './components/WeeklySession'
+import { loadState, getTodayStatus, completeTask, getSessionDuration, completeWeeklyChallenge } from './habitStore'
+import { getCurrentChallenge } from './weeklyChallenge'
 
 export default function App() {
   const [state, setState] = useState(() => loadState())
@@ -56,6 +58,13 @@ export default function App() {
       {view === 'history'  && <HistoryView state={state} onBack={handleBack} />}
       {(view === 'synonyms' || view === 'prepositions' || view === 'idioms' || view === 'shadowing') && (
         <BonusSession type={view} onBack={handleBack} />
+      )}
+      {view === 'weekly' && (
+        <WeeklySession
+          challenge={getCurrentChallenge()}
+          onComplete={() => { const s = completeWeeklyChallenge(getCurrentChallenge().week); setState({ ...s }) }}
+          onBack={handleBack}
+        />
       )}
       {showMilestone && (
         <MilestoneModal
