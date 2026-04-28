@@ -401,33 +401,40 @@ body {
 .chat-input:focus { border-color: var(--purple); }
 
 .btn-send {
-  background: var(--purple);
+  background: linear-gradient(135deg, var(--purple), #8b5cf6);
   color: #fff;
   border: none;
   border-radius: 12px;
-  width: 44px;
-  font-size: 18px;
+  width: 48px;
+  height: 48px;
+  font-size: 20px;
   cursor: pointer;
   flex-shrink: 0;
   transition: opacity .15s, transform .1s;
+  box-shadow: 0 2px 8px rgba(99,102,241,.45);
+  align-self: flex-end;
 }
-.btn-send:disabled { opacity: .4; cursor: default; }
+.btn-send:disabled { opacity: .35; cursor: default; box-shadow: none; }
 .btn-send:active   { transform: scale(.93); }
 
 .btn-mic {
-  background: var(--card);
-  border: 2px solid var(--border);
+  background: var(--green);
+  color: #fff;
+  border: none;
   border-radius: 12px;
-  width: 44px;
-  font-size: 18px;
+  width: 48px;
+  height: 48px;
+  font-size: 20px;
   cursor: pointer;
   flex-shrink: 0;
   transition: all .15s;
+  box-shadow: 0 2px 8px rgba(16,185,129,.4);
+  align-self: flex-end;
 }
-.btn-mic:disabled { opacity: .4; cursor: default; }
+.btn-mic:disabled { opacity: .35; cursor: default; box-shadow: none; }
 .btn-mic-active {
   background: #ef4444;
-  border-color: #ef4444;
+  box-shadow: 0 2px 8px rgba(239,68,68,.4);
   animation: pulse-red 1.5s ease-in-out infinite;
 }
 
