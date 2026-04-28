@@ -1,6 +1,45 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import FeedbackView from './FeedbackView'
 import { sendChatMessage, getChatFeedback } from '../api'
+
+function useVoiceInput(onResult) {
+  const [isRecording, setIsRecording] = useState(false)
+  const [supported, setSupported]     = useState(false)
+  const recRef = useRef(null)
+  const onResultRef = useRef(onResult)
+  useEffect(() => { onResultRef.current = onResult }, [onResult])
+
+  useEffect(() => {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition
+    if (!SR) return
+    setSupported(true)
+    const rec = new SR()
+    rec.continuous = true
+    rec.interimResults = true
+    rec.lang = 'en-US'
+    rec.onresult = (e) => {
+      let final = '', interim = ''
+      for (let i = 0; i < e.results.length; i++) {
+        if (e.results[i].isFinal) final += e.results[i][0].transcript + ' '
+        else interim = e.results[i][0].transcript
+      }
+      onResultRef.current(final || interim)
+    }
+    rec.onend = () => setIsRecording(false)
+    rec.onerror = () => setIsRecording(false)
+    recRef.current = rec
+    return () => rec.abort()
+  }, [])
+
+  const toggle = useCallback(() => {
+    const rec = recRef.current
+    if (!rec) return
+    if (isRecording) { rec.stop() }
+    else { try { rec.start(); setIsRecording(true) } catch {} }
+  }, [isRecording])
+
+  return { isRecording, toggle, supported }
+}
 
 const STARTERS = [
   "What did you do last weekend?",
@@ -26,6 +65,7 @@ export default function ChatSession({ onBack }) {
   const [showFeedback, setShowFeedback] = useState(false)
   const bottomRef = useRef(null)
   const inputRef  = useRef(null)
+  const { isRecording, toggle: toggleVoice, supported: voiceSupported } = useVoiceInput(t => setInput(t))
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -122,7 +162,7 @@ export default function ChatSession({ onBack }) {
           <textarea
             ref={inputRef}
             className="chat-input"
-            placeholder="Write in English..."
+            placeholder={isRecording ? '🎙 Listening...' : 'Write in English...'}
             value={input}
             rows={2}
             onChange={e => setInput(e.target.value)}
@@ -135,6 +175,17 @@ export default function ChatSession({ onBack }) {
             disabled={loading}
             maxLength={500}
           />
+          {voiceSupported && (
+            <button
+              className={`btn-mic ${isRecording ? 'btn-mic-active' : ''}`}
+              onClick={toggleVoice}
+              disabled={loading}
+              type="button"
+              title={isRecording ? 'Stop recording' : 'Speak'}
+            >
+              🎙
+            </button>
+          )}
           <button
             className="btn-send"
             onClick={handleSend}

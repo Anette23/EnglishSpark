@@ -50,12 +50,12 @@ body {
 }
 
 @media (min-width: 860px) {
-  .app { max-width: 940px; }
-  .dashboard { padding: 28px 32px; }
+  .app { max-width: 1280px; }
+  .dashboard { padding: 36px 64px; }
   .dash-columns {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 28px;
+    gap: 56px;
     align-items: start;
   }
   .dash-left, .dash-right {
@@ -413,6 +413,23 @@ body {
 }
 .btn-send:disabled { opacity: .4; cursor: default; }
 .btn-send:active   { transform: scale(.93); }
+
+.btn-mic {
+  background: var(--card);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  width: 44px;
+  font-size: 18px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all .15s;
+}
+.btn-mic:disabled { opacity: .4; cursor: default; }
+.btn-mic-active {
+  background: #ef4444;
+  border-color: #ef4444;
+  animation: pulse-red 1.5s ease-in-out infinite;
+}
 
 .chat-hint {
   font-size: 12px;
