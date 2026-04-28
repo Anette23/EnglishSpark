@@ -4,6 +4,7 @@ import TaskSession from './components/TaskSession'
 import MilestoneModal from './components/MilestoneModal'
 import Settings from './components/Settings'
 import HistoryView from './components/HistoryView'
+import BonusSession from './components/BonusSession'
 import { loadState, getTodayStatus, completeTask, getSessionDuration } from './habitStore'
 
 export default function App() {
@@ -45,6 +46,9 @@ export default function App() {
       )}
       {view === 'settings' && <Settings onBack={handleBack} />}
       {view === 'history'  && <HistoryView state={state} onBack={handleBack} />}
+      {(view === 'synonyms' || view === 'prepositions' || view === 'shadowing') && (
+        <BonusSession type={view} onBack={handleBack} />
+      )}
       {showMilestone && (
         <MilestoneModal
           milestone={showMilestone}

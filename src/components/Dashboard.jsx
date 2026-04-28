@@ -83,11 +83,38 @@ export default function Dashboard({ state, todayStatus, onStartTask, onOpenSetti
           />
         </div>
 
-        {todayStatus.allDone && (
+        {todayStatus.writingDone && todayStatus.speakingDone ? (
           <div className="all-done-banner">
             🎉 Both tasks done for today! See you tomorrow!
           </div>
-        )}
+        ) : (todayStatus.writingDone || todayStatus.speakingDone) ? (
+          <div className="streak-done-banner">
+            🔥 Streak secured! Complete the other task for extra XP.
+          </div>
+        ) : null}
+      </div>
+
+      {/* Bonus exercises */}
+      <div className="bonus-section">
+        <h3>Extra Practice</h3>
+        <p className="bonus-note">Optional — not required for streak</p>
+        <div className="tasks-grid">
+          <BonusCard
+            icon="🔤" title="Synonyms"
+            desc="Find synonyms for today's word"
+            color="blue" onStart={() => onStartTask('synonyms')}
+          />
+          <BonusCard
+            icon="📝" title="Prepositions"
+            desc="Fill in the missing preposition"
+            color="orange" onStart={() => onStartTask('prepositions')}
+          />
+          <BonusCard
+            icon="🎧" title="Shadowing"
+            desc="Listen and repeat a sentence"
+            color="teal" onStart={() => onStartTask('shadowing')}
+          />
+        </div>
       </div>
 
       {/* Milestones */}
@@ -122,6 +149,19 @@ export default function Dashboard({ state, todayStatus, onStartTask, onOpenSetti
           <div className="stat-label">Session length</div>
         </div>
       </div>
+    </div>
+  )
+}
+
+function BonusCard({ icon, title, desc, color, onStart }) {
+  return (
+    <div className={`task-card task-card-${color}`}>
+      <div className="task-card-icon">{icon}</div>
+      <div className="task-card-body">
+        <div className="task-card-title">{title}</div>
+        <div className="task-card-desc">{desc}</div>
+      </div>
+      <button className={`btn-task btn-task-${color}`} onClick={onStart}>Start</button>
     </div>
   )
 }

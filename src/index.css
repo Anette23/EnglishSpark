@@ -11,6 +11,12 @@
   --text: #1e293b;
   --muted: #64748b;
   --border: #e2e8f0;
+  --blue: #3b82f6;
+  --blue-light: #dbeafe;
+  --orange: #f97316;
+  --orange-light: #ffedd5;
+  --teal: #14b8a6;
+  --teal-light: #ccfbf1;
   --radius: 16px;
   --shadow: 0 2px 16px rgba(0,0,0,.08);
 }
@@ -151,6 +157,9 @@ body {
 .task-card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,.1); }
 .task-card-purple { border-left: 4px solid var(--purple); }
 .task-card-green  { border-left: 4px solid var(--green); }
+.task-card-blue   { border-left: 4px solid var(--blue); }
+.task-card-orange { border-left: 4px solid var(--orange); }
+.task-card-teal   { border-left: 4px solid var(--teal); }
 .task-card.task-done { opacity: .7; }
 
 .task-card-icon { font-size: 32px; flex-shrink: 0; }
@@ -172,6 +181,118 @@ body {
 .btn-task:active { transform: scale(.96); }
 .btn-task-purple { background: var(--purple); color: #fff; }
 .btn-task-green  { background: var(--green);  color: #fff; }
+.btn-task-blue   { background: var(--blue);   color: #fff; }
+.btn-task-orange { background: var(--orange); color: #fff; }
+.btn-task-teal   { background: var(--teal);   color: #fff; }
+
+.streak-done-banner {
+  margin-top: 14px;
+  background: linear-gradient(90deg, #fef3c7, #fde68a);
+  color: #78350f;
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-weight: 600;
+  text-align: center;
+  animation: pop .4s cubic-bezier(.34,1.56,.64,1);
+}
+
+.bonus-section {
+  border-top: 2px dashed var(--border);
+  padding-top: 8px;
+}
+.bonus-section h3 {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.bonus-note {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.bonus-word {
+  font-size: 38px;
+  font-weight: 900;
+  color: var(--text);
+  letter-spacing: -1px;
+  line-height: 1.2;
+  margin-top: 4px;
+}
+
+.bonus-result {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: var(--shadow);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.result-correct     { color: var(--green); font-weight: 700; font-size: 15px; }
+.result-wrong       { color: #dc2626; font-weight: 700; font-size: 15px; }
+.result-wrong-words { color: #dc2626; }
+.hint-words         { color: var(--purple); font-weight: 600; }
+.hint-text          { color: var(--muted); font-style: italic; }
+
+.answer-blank   { color: var(--muted); font-style: italic; }
+.answer-correct { background: var(--green-light); color: #065f46; padding: 0 5px; border-radius: 4px; font-weight: 700; }
+.answer-shown   { background: #fef3c7; color: #92400e; padding: 0 5px; border-radius: 4px; font-weight: 700; }
+
+.prep-input-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.prep-input {
+  flex: 1;
+  max-width: 180px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  outline: none;
+  transition: border-color .2s;
+}
+.prep-input:focus   { border-color: var(--purple); }
+.prep-input:disabled { background: #f8fafc; color: var(--muted); }
+.btn-check {
+  width: auto;
+  flex-shrink: 0;
+  font-size: 15px;
+  padding: 10px 20px;
+}
+
+.btn-listen {
+  background: var(--blue);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: opacity .15s, transform .1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-listen:active   { transform: scale(.97); }
+.btn-listen:disabled { opacity: .55; cursor: default; }
+.btn-listening       { background: #6b7280; }
+
+.match-pct {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--purple);
+}
 
 .all-done-banner {
   margin-top: 14px;
@@ -252,6 +373,9 @@ body {
 }
 .accent-purple { background: var(--purple-light); }
 .accent-green  { background: var(--green-light); }
+.accent-blue   { background: var(--blue-light); }
+.accent-orange { background: var(--orange-light); }
+.accent-teal   { background: var(--teal-light); }
 .task-icon { font-size: 40px; }
 .task-header h2 { font-size: 22px; font-weight: 800; }
 .task-subtitle { font-size: 14px; color: var(--muted); }

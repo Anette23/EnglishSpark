@@ -33,7 +33,7 @@ export default function SpeechRecorder({ onTranscript, disabled }) {
     }
 
     rec.onerror = (e) => {
-      if (e.error === 'not-allowed') setError('Microphone permission denied.')
+      if (e.error === 'not-allowed') setError('Microphone blocked. Click the 🔒 icon in your browser address bar → Site settings → Microphone → Allow.')
       else if (e.error !== 'aborted') setError('Recording error. Try again.')
       setIsRecording(false)
     }

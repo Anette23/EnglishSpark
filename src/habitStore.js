@@ -109,7 +109,7 @@ export function completeTask(taskType) {
   entry.xpEarned = (entry.xpEarned || 0) + xpGain
   state.xp += xpGain
 
-  if (entry.writingDone && entry.speakingDone) {
+  if (entry.writingDone || entry.speakingDone) {
     const last = state.lastCompletedDate
     if (last !== today) {
       const gap = last ? daysBetween(last, today) : 1
