@@ -7,10 +7,13 @@ function dailyStart(arr) {
   return seed % arr.length
 }
 
-const LEVELS = ['A2', 'B1', 'B2']
+const LEVELS = ['B1', 'B2']
 
 export default function BonusSession({ type, onBack }) {
-  const [level, setLevel] = useState(() => localStorage.getItem('exerciseLevel') || 'B1')
+  const [level, setLevel] = useState(() => {
+    const saved = localStorage.getItem('exerciseLevel')
+    return saved === 'A2' ? 'B1' : (saved || 'B1')
+  })
 
   const fullList = type === 'synonyms'     ? SYNONYM_WORDS
                  : type === 'prepositions' ? PREPOSITION_PHRASES
