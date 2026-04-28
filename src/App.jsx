@@ -6,6 +6,7 @@ import Settings from './components/Settings'
 import HistoryView from './components/HistoryView'
 import BonusSession from './components/BonusSession'
 import WeeklySession from './components/WeeklySession'
+import ChatSession from './components/ChatSession'
 import { loadState, getTodayStatus, completeTask, getSessionDuration, completeWeeklyChallenge } from './habitStore'
 import { getCurrentChallenge } from './weeklyChallenge'
 
@@ -59,6 +60,7 @@ export default function App() {
       {(view === 'synonyms' || view === 'prepositions' || view === 'idioms' || view === 'shadowing') && (
         <BonusSession type={view} onBack={handleBack} />
       )}
+      {view === 'chat' && <ChatSession onBack={handleBack} />}
       {view === 'weekly' && (
         <WeeklySession
           challenge={getCurrentChallenge()}

@@ -152,6 +152,11 @@ export default function Dashboard({ state, todayStatus, onStartTask, onOpenSetti
             )}
           </div>
 
+          <button className="btn-chat" onClick={() => onStartTask('chat')}>
+            💬 Chat in English
+            <span className="btn-chat-sub">Free conversation with AI</span>
+          </button>
+
           <div className="bonus-section">
             <h3>Extra Practice</h3>
             <p className="bonus-note">Optional — not required for streak</p>
