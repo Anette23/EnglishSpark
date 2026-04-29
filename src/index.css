@@ -648,6 +648,30 @@ body {
   color: var(--muted);
 }
 [data-theme="dark"] .milestone-chip.locked { background: #1e293b; }
+
+/* ── Dark mode: hardcoded colour fixes ──────────── */
+
+/* Green backgrounds → light green text */
+[data-theme="dark"] .speaking-hint                { color: #86efac; }
+[data-theme="dark"] .transcript-label,
+[data-theme="dark"] .transcript-text              { color: #86efac; }
+[data-theme="dark"] .transcript-box               { background: #063a2a; }
+[data-theme="dark"] .all-done-banner              { background: linear-gradient(90deg, #064e3b, #065f46); color: #86efac; }
+[data-theme="dark"] .answer-correct               { background: #064e3b; color: #86efac; }
+[data-theme="dark"] .cal-half                     { color: #86efac; }
+[data-theme="dark"] .cal-half .act-day            { color: #86efac; }
+
+/* Yellow/amber backgrounds → light amber text */
+[data-theme="dark"] .streak-done-banner           { background: linear-gradient(90deg, #451a03, #78350f); color: #fde68a; }
+[data-theme="dark"] .answer-shown                 { background: #451a03; color: #fde68a; }
+
+/* White/light card backgrounds */
+[data-theme="dark"] .feedback-mini                { background: #0f172a; }
+[data-theme="dark"] .prep-input:disabled          { background: #0f172a; }
+
+/* History & feedback sections */
+[data-theme="dark"] .history-session              { border-bottom-color: var(--border); }
+[data-theme="dark"] .mini-praise                  { color: #a5b4fc; }
 .m-emoji { font-size: 22px; flex-shrink: 0; }
 .m-label { flex: 1; font-weight: 600; line-height: 1.2; }
 .m-days { font-size: 11px; color: var(--muted); flex-shrink: 0; }
