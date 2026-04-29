@@ -6,8 +6,9 @@ export default function SpeechRecorder({ onTranscript, disabled }) {
   const [interimText, setInterimText]   = useState('')
   const [supported, setSupported]       = useState(null) // null = not yet checked
   const [error, setError]               = useState(null)
-  const recognitionRef = useRef(null)
-  const finalRef = useRef('')
+  const recognitionRef  = useRef(null)
+  const finalRef        = useRef('')
+  const shouldRecordRef = useRef(false) // tracks intended state to auto-restart
 
   useEffect(() => {
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition
@@ -33,18 +34,29 @@ export default function SpeechRecorder({ onTranscript, disabled }) {
     }
 
     rec.onerror = (e) => {
-      if (e.error === 'not-allowed') setError('Microphone blocked. Click the 🔒 icon in your browser address bar → Site settings → Microphone → Allow.')
-      else if (e.error !== 'aborted') setError('Recording error. Try again.')
-      setIsRecording(false)
+      if (e.error === 'not-allowed') {
+        setError('Microphone blocked. Click the 🔒 icon in your browser address bar → Site settings → Microphone → Allow.')
+        shouldRecordRef.current = false
+        setIsRecording(false)
+      } else if (e.error === 'aborted') {
+        // intentional stop, do nothing
+      } else {
+        // transient error — don't show message, let onend handle restart
+      }
     }
 
     rec.onend = () => {
-      setIsRecording(false)
       setInterimText('')
+      if (shouldRecordRef.current) {
+        // Chrome stopped due to silence — restart automatically
+        try { rec.start() } catch {}
+      } else {
+        setIsRecording(false)
+      }
     }
 
     recognitionRef.current = rec
-    return () => rec.abort()
+    return () => { shouldRecordRef.current = false; rec.abort() }
   }, [])
 
   function toggleRecording() {
@@ -52,14 +64,21 @@ export default function SpeechRecorder({ onTranscript, disabled }) {
     if (!rec) return
     setError(null)
     if (isRecording) {
+      shouldRecordRef.current = false
       rec.stop()
     } else {
       finalRef.current = ''
       setTranscript('')
       setInterimText('')
       onTranscript('')
-      try { rec.start(); setIsRecording(true) }
-      catch { setError('Could not start recording. Try again.') }
+      try {
+        shouldRecordRef.current = true
+        rec.start()
+        setIsRecording(true)
+      } catch {
+        shouldRecordRef.current = false
+        setError('Could not start recording. Try again.')
+      }
     }
   }
 
