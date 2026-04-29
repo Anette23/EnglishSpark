@@ -58,6 +58,8 @@ body {
     gap: 56px;
     align-items: start;
   }
+  .dash-left  { order: 0; }
+  .dash-right { order: 0; }
   .dash-left, .dash-right {
     display: flex;
     flex-direction: column;
@@ -74,6 +76,16 @@ body {
   flex-direction: column;
   gap: 20px;
 }
+
+.dash-columns {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Mobile: tasks first, stats second */
+.dash-right { order: -1; }
+.dash-left  { order: 1; }
 
 .dash-header h1 {
   font-size: 26px;
