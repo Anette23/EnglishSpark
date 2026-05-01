@@ -29,6 +29,28 @@ export default function Dashboard({ state, todayStatus, onStartTask, onOpenSetti
         </div>
       </div>
 
+      {/* Mobile-only compact streak badge */}
+      <div className="streak-mini">
+        <div className="streak-mini-flame">🔥</div>
+        <div className="streak-mini-body">
+          <div className="streak-mini-top">
+            <span className="streak-mini-num">{streak}</span>
+            <span className="streak-mini-label"> day streak</span>
+            {(todayStatus.writingDone || todayStatus.speakingDone) &&
+              <span className="streak-mini-done">✓ today</span>
+            }
+          </div>
+          {nextMilestone && (
+            <div className="streak-mini-bar-wrap">
+              <div className="streak-mini-bar">
+                <div className="streak-mini-fill" style={{ width: `${Math.min(streakMilestoneProgress, 100)}%` }} />
+              </div>
+              <span className="streak-mini-next">{nextMilestone.emoji} {nextMilestone.days}d</span>
+            </div>
+          )}
+        </div>
+      </div>
+
       <div className="dash-columns">
         {/* Left column: progress & stats */}
         <div className="dash-left">
