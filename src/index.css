@@ -64,9 +64,14 @@ body {
   gap: 20px;
 }
 
-/* Mobile: tasks first, stats second */
+/* Mobile: tasks first, stats second; columns are flex so children get gap */
 .dash-right { order: -1; }
 .dash-left  { order: 1; }
+.dash-left, .dash-right {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 
 /* Desktop two-column layout — must come AFTER base styles to override them */
 @media (min-width: 860px) {
@@ -598,7 +603,7 @@ body {
 
 .bonus-section {
   border-top: 2px dashed var(--border);
-  padding-top: 8px;
+  padding-top: 14px;
 }
 .bonus-section h3 {
   font-size: 17px;
