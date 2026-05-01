@@ -184,6 +184,7 @@ function SynonymsExercise({ item, allItems, onNext }) {
           placeholder="e.g. glad, joyful, pleased..."
           value={input}
           onChange={e => setInput(e.target.value)}
+          onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); setPhase('results') } }}
           autoCapitalize="none"
           autoCorrect="off"
         />
@@ -303,6 +304,7 @@ function SynonymsExercise({ item, allItems, onNext }) {
             placeholder={`e.g. "I was so ${suggestedWord} when I heard the news."`}
             value={sentence}
             onChange={e => setSentence(e.target.value)}
+            onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey && sentence.trim().length >= 5) { e.preventDefault(); setSentenceSent(true) } }}
           />
           <button
             className="btn-primary btn-check"
