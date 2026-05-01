@@ -49,25 +49,6 @@ body {
   padding: 0 0 40px;
 }
 
-@media (min-width: 860px) {
-  .app { max-width: 1280px; }
-  .dashboard { padding: 36px 64px; }
-  .dash-columns {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 56px;
-    align-items: start;
-  }
-  .dash-left  { order: 0; }
-  .dash-right { order: 0; }
-  .dash-left, .dash-right {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  .bonus-section { border-top: 2px dashed var(--border); padding-top: 8px; }
-}
-
 /* ── Dashboard ─────────────────────────────────── */
 
 .dashboard {
@@ -86,6 +67,27 @@ body {
 /* Mobile: tasks first, stats second */
 .dash-right { order: -1; }
 .dash-left  { order: 1; }
+
+/* Desktop two-column layout — must come AFTER base styles to override them */
+@media (min-width: 860px) {
+  .app { max-width: 1280px; }
+  .dashboard { padding: 36px 64px; }
+  .dash-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+  .dash-left  { order: 0; }
+  .dash-right { order: 0; }
+  .dash-left, .dash-right {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .bonus-section { border-top: 2px dashed var(--border); padding-top: 8px; }
+  .btn-chat { max-width: none; font-size: 17px; padding: 16px 20px; }
+}
 
 .dash-header h1 {
   font-size: 26px;
@@ -235,15 +237,16 @@ body {
   color: #fff;
   border: none;
   border-radius: var(--radius);
-  padding: 16px 20px;
+  padding: 12px 16px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 2px;
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 800;
   width: 100%;
+  max-width: 340px;
   transition: opacity .15s, transform .1s;
   box-shadow: var(--shadow);
 }

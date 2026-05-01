@@ -143,7 +143,7 @@ function SynonymsExercise({ item, input, setInput, checked, setChecked, onNext }
       </div>
 
       {!checked && (
-        <button className="btn-primary" onClick={() => setChecked(true)} disabled={!input.trim()}>
+        <button className="btn-primary btn-check" onClick={() => setChecked(true)} disabled={!input.trim()}>
           Check
         </button>
       )}
