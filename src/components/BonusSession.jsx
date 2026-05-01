@@ -80,9 +80,9 @@ export default function BonusSession({ type, onBack }) {
 
       {type === 'synonyms' && (
         <SynonymsExercise
+          key={`${level}-${idx}`}
           item={item}
-          input={input} setInput={setInput}
-          checked={checked} setChecked={setChecked}
+          allItems={list}
           onNext={next}
         />
       )}
@@ -115,18 +115,64 @@ export default function BonusSession({ type, onBack }) {
   )
 }
 
-function SynonymsExercise({ item, input, setInput, checked, setChecked, onNext }) {
-  const userWords = input.toLowerCase().split(',').map(w => w.trim()).filter(Boolean)
-  const correct   = checked ? userWords.filter(w => item.synonyms.includes(w)) : []
-  const wrong     = checked ? userWords.filter(w => !item.synonyms.includes(w)) : []
-  const missed    = checked ? item.synonyms.filter(s => !userWords.includes(s)) : []
+function buildMcOptions(item, allItems) {
+  const correct = [...item.synonyms].sort(() => Math.random() - 0.5).slice(0, 3)
+  const distractors = allItems
+    .filter(w => w.word !== item.word)
+    .flatMap(w => w.synonyms.slice(0, 2))
+    .filter(s => !item.synonyms.includes(s))
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 3)
+  return [...correct, ...distractors].sort(() => Math.random() - 0.5)
+}
 
+const SYN_STEPS = ['Try', 'See all', 'Pick', 'Use it']
+
+function SynSteps({ current }) {
   return (
+    <div className="syn-steps">
+      {SYN_STEPS.map((label, i) => (
+        <span key={label} className={`syn-step ${i === current ? 'syn-step-active' : i < current ? 'syn-step-done' : ''}`}>
+          {i < current ? '✓' : `${i + 1}.`} {label}
+        </span>
+      ))}
+    </div>
+  )
+}
+
+function SynonymsExercise({ item, allItems, onNext }) {
+  const [phase, setPhase]               = useState('recall')
+  const [input, setInput]               = useState('')
+  const [hintsShown, setHintsShown]     = useState(0)
+  const [mcOptions]                     = useState(() => buildMcOptions(item, allItems))
+  const [mcSelected, setMcSelected]     = useState(new Set())
+  const [mcChecked, setMcChecked]       = useState(false)
+  const [sentence, setSentence]         = useState('')
+  const [sentenceSent, setSentenceSent] = useState(false)
+
+  const userWords  = input.toLowerCase().split(',').map(w => w.trim()).filter(Boolean)
+  const gotCorrect = phase !== 'recall' ? userWords.filter(w => item.synonyms.includes(w)) : []
+  const gotWrong   = phase !== 'recall' ? userWords.filter(w => !item.synonyms.includes(w)) : []
+  const revealedHints  = item.synonyms.slice(0, hintsShown)
+  const suggestedWord  = gotCorrect[0] || item.synonyms[0]
+  const usedSynonym    = sentenceSent
+    ? item.synonyms.find(s => sentence.toLowerCase().includes(s.toLowerCase()))
+    : null
+
+  // ── Phase 1: Recall ──────────────────────────────
+  if (phase === 'recall') return (
     <>
+      <SynSteps current={0} />
       <div className="prompt-box">
         <div className="prompt-label">Find synonyms for</div>
         <p className="bonus-word">{item.word}</p>
       </div>
+
+      {revealedHints.length > 0 && (
+        <div className="syn-hint-strip">
+          {revealedHints.map(h => <span key={h} className="hint-chip">💡 {h}</span>)}
+        </div>
+      )}
 
       <div>
         <label className="input-label">
@@ -138,27 +184,145 @@ function SynonymsExercise({ item, input, setInput, checked, setChecked, onNext }
           placeholder="e.g. glad, joyful, pleased..."
           value={input}
           onChange={e => setInput(e.target.value)}
-          disabled={checked}
+          autoCapitalize="none"
+          autoCorrect="off"
         />
       </div>
 
-      {!checked && (
-        <button className="btn-primary btn-check" onClick={() => setChecked(true)} disabled={!input.trim()}>
-          Check
+      <div className="syn-recall-btns">
+        {hintsShown < item.synonyms.length && (
+          <button className="btn-hint" type="button" onClick={() => setHintsShown(h => h + 1)}>
+            💡 Hint ({hintsShown}/{item.synonyms.length})
+          </button>
+        )}
+        <button className="btn-primary btn-check" onClick={() => setPhase('results')}>
+          {input.trim() ? 'Check →' : 'Show me →'}
         </button>
+      </div>
+    </>
+  )
+
+  // ── Phase 2: Results + all synonyms ──────────────
+  if (phase === 'results') return (
+    <>
+      <SynSteps current={1} />
+      <div className="prompt-box">
+        <div className="prompt-label">Synonyms for</div>
+        <p className="bonus-word">{item.word}</p>
+      </div>
+
+      {gotCorrect.length > 0
+        ? <p className="result-correct">✅ You got {gotCorrect.length} right — well done!</p>
+        : input.trim()
+          ? <p className="result-wrong">❌ No exact matches — learn them now:</p>
+          : <p className="result-neutral">Here are all the synonyms:</p>
+      }
+      {gotWrong.length > 0 && (
+        <p style={{ fontSize: 14, color: 'var(--muted)' }}>
+          Not quite: <span className="result-wrong-words">{gotWrong.join(', ')}</span>
+        </p>
       )}
 
-      {checked && (
-        <div className="bonus-result">
-          {correct.length > 0
-            ? <p className="result-correct">✅ You got {correct.length}: <strong>{correct.join(', ')}</strong></p>
-            : <p className="result-wrong">❌ No exact matches — keep trying!</p>
+      <div>
+        <div className="syn-chips-label">All synonyms for <strong>{item.word}</strong>:</div>
+        <div className="syn-chips">
+          {item.synonyms.map(s => (
+            <span key={s} className={`syn-chip ${gotCorrect.includes(s) ? 'syn-chip-got' : 'syn-chip-new'}`}>
+              {gotCorrect.includes(s) ? '✓ ' : ''}{s}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <button className="btn-primary" onClick={() => setPhase('recognition')}>
+        Continue →
+      </button>
+    </>
+  )
+
+  // ── Phase 3: Multiple choice ──────────────────────
+  if (phase === 'recognition') return (
+    <>
+      <SynSteps current={2} />
+      <div className="prompt-box">
+        <div className="prompt-label">Pick all synonyms for</div>
+        <p className="bonus-word">{item.word}</p>
+      </div>
+
+      <p className="syn-mc-hint">Tap every word that fits:</p>
+      <div className="mc-grid">
+        {mcOptions.map(opt => {
+          const isSelected = mcSelected.has(opt)
+          const isCorrect  = item.synonyms.includes(opt)
+          let cls = 'mc-option'
+          if (mcChecked) {
+            cls += isCorrect ? ' mc-correct' : isSelected ? ' mc-wrong' : ''
+          } else if (isSelected) {
+            cls += ' mc-selected'
           }
-          {wrong.length > 0 && (
-            <p>Not quite: <span className="result-wrong-words">{wrong.join(', ')}</span></p>
-          )}
-          {missed.length > 0 && (
-            <p>💡 Also valid: <span className="hint-words">{missed.join(', ')}</span></p>
+          return (
+            <button key={opt} className={cls} type="button"
+              onClick={() => {
+                if (mcChecked) return
+                setMcSelected(prev => {
+                  const n = new Set(prev)
+                  n.has(opt) ? n.delete(opt) : n.add(opt)
+                  return n
+                })
+              }}
+            >{opt}</button>
+          )
+        })}
+      </div>
+
+      {!mcChecked
+        ? <button className="btn-primary btn-check" onClick={() => setMcChecked(true)}>Check →</button>
+        : <>
+            <p className="result-correct">✅ Green = synonyms. Now for the last step!</p>
+            <button className="btn-primary" onClick={() => setPhase('sentence')}>Last step →</button>
+          </>
+      }
+    </>
+  )
+
+  // ── Phase 4: Write a sentence ─────────────────────
+  return (
+    <>
+      <SynSteps current={3} />
+      <div className="prompt-box">
+        <div className="prompt-label">Write a sentence using</div>
+        <p className="bonus-word">{suggestedWord}</p>
+        <p className="syn-sentence-note">or any synonym you like</p>
+      </div>
+
+      {!sentenceSent ? (
+        <>
+          <textarea
+            className="text-input"
+            rows={3}
+            placeholder={`e.g. "I was so ${suggestedWord} when I heard the news."`}
+            value={sentence}
+            onChange={e => setSentence(e.target.value)}
+          />
+          <button
+            className="btn-primary btn-check"
+            onClick={() => setSentenceSent(true)}
+            disabled={sentence.trim().length < 5}
+          >
+            Submit
+          </button>
+        </>
+      ) : (
+        <div className="bonus-result">
+          {usedSynonym
+            ? <p className="result-correct">✅ You used <strong>{usedSynonym}</strong> — perfect!</p>
+            : <p className="result-correct">✅ Nice sentence! Try to include the word next time.</p>
+          }
+          {item.example && (
+            <div className="syn-example-box">
+              <div className="syn-example-label">Example</div>
+              <p className="syn-example-text">"{item.example}"</p>
+            </div>
           )}
           <button className="btn-primary" onClick={onNext}>Next word →</button>
         </div>
