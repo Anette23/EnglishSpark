@@ -62,7 +62,7 @@ export function loadState() {
     if (!raw) return { ...DEFAULT_STATE }
     const wrapper = JSON.parse(raw)
     if (!wrapper.d || !wrapper.h) return { ...DEFAULT_STATE, ...wrapper }
-    const json = atob(wrapper.d)
+    const json = fromBase64(wrapper.d)
     if (computeHash(json) !== wrapper.h) {
       console.warn('EnglishSpark: state integrity check failed, resetting.')
       localStorage.removeItem(STORAGE_KEY)
@@ -74,12 +74,24 @@ export function loadState() {
   }
 }
 
+function toBase64(str) {
+  return btoa(unescape(encodeURIComponent(str)))
+}
+
+function fromBase64(b64) {
+  try { return decodeURIComponent(escape(atob(b64))) } catch { return atob(b64) }
+}
+
 function saveState(state) {
-  const json = JSON.stringify(state)
-  localStorage.setItem(STORAGE_KEY, JSON.stringify({
-    d: btoa(json),
-    h: computeHash(json),
-  }))
+  try {
+    const json = JSON.stringify(state)
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      d: toBase64(json),
+      h: computeHash(json),
+    }))
+  } catch (e) {
+    console.error('EnglishSpark: failed to save state', e)
+  }
 }
 
 export function getTodayStatus(state) {
