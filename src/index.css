@@ -689,6 +689,10 @@ body {
   align-items: center;
   flex-wrap: wrap;
 }
+.syn-recall-btns .btn-primary {
+  width: auto;
+  flex-shrink: 0;
+}
 .btn-hint {
   background: transparent;
   border: 2px solid var(--purple);
