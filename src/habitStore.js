@@ -106,6 +106,7 @@ export function getTodayStatus(state) {
 
 export function completeTask(taskType) {
   const state = loadState()
+  state.newMilestone = null   // always clear stale milestone before evaluating
   const today = todayStr()
 
   let entry = state.history.find(h => h.date === today)

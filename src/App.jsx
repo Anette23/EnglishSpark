@@ -7,7 +7,7 @@ import HistoryView from './components/HistoryView'
 import BonusSession from './components/BonusSession'
 import WeeklySession from './components/WeeklySession'
 import ChatSession from './components/ChatSession'
-import { loadState, getTodayStatus, completeTask, getSessionDuration, completeWeeklyChallenge } from './habitStore'
+import { loadState, getTodayStatus, completeTask, getSessionDuration, completeWeeklyChallenge, clearNewMilestone } from './habitStore'
 import { getCurrentChallenge } from './weeklyChallenge'
 
 export default function App() {
@@ -71,7 +71,7 @@ export default function App() {
       {showMilestone && (
         <MilestoneModal
           milestone={showMilestone}
-          onClose={() => setShowMilestone(null)}
+          onClose={() => { setShowMilestone(null); clearNewMilestone() }}
         />
       )}
     </div>
