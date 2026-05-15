@@ -26,11 +26,10 @@ export default function TaskSession({ taskType, duration, onComplete, onBack }) 
     const date = todayStr()
     setSubmitted(true)
     onComplete()
+    // Save text immediately so data isn't lost if the browser closes before feedback arrives
+    saveTaskResult(date, taskType, { text: feedbackText, feedback: null, prompt })
 
-    if (!feedbackText.trim()) {
-      saveTaskResult(date, taskType, { text: '', feedback: null, prompt })
-      return
-    }
+    if (!feedbackText.trim()) return
 
     setFeedbackLoading(true)
     setFeedbackError(null)
@@ -48,7 +47,7 @@ export default function TaskSession({ taskType, duration, onComplete, onBack }) 
       }
     } finally {
       setFeedbackLoading(false)
-      saveTaskResult(date, taskType, { text: feedbackText, feedback: feedbackResult, prompt })
+      if (feedbackResult) saveTaskResult(date, taskType, { text: feedbackText, feedback: feedbackResult, prompt })
     }
   }
 

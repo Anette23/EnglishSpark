@@ -18,6 +18,7 @@ export default function WeeklySession({ challenge, onComplete, onBack }) {
   async function handleSubmit() {
     setSubmitted(true)
     onComplete()
+    saveTaskResult(todayStr(), challenge.type, { text, feedback: null, prompt: challenge.prompt })
 
     if (!text.trim()) return
 
@@ -36,11 +37,7 @@ export default function WeeklySession({ challenge, onComplete, onBack }) {
       }
     } finally {
       setFeedbackLoading(false)
-      saveTaskResult(todayStr(), challenge.type, {
-        text,
-        feedback: feedbackResult,
-        prompt: challenge.prompt,
-      })
+      if (feedbackResult) saveTaskResult(todayStr(), challenge.type, { text, feedback: feedbackResult, prompt: challenge.prompt })
     }
   }
 
