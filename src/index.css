@@ -1061,6 +1061,7 @@ body {
 }
 .btn-primary:active { transform: scale(.97); opacity: .9; }
 .btn-done { background: linear-gradient(135deg, var(--green), #059669); }
+.submit-hint { font-size: 13px; color: var(--muted); text-align: center; margin: 0; }
 
 /* Session complete */
 .session-complete {

@@ -141,9 +141,17 @@ export default function TaskSession({ taskType, duration, onComplete, onBack }) 
       )}
 
       {timerDone && (
-        <button className="btn-primary btn-done" onClick={handleSubmit}>
+        <button
+          className="btn-primary btn-done"
+          onClick={handleSubmit}
+          disabled={isWriting && text.trim().length < 10}
+          title={isWriting && text.trim().length < 10 ? 'Write at least a few words first' : ''}
+        >
           {feedbackText.trim() ? 'Submit & Get Feedback ✓' : 'Mark as Done ✓'}
         </button>
+      )}
+      {timerDone && isWriting && text.trim().length < 10 && (
+        <p className="submit-hint">✏️ Write at least a few words to submit.</p>
       )}
     </div>
   )
