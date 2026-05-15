@@ -5,8 +5,9 @@ import { sendChatMessage, getChatFeedback } from '../api'
 function useVoiceInput(onResult) {
   const [isRecording, setIsRecording] = useState(false)
   const [supported, setSupported]     = useState(false)
-  const recRef = useRef(null)
-  const onResultRef = useRef(onResult)
+  const recRef       = useRef(null)
+  const onResultRef  = useRef(onResult)
+  const finalTextRef = useRef('')   // accumulates confirmed final text across events
   useEffect(() => { onResultRef.current = onResult }, [onResult])
 
   useEffect(() => {
@@ -18,12 +19,16 @@ function useVoiceInput(onResult) {
     rec.interimResults = true
     rec.lang = 'en-US'
     rec.onresult = (e) => {
-      let final = '', interim = ''
-      for (let i = 0; i < e.results.length; i++) {
-        if (e.results[i].isFinal) final += e.results[i][0].transcript + ' '
+      // Start from e.resultIndex to process only new/updated results,
+      // avoiding the Chrome Android bug where old audio is re-processed
+      // and words get repeated in every interim update.
+      let newFinal = '', interim = ''
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        if (e.results[i].isFinal) newFinal += e.results[i][0].transcript + ' '
         else interim = e.results[i][0].transcript
       }
-      onResultRef.current(final || interim)
+      if (newFinal) finalTextRef.current += newFinal
+      onResultRef.current(finalTextRef.current + interim)
     }
     rec.onend = () => setIsRecording(false)
     rec.onerror = () => setIsRecording(false)
@@ -34,8 +39,12 @@ function useVoiceInput(onResult) {
   const toggle = useCallback(() => {
     const rec = recRef.current
     if (!rec) return
-    if (isRecording) { rec.stop() }
-    else { try { rec.start(); setIsRecording(true) } catch {} }
+    if (isRecording) {
+      rec.stop()
+    } else {
+      finalTextRef.current = ''   // reset accumulated text for new recording
+      try { rec.start(); setIsRecording(true) } catch {}
+    }
   }, [isRecording])
 
   return { isRecording, toggle, supported }
