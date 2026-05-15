@@ -21,16 +21,16 @@ export default function SpeechRecorder({ onTranscript, disabled }) {
     rec.lang = 'en-US'
 
     rec.onresult = (e) => {
-      let final = ''
+      let newFinal = ''
       let interim = ''
-      for (let i = 0; i < e.results.length; i++) {
-        if (e.results[i].isFinal) final += e.results[i][0].transcript + ' '
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        if (e.results[i].isFinal) newFinal += e.results[i][0].transcript + ' '
         else interim = e.results[i][0].transcript
       }
-      finalRef.current = final
-      setTranscript(final)
+      if (newFinal) finalRef.current += newFinal
+      setTranscript(finalRef.current)
       setInterimText(interim)
-      onTranscript(final + interim)
+      onTranscript(finalRef.current + interim)
     }
 
     rec.onerror = (e) => {
