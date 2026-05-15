@@ -8,6 +8,27 @@ function dailyStart(arr) {
   return seed % arr.length
 }
 
+// Spaced repetition helpers for synonyms
+function loadSynPerf() {
+  try { return JSON.parse(localStorage.getItem('syn_perf') || '{}') } catch { return {} }
+}
+function saveSynWordScore(word, score) {
+  const perf = loadSynPerf()
+  const prev = perf[word]?.score ?? 1
+  perf[word] = { score: prev * 0.4 + score * 0.6, lastSeen: new Date().toISOString().slice(0, 10) }
+  localStorage.setItem('syn_perf', JSON.stringify(perf))
+}
+function smartSynStart(list) {
+  const today = new Date().toISOString().slice(0, 10)
+  const perf = loadSynPerf()
+  // find weak words (score < 0.5) not seen today, pick the one seen longest ago
+  const weak = list
+    .map((item, i) => ({ i, word: item.word, ...perf[item.word] }))
+    .filter(x => (x.score ?? 1) < 0.5 && x.lastSeen !== today)
+    .sort((a, b) => (a.lastSeen || '') < (b.lastSeen || '') ? -1 : 1)
+  return weak.length > 0 ? weak[0].i : dailyStart(list)
+}
+
 const LEVELS = ['B1', 'B2']
 
 export default function BonusSession({ type, onBack }) {
@@ -23,7 +44,8 @@ export default function BonusSession({ type, onBack }) {
 
   const list = getListForLevel(fullList, level)
 
-  const [idx, setIdx]           = useState(() => dailyStart(list))
+  const startIdx = type === 'synonyms' ? () => smartSynStart(list) : () => dailyStart(list)
+  const [idx, setIdx]           = useState(startIdx)
   const [input, setInput]       = useState('')
   const [checked, setChecked]   = useState(false)
   const [transcript, setTranscript] = useState('')
@@ -33,18 +55,26 @@ export default function BonusSession({ type, onBack }) {
   function changeLevel(l) {
     localStorage.setItem('exerciseLevel', l)
     setLevel(l)
-    setIdx(dailyStart(getListForLevel(fullList, l)))
+    const newList = getListForLevel(fullList, l)
+    setIdx(type === 'synonyms' ? smartSynStart(newList) : dailyStart(newList))
     setInput('')
     setChecked(false)
     setTranscript('')
   }
 
-  function next() {
+  function next(score) {
     if (!bonusSaved) {
       completeBonusExercise(type)
       setBonusSaved(true)
     }
-    setIdx(i => (i + 1) % list.length)
+    if (type === 'synonyms' && score !== undefined) {
+      saveSynWordScore(list[idx % list.length].word, score)
+      const newList = list
+      const nextIdx = smartSynStart(newList)
+      setIdx(nextIdx)
+    } else {
+      setIdx(i => (i + 1) % list.length)
+    }
     setInput('')
     setChecked(false)
     setTranscript('')
@@ -332,7 +362,7 @@ function SynonymsExercise({ item, allItems, onNext }) {
               <p className="syn-example-text">"{item.example}"</p>
             </div>
           )}
-          <button className="btn-primary" onClick={onNext}>Next word →</button>
+          <button className="btn-primary" onClick={() => onNext(gotCorrect.length / item.synonyms.length)}>Next word →</button>
         </div>
       )}
     </>
