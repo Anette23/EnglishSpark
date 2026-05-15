@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import SpeechRecorder from './SpeechRecorder'
 import { SYNONYM_WORDS, PREPOSITION_PHRASES, IDIOM_PHRASES, SHADOWING_SENTENCES, getListForLevel } from '../bonusExercises'
+import { completeBonusExercise } from '../habitStore'
 
 function dailyStart(arr) {
   const seed = parseInt(new Date().toISOString().slice(0, 10).replace(/-/g, ''))
@@ -27,6 +28,7 @@ export default function BonusSession({ type, onBack }) {
   const [checked, setChecked]   = useState(false)
   const [transcript, setTranscript] = useState('')
   const [isSpeaking, setIsSpeaking] = useState(false)
+  const [bonusSaved, setBonusSaved] = useState(false)
 
   function changeLevel(l) {
     localStorage.setItem('exerciseLevel', l)
@@ -38,6 +40,10 @@ export default function BonusSession({ type, onBack }) {
   }
 
   function next() {
+    if (!bonusSaved) {
+      completeBonusExercise(type)
+      setBonusSaved(true)
+    }
     setIdx(i => (i + 1) % list.length)
     setInput('')
     setChecked(false)
