@@ -1061,6 +1061,30 @@ body {
 }
 .btn-primary:active { transform: scale(.97); opacity: .9; }
 .btn-done { background: linear-gradient(135deg, var(--green), #059669); }
+.btn-danger {
+  background: #e53e3e;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: opacity .15s;
+}
+.btn-danger:hover { opacity: .85; }
+.btn-secondary {
+  background: var(--surface2, #e2e8f0);
+  color: var(--text);
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: opacity .15s;
+}
+.btn-secondary:hover { opacity: .85; }
 .submit-hint { font-size: 13px; color: var(--muted); text-align: center; margin: 0; }
 
 /* Session complete */
