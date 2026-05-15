@@ -16,7 +16,7 @@ export default function SpeechRecorder({ onTranscript, disabled }) {
     setSupported(true)
 
     const rec = new SR()
-    rec.continuous = true
+    rec.continuous     = false  // avoids Chrome Android repeating words across audio chunks
     rec.interimResults = true
     rec.lang = 'en-US'
 

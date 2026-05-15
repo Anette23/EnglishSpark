@@ -5,9 +5,10 @@ import { sendChatMessage, getChatFeedback } from '../api'
 function useVoiceInput(onResult) {
   const [isRecording, setIsRecording] = useState(false)
   const [supported, setSupported]     = useState(false)
-  const recRef       = useRef(null)
-  const onResultRef  = useRef(onResult)
-  const finalTextRef = useRef('')   // accumulates confirmed final text across events
+  const recRef          = useRef(null)
+  const onResultRef     = useRef(onResult)
+  const finalTextRef    = useRef('')
+  const shouldRecordRef = useRef(false)
   useEffect(() => { onResultRef.current = onResult }, [onResult])
 
   useEffect(() => {
@@ -15,13 +16,11 @@ function useVoiceInput(onResult) {
     if (!SR) return
     setSupported(true)
     const rec = new SR()
-    rec.continuous = true
+    rec.continuous     = false  // avoids Chrome Android repeating words across audio chunks
     rec.interimResults = true
     rec.lang = 'en-US'
+
     rec.onresult = (e) => {
-      // Start from e.resultIndex to process only new/updated results,
-      // avoiding the Chrome Android bug where old audio is re-processed
-      // and words get repeated in every interim update.
       let newFinal = '', interim = ''
       for (let i = e.resultIndex; i < e.results.length; i++) {
         if (e.results[i].isFinal) newFinal += e.results[i][0].transcript + ' '
@@ -30,19 +29,35 @@ function useVoiceInput(onResult) {
       if (newFinal) finalTextRef.current += newFinal
       onResultRef.current(finalTextRef.current + interim)
     }
-    rec.onend = () => setIsRecording(false)
-    rec.onerror = () => setIsRecording(false)
+
+    rec.onend = () => {
+      if (shouldRecordRef.current) {
+        try { rec.start() } catch {}   // restart after each utterance pause
+      } else {
+        setIsRecording(false)
+      }
+    }
+
+    rec.onerror = (e) => {
+      if (e.error !== 'aborted') {
+        shouldRecordRef.current = false
+        setIsRecording(false)
+      }
+    }
+
     recRef.current = rec
-    return () => rec.abort()
+    return () => { shouldRecordRef.current = false; rec.abort() }
   }, [])
 
   const toggle = useCallback(() => {
     const rec = recRef.current
     if (!rec) return
     if (isRecording) {
+      shouldRecordRef.current = false
       rec.stop()
     } else {
-      finalTextRef.current = ''   // reset accumulated text for new recording
+      finalTextRef.current    = ''
+      shouldRecordRef.current = true
       try { rec.start(); setIsRecording(true) } catch {}
     }
   }, [isRecording])
