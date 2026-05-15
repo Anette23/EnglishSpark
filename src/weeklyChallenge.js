@@ -107,12 +107,20 @@ export function getCurrentWeekNumber() {
   return Math.floor((d - startOfYear) / 86400000 / 7)
 }
 
+export function getCurrentWeekKey() {
+  const d = new Date()
+  const startOfYear = new Date(d.getFullYear(), 0, 1)
+  const week = Math.floor((d - startOfYear) / 86400000 / 7)
+  return `${d.getFullYear()}-${week}`
+}
+
 export function getCurrentChallenge() {
   const week = getCurrentWeekNumber()
-  return { ...WEEKLY_CHALLENGES[week % WEEKLY_CHALLENGES.length], week }
+  const weekKey = getCurrentWeekKey()
+  return { ...WEEKLY_CHALLENGES[week % WEEKLY_CHALLENGES.length], weekKey }
 }
 
 export function isWeeklyChallengeComplete(state) {
-  const week = getCurrentWeekNumber()
-  return (state.weeklyDone || []).includes(week)
+  const weekKey = getCurrentWeekKey()
+  return (state.weeklyDone || []).includes(weekKey)
 }

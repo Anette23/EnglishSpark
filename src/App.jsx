@@ -64,7 +64,7 @@ export default function App() {
       {view === 'weekly' && (
         <WeeklySession
           challenge={getCurrentChallenge()}
-          onComplete={() => { const s = completeWeeklyChallenge(getCurrentChallenge().week); setState({ ...s }) }}
+          onComplete={() => { const s = completeWeeklyChallenge(getCurrentChallenge().weekKey); setState({ ...s }) }}
           onBack={handleBack}
         />
       )}
