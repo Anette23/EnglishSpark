@@ -1460,6 +1460,7 @@ body {
 }
 .badge-purple { background: var(--purple-light); }
 .badge-green  { background: var(--green-light); }
+.badge-teal   { background: #ccfbf1; }
 .badge-empty  { opacity: .25; }
 .history-xp   { font-size: 12px; font-weight: 700; color: var(--green); }
 .history-toggle { font-size: 11px; color: var(--muted); }
@@ -1546,6 +1547,7 @@ body {
 }
 .cal-full  { background: var(--green);        color: #fff; }
 .cal-half  { background: var(--green-light);  color: #065f46; }
+.cal-bonus { background: #ccfbf1;             color: #0f766e; }
 .cal-empty { background: #f1f5f9;             color: var(--muted); }
 
 .calendar-legend {

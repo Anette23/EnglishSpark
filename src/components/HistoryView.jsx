@@ -43,9 +43,10 @@ function StreakCalendar({ history }) {
     d.setDate(d.getDate() - i)
     const key = d.toISOString().slice(0, 10)
     const entry = historyMap[key]
-    const both = entry?.writingDone && entry?.speakingDone
-    const one  = entry?.writingDone || entry?.speakingDone
-    cells.push({ key, both, one, day: d.getDate() })
+    const both  = entry?.writingDone && entry?.speakingDone
+    const one   = entry?.writingDone || entry?.speakingDone
+    const bonus = !one && (entry?.bonusDone?.length > 0)
+    cells.push({ key, both, one, bonus, day: d.getDate() })
   }
 
   return (
@@ -55,7 +56,7 @@ function StreakCalendar({ history }) {
         {cells.map(c => (
           <div
             key={c.key}
-            className={`cal-cell ${c.both ? 'cal-full' : c.one ? 'cal-half' : 'cal-empty'}`}
+            className={`cal-cell ${c.both ? 'cal-full' : c.one ? 'cal-half' : c.bonus ? 'cal-bonus' : 'cal-empty'}`}
             title={c.key}
           >
             {c.day}
@@ -65,15 +66,19 @@ function StreakCalendar({ history }) {
       <div className="calendar-legend">
         <span className="cal-full cal-legend-dot" /> Both done
         <span className="cal-half cal-legend-dot" style={{marginLeft:12}} /> One done
+        <span className="cal-bonus cal-legend-dot" style={{marginLeft:12}} /> Bonus only
         <span className="cal-empty cal-legend-dot" style={{marginLeft:12}} /> Missed
       </div>
     </div>
   )
 }
 
+const BONUS_ICONS = { synonyms: '🔤', prepositions: '📝', idioms: '💬', shadowing: '🎧' }
+
 function HistoryEntry({ entry }) {
   const [open, setOpen] = useState(false)
   const hasDetails = entry.writingText || entry.speakingText
+  const bonusDone  = entry.bonusDone || []
 
   return (
     <div className="history-entry">
@@ -82,6 +87,11 @@ function HistoryEntry({ entry }) {
         <div className="history-badges">
           <span className={`history-badge ${entry.writingDone  ? 'badge-purple' : 'badge-empty'}`}>✍️</span>
           <span className={`history-badge ${entry.speakingDone ? 'badge-green'  : 'badge-empty'}`}>🎤</span>
+          {bonusDone.map(type => (
+            <span key={type} className="history-badge badge-teal" title={type}>
+              {BONUS_ICONS[type] || '⭐'}
+            </span>
+          ))}
         </div>
         <div className="history-xp">+{entry.xpEarned ?? 0} XP</div>
         {hasDetails && <span className="history-toggle">{open ? '▲' : '▼'}</span>}
