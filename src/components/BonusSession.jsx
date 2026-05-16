@@ -21,11 +21,16 @@ function saveSynWordScore(word, score) {
 function smartSynStart(list) {
   const today = new Date().toISOString().slice(0, 10)
   const perf = loadSynPerf()
-  // find weak words (score < 0.5) not seen today, pick the one seen longest ago
   const weak = list
     .map((item, i) => ({ i, word: item.word, ...perf[item.word] }))
-    .filter(x => (x.score ?? 1) < 0.5 && x.lastSeen !== today)
-    .sort((a, b) => (a.lastSeen || '') < (b.lastSeen || '') ? -1 : 1)
+    .filter(x => {
+      if ((x.score ?? 1) >= 0.5) return false
+      const daysSince = x.lastSeen
+        ? Math.round((Date.now() - new Date(x.lastSeen)) / 86400000)
+        : 999
+      return daysSince >= 2  // minimum 2-day gap so the same word doesn't repeat every session
+    })
+    .sort(() => Math.random() - 0.5)  // random among weak words for variety
   return weak.length > 0 ? weak[0].i : dailyStart(list)
 }
 
