@@ -53,6 +53,7 @@ export default function BonusSession({ type, onBack }) {
 
   const startIdx = type === 'synonyms' ? () => smartSynStart(list) : () => dailyStart(list)
   const [idx, setIdx]           = useState(startIdx)
+  const [round, setRound]       = useState(0)
   const [input, setInput]       = useState('')
   const [checked, setChecked]   = useState(false)
   const [transcript, setTranscript] = useState('')
@@ -76,12 +77,11 @@ export default function BonusSession({ type, onBack }) {
     }
     if (type === 'synonyms' && score !== undefined) {
       saveSynWordScore(list[idx % list.length].word, score)
-      const newList = list
-      const nextIdx = smartSynStart(newList)
-      setIdx(nextIdx)
+      setIdx(smartSynStart(list))
     } else {
       setIdx(i => (i + 1) % list.length)
     }
+    setRound(r => r + 1)
     setInput('')
     setChecked(false)
     setTranscript('')
@@ -123,7 +123,7 @@ export default function BonusSession({ type, onBack }) {
 
       {type === 'synonyms' && (
         <SynonymsExercise
-          key={`${level}-${idx}`}
+          key={`${level}-${idx}-${round}`}
           item={item}
           allItems={list}
           onNext={next}
