@@ -2,6 +2,7 @@ import { useState } from 'react'
 import SpeechRecorder from './SpeechRecorder'
 import { SYNONYM_WORDS, PREPOSITION_PHRASES, IDIOM_PHRASES, SHADOWING_SENTENCES, getListForLevel } from '../bonusExercises'
 import { completeBonusExercise } from '../habitStore'
+import { checkSentence } from '../api'
 
 function dailyStart(arr) {
   const seed = parseInt(new Date().toISOString().slice(0, 10).replace(/-/g, ''))
@@ -191,15 +192,27 @@ function SynonymsExercise({ item, allItems, onNext }) {
   const [mcChecked, setMcChecked]       = useState(false)
   const [sentence, setSentence]         = useState('')
   const [sentenceSent, setSentenceSent] = useState(false)
+  const [sentenceCheck, setSentenceCheck] = useState(null)   // { ok, feedback } from AI
+  const [sentenceLoading, setSentenceLoading] = useState(false)
 
   const userWords  = input.toLowerCase().split(',').map(w => w.trim()).filter(Boolean)
   const gotCorrect = phase !== 'recall' ? userWords.filter(w => item.synonyms.includes(w)) : []
   const gotWrong   = phase !== 'recall' ? userWords.filter(w => !item.synonyms.includes(w)) : []
   const revealedHints  = item.synonyms.slice(0, hintsShown)
   const suggestedWord  = gotCorrect[0] || item.synonyms[0]
-  const usedSynonym    = sentenceSent
-    ? item.synonyms.find(s => sentence.toLowerCase().includes(s.toLowerCase()))
-    : null
+
+  async function handleSentenceSubmit() {
+    setSentenceSent(true)
+    setSentenceLoading(true)
+    try {
+      const result = await checkSentence(suggestedWord, sentence)
+      setSentenceCheck(result)
+    } catch {
+      setSentenceCheck(null)
+    } finally {
+      setSentenceLoading(false)
+    }
+  }
 
   // ── Phase 1: Recall ──────────────────────────────
   if (phase === 'recall') return (
@@ -346,11 +359,11 @@ function SynonymsExercise({ item, allItems, onNext }) {
             placeholder={`e.g. "I was so ${suggestedWord} when I heard the news."`}
             value={sentence}
             onChange={e => setSentence(e.target.value)}
-            onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey && sentence.trim().length >= 5) { e.preventDefault(); setSentenceSent(true) } }}
+            onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey && sentence.trim().length >= 5) { e.preventDefault(); handleSentenceSubmit() } }}
           />
           <button
             className="btn-primary btn-check"
-            onClick={() => setSentenceSent(true)}
+            onClick={handleSentenceSubmit}
             disabled={sentence.trim().length < 5}
           >
             Submit
@@ -358,17 +371,28 @@ function SynonymsExercise({ item, allItems, onNext }) {
         </>
       ) : (
         <div className="bonus-result">
-          {usedSynonym
-            ? <p className="result-correct">✅ You used <strong>{usedSynonym}</strong> — perfect!</p>
-            : <p className="result-correct">✅ Nice sentence! Try to include the word next time.</p>
-          }
-          {item.example && (
+          {sentenceLoading && <p className="syn-checking">⏳ Checking your sentence...</p>}
+
+          {!sentenceLoading && sentenceCheck && (
+            <p className={sentenceCheck.ok ? 'result-correct' : 'result-wrong'}>
+              {sentenceCheck.ok ? '✅' : '❌'} {sentenceCheck.feedback}
+            </p>
+          )}
+
+          {!sentenceLoading && !sentenceCheck && (
+            <p className="result-correct">✅ Sentence submitted!</p>
+          )}
+
+          {!sentenceLoading && item.example && (
             <div className="syn-example-box">
               <div className="syn-example-label">Example</div>
               <p className="syn-example-text">"{item.example}"</p>
             </div>
           )}
-          <button className="btn-primary" onClick={() => onNext(gotCorrect.length / item.synonyms.length)}>Next word →</button>
+
+          {!sentenceLoading && (
+            <button className="btn-primary" onClick={() => onNext(gotCorrect.length / item.synonyms.length)}>Next word →</button>
+          )}
         </div>
       )}
     </>

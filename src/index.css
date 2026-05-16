@@ -770,6 +770,7 @@ body {
   color: var(--muted);
   margin-top: 2px;
 }
+.syn-checking { font-size: 14px; color: var(--muted); text-align: center; margin: 8px 0; }
 .syn-example-box {
   background: var(--bg);
   border-left: 3px solid var(--purple);
