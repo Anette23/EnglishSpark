@@ -4,6 +4,8 @@ import { SYNONYM_WORDS, PREPOSITION_PHRASES, IDIOM_PHRASES, SHADOWING_SENTENCES,
 import { GRAMMAR_EXERCISES } from '../grammarExercises'
 import { completeBonusExercise } from '../habitStore'
 import { checkSentence } from '../api'
+import { saveFlashcard, getFlashcardStats } from '../flashcardStore'
+import FlashcardReview from './FlashcardReview'
 
 function dailyStart(arr) {
   const seed = parseInt(new Date().toISOString().slice(0, 10).replace(/-/g, ''))
@@ -75,6 +77,14 @@ export default function BonusSession({ type, onBack }) {
   const [transcript, setTranscript] = useState('')
   const [isSpeaking, setIsSpeaking] = useState(false)
   const [bonusSaved, setBonusSaved] = useState(false)
+  const [reviewing, setReviewing]   = useState(false)
+
+  function itemFlashcardId(item) {
+    if (type === 'synonyms')  return item.word
+    if (type === 'grammar')   return item.id
+    if (type === 'shadowing') return item.sentence
+    return item.phrase
+  }
 
   function changeLevel(l) {
     localStorage.setItem('exerciseLevel', l)
@@ -91,8 +101,11 @@ export default function BonusSession({ type, onBack }) {
       completeBonusExercise(type)
       setBonusSaved(true)
     }
+    const item = list[idx % list.length]
+    if (score !== undefined) saveFlashcard(type, itemFlashcardId(item), score)
+
     if (type === 'synonyms' && score !== undefined) {
-      saveSynWordScore(list[idx % list.length].word, score)
+      saveSynWordScore(item.word, score)
       setIdx(nextSynIdx(list, idx % list.length))
     } else {
       setIdx(i => (i + 1) % list.length)
@@ -104,6 +117,8 @@ export default function BonusSession({ type, onBack }) {
     setIsSpeaking(false)
   }
 
+  const stats = getFlashcardStats(type, list)
+
   const config = {
     synonyms:     { title: 'Synonyms',     icon: '🔤', accent: 'accent-blue'   },
     prepositions: { title: 'Prepositions', icon: '📝', accent: 'accent-orange' },
@@ -113,6 +128,10 @@ export default function BonusSession({ type, onBack }) {
   }[type]
 
   const item = list[idx % list.length]
+
+  if (reviewing) {
+    return <FlashcardReview type={type} items={list} onClose={() => setReviewing(false)} />
+  }
 
   return (
     <div className="task-session">
@@ -124,6 +143,11 @@ export default function BonusSession({ type, onBack }) {
           <h2>{config.title}</h2>
           <p className="task-subtitle">Bonus exercise — optional</p>
         </div>
+        {stats.due > 0 && (
+          <button className="btn-review-pill" onClick={() => setReviewing(true)}>
+            🗂 Review {stats.due}
+          </button>
+        )}
       </div>
 
       <div className="level-toggle">
@@ -478,7 +502,7 @@ function GrammarExercise({ item, onNext }) {
           </p>
           {item.hint && <p className="grammar-hint">💡 {item.hint}</p>}
           <p className="grammar-explanation">{item.explanation}</p>
-          <button className="btn-primary" onClick={onNext}>Next →</button>
+          <button className="btn-primary" onClick={() => onNext(isCorrect ? 1.0 : 0.0)}>Next →</button>
         </div>
       )}
     </>
@@ -538,7 +562,7 @@ function PrepositionsExercise({ item, input, setInput, checked, setChecked, onNe
             {isCorrect ? '✅ Correct!' : `❌ The answer is: ${item.answer.join(' or ')}`}
           </p>
           <p className="hint-text">💡 {item.hint}</p>
-          <button className="btn-primary" onClick={onNext}>Next →</button>
+          <button className="btn-primary" onClick={() => onNext(isCorrect ? 1.0 : 0.0)}>Next →</button>
         </div>
       )}
     </>
@@ -593,7 +617,7 @@ function ShadowingExercise({ sentence, recKey, transcript, setTranscript, isSpea
           <p>Match: <span className="match-pct">{matchPct}%</span>
             {matchPct >= 80 ? ' — Great!' : matchPct >= 50 ? ' — Keep going!' : ' — Try again!'}
           </p>
-          <button className="btn-primary" onClick={onNext}>Next sentence →</button>
+          <button className="btn-primary" onClick={() => onNext(matchPct >= 50 ? 0.9 : 0.4)}>Next sentence →</button>
         </div>
       )}
     </>

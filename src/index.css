@@ -787,6 +787,31 @@ body {
   margin-top: 2px;
 }
 .syn-checking { font-size: 14px; color: var(--muted); text-align: center; margin: 8px 0; }
+.btn-review-pill {
+  margin-left: auto;
+  background: rgba(255,255,255,.15);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.btn-review-pill:hover { background: rgba(255,255,255,.25); }
+.flashcard-stats {
+  display: flex;
+  gap: 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 20px;
+}
+.fc-stat { flex: 1; text-align: center; }
+.fc-stat-num   { font-size: 24px; font-weight: 800; color: var(--purple); }
+.fc-stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-top: 2px; }
 .grammar-category-badge {
   display: inline-block;
   background: var(--green-light);
@@ -1660,4 +1685,34 @@ body {
   background: var(--purple);
   border-color: var(--purple);
   color: #fff;
+}
+
+/* ── Flashcard stats row ────────────────────────────── */
+
+.flashcard-stats {
+  display: flex;
+  gap: 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 20px;
+  box-shadow: var(--shadow);
+}
+
+.fc-stat {
+  flex: 1;
+  text-align: center;
+}
+
+.fc-stat-num {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--purple);
+  line-height: 1;
+}
+
+.fc-stat-label {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 4px;
 }
