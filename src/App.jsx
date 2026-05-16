@@ -21,6 +21,8 @@ export default function App() {
     localStorage.setItem('theme', darkMode ? 'dark' : 'light')
   }, [darkMode])
 
+  useEffect(() => { window.scrollTo(0, 0) }, [view])
+
   const duration = getSessionDuration(state.totalDays)
 
   function handleCompleteTask(taskType) {
