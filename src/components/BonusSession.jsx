@@ -19,21 +19,33 @@ function saveSynWordScore(word, score) {
   perf[word] = { score: prev * 0.4 + score * 0.6, lastSeen: new Date().toISOString().slice(0, 10) }
   localStorage.setItem('syn_perf', JSON.stringify(perf))
 }
-function smartSynStart(list) {
+function getWeakIdx(list, excludeIdx) {
   const perf = loadSynPerf()
   const weak = list
     .map((item, i) => ({ i, word: item.word, ...perf[item.word] }))
     .filter(x => {
+      if (x.i === excludeIdx) return false
       if ((x.score ?? 1) >= 0.5) return false
       const daysSince = x.lastSeen
         ? Math.round((Date.now() - new Date(x.lastSeen)) / 86400000)
         : 999
-      return daysSince >= 5  // 5-day gap before the same weak word comes back
+      return daysSince >= 5
     })
     .sort(() => Math.random() - 0.5)
-  // show a weak word only 40% of the time — otherwise use the daily rotation for variety
-  if (weak.length > 0 && Math.random() < 0.4) return weak[0].i
+  return weak.length > 0 ? weak[0].i : null
+}
+
+function smartSynStart(list) {
+  const weakIdx = getWeakIdx(list, -1)
+  if (weakIdx !== null && Math.random() < 0.4) return weakIdx
   return dailyStart(list)
+}
+
+function nextSynIdx(list, currentIdx) {
+  // 40% chance: pick a qualifying weak word (not current), else advance sequentially
+  const weakIdx = getWeakIdx(list, currentIdx)
+  if (weakIdx !== null && Math.random() < 0.4) return weakIdx
+  return (currentIdx + 1) % list.length
 }
 
 const LEVELS = ['B1', 'B2']
@@ -77,7 +89,7 @@ export default function BonusSession({ type, onBack }) {
     }
     if (type === 'synonyms' && score !== undefined) {
       saveSynWordScore(list[idx % list.length].word, score)
-      setIdx(smartSynStart(list))
+      setIdx(nextSynIdx(list, idx % list.length))
     } else {
       setIdx(i => (i + 1) % list.length)
     }
