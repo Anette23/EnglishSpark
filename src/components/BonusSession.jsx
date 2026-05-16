@@ -19,7 +19,6 @@ function saveSynWordScore(word, score) {
   localStorage.setItem('syn_perf', JSON.stringify(perf))
 }
 function smartSynStart(list) {
-  const today = new Date().toISOString().slice(0, 10)
   const perf = loadSynPerf()
   const weak = list
     .map((item, i) => ({ i, word: item.word, ...perf[item.word] }))
@@ -28,10 +27,12 @@ function smartSynStart(list) {
       const daysSince = x.lastSeen
         ? Math.round((Date.now() - new Date(x.lastSeen)) / 86400000)
         : 999
-      return daysSince >= 2  // minimum 2-day gap so the same word doesn't repeat every session
+      return daysSince >= 5  // 5-day gap before the same weak word comes back
     })
-    .sort(() => Math.random() - 0.5)  // random among weak words for variety
-  return weak.length > 0 ? weak[0].i : dailyStart(list)
+    .sort(() => Math.random() - 0.5)
+  // show a weak word only 40% of the time — otherwise use the daily rotation for variety
+  if (weak.length > 0 && Math.random() < 0.4) return weak[0].i
+  return dailyStart(list)
 }
 
 const LEVELS = ['B1', 'B2']
