@@ -45,8 +45,9 @@ function StreakCalendar({ history }) {
     const entry = historyMap[key]
     const both  = entry?.writingDone && entry?.speakingDone
     const one   = entry?.writingDone || entry?.speakingDone
-    const bonus = !one && (entry?.bonusDone?.length > 0)
-    cells.push({ key, both, one, bonus, day: d.getDate() })
+    const bonus  = !one && (entry?.bonusDone?.length > 0)
+    const frozen = !one && !bonus && entry?.frozen
+    cells.push({ key, both, one, bonus, frozen, day: d.getDate() })
   }
 
   return (
@@ -56,7 +57,7 @@ function StreakCalendar({ history }) {
         {cells.map(c => (
           <div
             key={c.key}
-            className={`cal-cell ${c.both ? 'cal-full' : c.one ? 'cal-half' : c.bonus ? 'cal-bonus' : 'cal-empty'}`}
+            className={`cal-cell ${c.both ? 'cal-full' : c.one ? 'cal-half' : c.bonus ? 'cal-bonus' : c.frozen ? 'cal-frozen' : 'cal-empty'}`}
             title={c.key}
           >
             {c.day}
@@ -67,6 +68,7 @@ function StreakCalendar({ history }) {
         <span className="cal-full cal-legend-dot" /> Both done
         <span className="cal-half cal-legend-dot" style={{marginLeft:12}} /> One done
         <span className="cal-bonus cal-legend-dot" style={{marginLeft:12}} /> Bonus only
+        <span className="cal-frozen cal-legend-dot" style={{marginLeft:12}} /> Frozen
         <span className="cal-empty cal-legend-dot" style={{marginLeft:12}} /> Missed
       </div>
     </div>

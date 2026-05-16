@@ -7,7 +7,7 @@ import HistoryView from './components/HistoryView'
 import BonusSession from './components/BonusSession'
 import WeeklySession from './components/WeeklySession'
 import ChatSession from './components/ChatSession'
-import { loadState, getTodayStatus, completeTask, getSessionDuration, completeWeeklyChallenge, clearNewMilestone } from './habitStore'
+import { loadState, getTodayStatus, completeTask, getSessionDuration, completeWeeklyChallenge, clearNewMilestone, useStreakFreeze, getStreakFreezes } from './habitStore'
 import { getCurrentChallenge } from './weeklyChallenge'
 
 export default function App() {
@@ -36,6 +36,11 @@ export default function App() {
     setState(loadState())
   }
 
+  function handleFreezeStreak() {
+    const newState = useStreakFreeze()
+    setState({ ...newState })
+  }
+
   return (
     <div className="app">
       {view === 'dashboard' && (
@@ -47,6 +52,8 @@ export default function App() {
           onOpenHistory={() => setView('history')}
           darkMode={darkMode}
           onToggleDark={() => setDarkMode(d => !d)}
+          freezesAvailable={getStreakFreezes(state)}
+          onFreezeStreak={handleFreezeStreak}
         />
       )}
       {(view === 'writing' || view === 'speaking') && (

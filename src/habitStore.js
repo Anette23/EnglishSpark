@@ -54,6 +54,8 @@ const DEFAULT_STATE = {
   history: [],
   newMilestone: null,
   weeklyDone: [],
+  streakFreezes: 1,
+  lastFreezeWeek: null,
 }
 
 export function loadState() {
@@ -199,6 +201,50 @@ export function clearNewMilestone() {
   const state = loadState()
   state.newMilestone = null
   saveState(state)
+}
+
+function currentWeekKey() {
+  const d = new Date()
+  const start = new Date(d.getFullYear(), 0, 1)
+  return `${d.getFullYear()}-${Math.floor((d - start) / 86400000 / 7)}`
+}
+
+export function getStreakFreezes(state) {
+  // Reset to 1 freeze each new week
+  if (state.lastFreezeWeek !== currentWeekKey()) return 1
+  return state.streakFreezes ?? 1
+}
+
+export function useStreakFreeze() {
+  const state = loadState()
+  const today = todayStr()
+  const week = currentWeekKey()
+
+  // Refresh freeze count if new week
+  if (state.lastFreezeWeek !== week) {
+    state.streakFreezes = 1
+    state.lastFreezeWeek = week
+  }
+
+  if (!state.streakFreezes) return state  // none left
+
+  let entry = state.history.find(h => h.date === today)
+  if (!entry) {
+    entry = { date: today, writingDone: false, speakingDone: false, xpEarned: 0 }
+    state.history.push(entry)
+  }
+  entry.frozen = true
+
+  // Preserve streak: treat today as if it were completed yesterday
+  if (state.lastCompletedDate && state.lastCompletedDate !== today) {
+    const gap = daysBetween(state.lastCompletedDate, today)
+    if (gap <= 2) state.lastCompletedDate = today  // bridge the gap
+  }
+
+  state.streakFreezes -= 1
+  state.lastFreezeWeek = week
+  saveState(state)
+  return state
 }
 
 export function getLevel(xp) {

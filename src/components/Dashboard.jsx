@@ -1,7 +1,7 @@
 import { MILESTONES, getLevel, getNextMilestone, getSessionDuration, formatDuration } from '../habitStore'
 import { getCurrentChallenge, isWeeklyChallengeComplete } from '../weeklyChallenge'
 
-export default function Dashboard({ state, todayStatus, onStartTask, onOpenSettings, onOpenHistory, darkMode, onToggleDark }) {
+export default function Dashboard({ state, todayStatus, onStartTask, onOpenSettings, onOpenHistory, darkMode, onToggleDark, freezesAvailable, onFreezeStreak }) {
   const { streak, longestStreak, totalDays, xp, unlockedMilestones } = state
   const { level, progress, nextXp, currentFloor } = getLevel(xp)
   const nextMilestone = getNextMilestone(streak, unlockedMilestones)
@@ -13,6 +13,10 @@ export default function Dashboard({ state, todayStatus, onStartTask, onOpenSetti
   const streakMilestoneProgress = nextMilestone
     ? ((streak / nextMilestone.days) * 100)
     : 100
+
+  const todayEntry = state.history?.find(h => h.date === new Date().toISOString().slice(0, 10))
+  const todayFrozen = todayEntry?.frozen ?? false
+  const showFreeze = freezesAvailable > 0 && streak > 0 && !todayStatus.writingDone && !todayStatus.speakingDone && !todayFrozen
 
   return (
     <div className="dashboard">
@@ -39,6 +43,7 @@ export default function Dashboard({ state, todayStatus, onStartTask, onOpenSetti
             {(todayStatus.writingDone || todayStatus.speakingDone) &&
               <span className="streak-mini-done">✓ today</span>
             }
+            {todayFrozen && <span className="streak-mini-done" style={{background:'#bfdbfe',color:'#1e40af'}}>🧊 frozen</span>}
           </div>
           {nextMilestone && (
             <div className="streak-mini-bar-wrap">
@@ -59,6 +64,12 @@ export default function Dashboard({ state, todayStatus, onStartTask, onOpenSetti
             <div className="streak-number">{streak}</div>
             <div className="streak-label">day streak</div>
             <div className="streak-best">Best: {longestStreak} days</div>
+            {todayFrozen && <div className="freeze-badge">🧊 Streak frozen today</div>}
+            {showFreeze && (
+              <button className="btn-freeze" onClick={onFreezeStreak}>
+                🧊 Freeze streak <span className="freeze-count">({freezesAvailable} left this week)</span>
+              </button>
+            )}
 
             {nextMilestone && (
               <div className="milestone-progress">
