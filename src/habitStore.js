@@ -56,6 +56,7 @@ const DEFAULT_STATE = {
   weeklyDone: [],
   streakFreezes: 1,
   lastFreezeWeek: null,
+  newLevel: null,
 }
 
 export function loadState() {
@@ -106,9 +107,17 @@ export function getTodayStatus(state) {
   }
 }
 
+const XP_LEVELS = [0, 100, 250, 500, 900, 1400, 2000, 2800, 3800, 5000, 7000]
+function xpToLevel(xp) {
+  let level = 1
+  for (let i = 1; i < XP_LEVELS.length; i++) { if (xp >= XP_LEVELS[i]) level = i + 1; else break }
+  return level
+}
+
 export function completeTask(taskType) {
   const state = loadState()
   state.newMilestone = null   // always clear stale milestone before evaluating
+  state.newLevel = null
   const today = todayStr()
 
   let entry = state.history.find(h => h.date === today)
@@ -121,6 +130,7 @@ export function completeTask(taskType) {
   if (entry[field]) { saveState(state); return state }
   entry[field] = true
 
+  const levelBefore = xpToLevel(state.xp)
   const xpGain = 25
   entry.xpEarned = (entry.xpEarned || 0) + xpGain
   state.xp += xpGain
@@ -148,6 +158,9 @@ export function completeTask(taskType) {
       }
     }
   }
+
+  const levelAfter = xpToLevel(state.xp)
+  if (levelAfter > levelBefore) state.newLevel = levelAfter
 
   saveState(state)
   return state
@@ -200,6 +213,12 @@ export function completeWeeklyChallenge(week) {
 export function clearNewMilestone() {
   const state = loadState()
   state.newMilestone = null
+  saveState(state)
+}
+
+export function clearNewLevel() {
+  const state = loadState()
+  state.newLevel = null
   saveState(state)
 }
 

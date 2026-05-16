@@ -7,13 +7,37 @@ import HistoryView from './components/HistoryView'
 import BonusSession from './components/BonusSession'
 import WeeklySession from './components/WeeklySession'
 import ChatSession from './components/ChatSession'
-import { loadState, getTodayStatus, completeTask, getSessionDuration, completeWeeklyChallenge, clearNewMilestone, useStreakFreeze, getStreakFreezes } from './habitStore'
+import { loadState, getTodayStatus, completeTask, getSessionDuration, completeWeeklyChallenge, clearNewMilestone, clearNewLevel, useStreakFreeze, getStreakFreezes } from './habitStore'
 import { getCurrentChallenge } from './weeklyChallenge'
+
+function LevelUpModal({ level, onClose }) {
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="milestone-modal" onClick={e => e.stopPropagation()}>
+        <div className="milestone-emoji">⭐</div>
+        <div className="milestone-badge">LEVEL UP!</div>
+        <h2 className="milestone-name">Level {level}</h2>
+        <p className="milestone-days">You're getting better every day!</p>
+        <div className="confetti">
+          {Array.from({ length: 20 }).map((_, i) => (
+            <span key={i} className="confetti-piece" style={{
+              left: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 1}s`,
+              backgroundColor: ['#6366f1','#10b981','#f59e0b','#ef4444','#3b82f6'][i % 5]
+            }} />
+          ))}
+        </div>
+        <button className="btn-primary" onClick={onClose}>Let's keep going! 🚀</button>
+      </div>
+    </div>
+  )
+}
 
 export default function App() {
   const [state, setState] = useState(() => loadState())
   const [view, setView]   = useState('dashboard')
   const [showMilestone, setShowMilestone] = useState(null)
+  const [showLevelUp, setShowLevelUp]     = useState(null)
   const [darkMode, setDarkMode] = useState(() => localStorage.getItem('theme') === 'dark')
 
   useEffect(() => {
@@ -29,6 +53,7 @@ export default function App() {
     const newState = completeTask(taskType)
     setState({ ...newState })
     if (newState.newMilestone) setShowMilestone(newState.newMilestone)
+    if (newState.newLevel)     setShowLevelUp(newState.newLevel)
   }
 
   function handleBack() {
@@ -81,6 +106,12 @@ export default function App() {
         <MilestoneModal
           milestone={showMilestone}
           onClose={() => { setShowMilestone(null); clearNewMilestone() }}
+        />
+      )}
+      {showLevelUp && !showMilestone && (
+        <LevelUpModal
+          level={showLevelUp}
+          onClose={() => { setShowLevelUp(null); clearNewLevel() }}
         />
       )}
     </div>
