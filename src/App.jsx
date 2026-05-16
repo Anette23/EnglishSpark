@@ -91,7 +91,7 @@ export default function App() {
       )}
       {view === 'settings' && <Settings onBack={handleBack} />}
       {view === 'history'  && <HistoryView state={state} onBack={handleBack} />}
-      {(view === 'synonyms' || view === 'prepositions' || view === 'idioms' || view === 'shadowing') && (
+      {(view === 'synonyms' || view === 'prepositions' || view === 'idioms' || view === 'shadowing' || view === 'grammar') && (
         <BonusSession type={view} onBack={handleBack} />
       )}
       {view === 'chat' && <ChatSession onBack={handleBack} />}

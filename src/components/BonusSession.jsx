@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import SpeechRecorder from './SpeechRecorder'
 import { SYNONYM_WORDS, PREPOSITION_PHRASES, IDIOM_PHRASES, SHADOWING_SENTENCES, getListForLevel } from '../bonusExercises'
+import { GRAMMAR_EXERCISES } from '../grammarExercises'
 import { completeBonusExercise } from '../habitStore'
 import { checkSentence } from '../api'
 
@@ -59,9 +60,12 @@ export default function BonusSession({ type, onBack }) {
   const fullList = type === 'synonyms'     ? SYNONYM_WORDS
                  : type === 'prepositions' ? PREPOSITION_PHRASES
                  : type === 'idioms'       ? IDIOM_PHRASES
+                 : type === 'grammar'      ? GRAMMAR_EXERCISES
                  : SHADOWING_SENTENCES
 
-  const list = getListForLevel(fullList, level)
+  const list = type === 'grammar'
+    ? GRAMMAR_EXERCISES.filter(e => e.level === level)
+    : getListForLevel(fullList, level)
 
   const startIdx = type === 'synonyms' ? () => smartSynStart(list) : () => dailyStart(list)
   const [idx, setIdx]           = useState(startIdx)
@@ -101,10 +105,11 @@ export default function BonusSession({ type, onBack }) {
   }
 
   const config = {
-    synonyms:     { title: 'Synonyms',     icon: '🔤', accent: 'accent-blue' },
+    synonyms:     { title: 'Synonyms',     icon: '🔤', accent: 'accent-blue'   },
     prepositions: { title: 'Prepositions', icon: '📝', accent: 'accent-orange' },
     idioms:       { title: 'Idioms',       icon: '💬', accent: 'accent-purple' },
-    shadowing:    { title: 'Shadowing',    icon: '🎧', accent: 'accent-teal' },
+    shadowing:    { title: 'Shadowing',    icon: '🎧', accent: 'accent-teal'   },
+    grammar:      { title: 'Grammar',      icon: '📚', accent: 'accent-green'  },
   }[type]
 
   const item = list[idx % list.length]
@@ -163,6 +168,13 @@ export default function BonusSession({ type, onBack }) {
           recKey={`${level}-${idx}`}
           transcript={transcript} setTranscript={setTranscript}
           isSpeaking={isSpeaking} setIsSpeaking={setIsSpeaking}
+          onNext={next}
+        />
+      )}
+      {type === 'grammar' && (
+        <GrammarExercise
+          key={`${level}-${idx}-${round}`}
+          item={item}
           onNext={next}
         />
       )}
@@ -405,6 +417,68 @@ function SynonymsExercise({ item, allItems, onNext }) {
           {!sentenceLoading && (
             <button className="btn-primary" onClick={() => onNext(gotCorrect.length / item.synonyms.length)}>Next word →</button>
           )}
+        </div>
+      )}
+    </>
+  )
+}
+
+function GrammarExercise({ item, onNext }) {
+  const [input, setInput]   = useState('')
+  const [checked, setChecked] = useState(false)
+  const userAnswer = input.trim().toLowerCase()
+  const isCorrect  = checked && item.answer.includes(userAnswer)
+  const [before, after] = item.phrase.split('___')
+
+  function handleCheck() { if (input.trim()) setChecked(true) }
+
+  return (
+    <>
+      <div className="grammar-category-badge">{item.category}</div>
+      <div className="prompt-box">
+        <div className="prompt-label">Fill in the blank</div>
+        <p className="prompt-text">
+          {checked ? (
+            <>
+              {before}
+              <span className={isCorrect ? 'answer-correct' : 'answer-shown'}>
+                {item.answer[0]}
+              </span>
+              {after}
+            </>
+          ) : (
+            <>{before}<span className="answer-blank">______</span>{after}</>
+          )}
+        </p>
+      </div>
+
+      <div className="prep-input-row">
+        <input
+          className="prep-input"
+          type="text"
+          placeholder="your answer..."
+          value={input}
+          onChange={e => setInput(e.target.value)}
+          disabled={checked}
+          onKeyDown={e => e.key === 'Enter' && handleCheck()}
+          autoCapitalize="none"
+          autoCorrect="off"
+        />
+        {!checked && (
+          <button className="btn-primary btn-check" onClick={handleCheck} disabled={!input.trim()}>
+            Check
+          </button>
+        )}
+      </div>
+
+      {checked && (
+        <div className="bonus-result">
+          <p className={isCorrect ? 'result-correct' : 'result-wrong'}>
+            {isCorrect ? '✅ Correct!' : `❌ Answer: ${item.answer.join(' / ')}`}
+          </p>
+          {item.hint && <p className="grammar-hint">💡 {item.hint}</p>}
+          <p className="grammar-explanation">{item.explanation}</p>
+          <button className="btn-primary" onClick={onNext}>Next →</button>
         </div>
       )}
     </>

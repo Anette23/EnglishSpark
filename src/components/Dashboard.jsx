@@ -214,6 +214,11 @@ export default function Dashboard({ state, todayStatus, onStartTask, onOpenSetti
                 desc="Listen and repeat a sentence"
                 color="teal" onStart={() => onStartTask('shadowing')}
               />
+              <BonusCard
+                icon="📚" title="Grammar"
+                desc="Fill in the blank — tenses, articles, conditionals and more"
+                color="green" onStart={() => onStartTask('grammar')}
+              />
             </div>
           </div>
         </div>
