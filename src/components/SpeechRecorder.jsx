@@ -59,6 +59,14 @@ export default function SpeechRecorder({ onTranscript, disabled }) {
     return () => { shouldRecordRef.current = false; rec.abort() }
   }, [])
 
+  // Stop recording automatically when TTS starts playing
+  useEffect(() => {
+    if (disabled && isRecording) {
+      shouldRecordRef.current = false
+      try { recognitionRef.current?.stop() } catch {}
+    }
+  }, [disabled])
+
   function toggleRecording() {
     const rec = recognitionRef.current
     if (!rec) return
