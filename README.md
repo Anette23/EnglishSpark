@@ -49,7 +49,7 @@ Every bonus exercise feeds a per-item spaced repetition system. Weak items come 
 Sentences you write in exercises are saved. When you open **Chat in English**, the AI is told which phrases you've been practising and naturally steers the conversation so you get a chance to use them for real.
 
 ### Installable (PWA)
-EnglishSpark is a Progressive Web App — you can install it on your phone's home screen for a native app experience, including offline support for the app shell.
+EnglishSpark is a Progressive Web App — you can install it on your phone's home screen for a native app experience, including offline support for the app shell. The service worker uses network-first for HTML (always gets updates) and cache-first for hashed JS/CSS assets (fast loads).
 
 ---
 
