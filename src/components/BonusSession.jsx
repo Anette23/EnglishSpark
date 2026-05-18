@@ -675,20 +675,30 @@ function ShadowingExercise({ sentence, recKey, transcript, setTranscript, isSpea
           </p>
 
           <div className="shadow-sentence-feedback">
-            {words.map((word, i) => (
-              <span key={i} className={said.includes(word) ? 'shadow-word-ok' : 'shadow-word-miss'}>
-                {word}{' '}
-              </span>
-            ))}
+            {words.map((word, i) => {
+              const ok = said.includes(word)
+              return (
+                <span
+                  key={i}
+                  className={ok ? 'shadow-word-ok' : 'shadow-word-miss shadow-word-tap'}
+                  onClick={ok ? undefined : () => {
+                    window.speechSynthesis.cancel()
+                    const utt = new SpeechSynthesisUtterance(word)
+                    utt.lang = 'en-US'
+                    utt.rate = 0.8
+                    window.speechSynthesis.speak(utt)
+                  }}
+                >
+                  {word}{' '}
+                </span>
+              )
+            })}
           </div>
+          {missedWords.length > 0 && (
+            <p className="shadow-tap-hint">👆 Tap a red word to hear it</p>
+          )}
 
           <p className="shadow-transcript">You said: <em>"{transcript}"</em></p>
-
-          {missedWords.length > 0 && (
-            <p className="shadow-missed">
-              Focus on: <strong>{missedWords.join(', ')}</strong>
-            </p>
-          )}
 
           <div className="shadow-action-btns">
             <button className="btn-secondary" style={{ width: '100%', padding: 12, fontSize: 15 }} onClick={handleRetry}>

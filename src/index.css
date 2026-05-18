@@ -1185,6 +1185,9 @@ body {
 }
 .shadow-word-ok   { color: var(--green); font-weight: 700; }
 .shadow-word-miss { color: #ef4444;      font-weight: 700; }
+.shadow-word-tap  { cursor: pointer; text-decoration: underline dotted #ef4444; }
+.shadow-word-tap:hover { opacity: .75; }
+.shadow-tap-hint  { font-size: 12px; color: var(--muted); margin: 2px 0 8px; }
 .shadow-transcript { font-size: 13px; color: var(--muted); margin: 6px 0; font-style: italic; }
 .shadow-missed { font-size: 14px; color: var(--muted); margin: 4px 0 10px; }
 .shadow-action-btns { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
