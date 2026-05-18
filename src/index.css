@@ -1794,7 +1794,8 @@ body {
 
 .level-btn:hover { border-color: var(--purple); color: var(--purple); }
 
-.level-btn-active {
+.level-btn-active,
+.level-btn-active:hover {
   background: var(--purple);
   border-color: var(--purple);
   color: #fff;

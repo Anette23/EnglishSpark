@@ -281,6 +281,171 @@ Interestingly, despite its popularity, coffee remains a complex subject scientif
     ],
   },
 
+  {
+    id: 'read-b2-4',
+    level: 'B2',
+    title: 'The Science of Sleep',
+    passage: `Sleep is one of the most fundamental biological processes, yet it remains one of the least understood. For much of modern history, it was treated as passive downtime — hours of inactivity during which nothing productive occurred. Neuroscience has since overturned this assumption dramatically. Sleep, it turns out, is a period of intense biological activity, during which the brain performs functions critical to memory, emotional regulation, and physical health.
+
+During deep sleep, the brain consolidates memories by transferring information from short-term to long-term storage. People who sleep well after learning new material consistently outperform those who are sleep-deprived on subsequent recall tests. This is why cramming through the night before an exam is counterproductive: the very act of depriving yourself of sleep undermines the consolidation of what you've studied.
+
+The glymphatic system — a network of channels in the brain — becomes highly active during sleep, flushing out metabolic waste products including amyloid beta, a protein associated with Alzheimer's disease. Chronic sleep deprivation allows these toxins to accumulate, which may partly explain the strong correlation between poor sleep and neurodegenerative disease.
+
+Despite this evidence, modern society continues to treat sleep deprivation as a badge of productivity. "I'll sleep when I'm dead," the saying goes — though researchers point out, with grim irony, that this attitude may hasten that outcome.`,
+    questions: [
+      {
+        q: 'How has neuroscience changed the understanding of sleep?',
+        options: [
+          'It confirmed that sleep is passive and unproductive',
+          'It showed sleep is a period of intense biological activity critical to health',
+          'It proved that people need less sleep than previously thought',
+          'It found that sleep primarily serves to rest the muscles',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'Why is studying all night before an exam counterproductive?',
+        options: [
+          'Because the brain cannot absorb new information after midnight',
+          'Because sleep deprivation impairs the memory consolidation needed to retain what was studied',
+          'Because exams test creativity, not memory',
+          'Because tiredness makes people misread questions',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What does the glymphatic system do during sleep?',
+        options: [
+          'It stores new memories from the day',
+          'It regulates the body\'s temperature',
+          'It flushes out waste products including proteins linked to Alzheimer\'s',
+          'It produces the hormones needed for growth',
+        ],
+        answer: 2,
+      },
+      {
+        q: 'What does the author mean by "grim irony" in the final paragraph?',
+        options: [
+          'That scientists have a dark sense of humour',
+          'That boasting about sleep deprivation may actually shorten your life',
+          'That productive people tend to die younger',
+          'That the saying is simply factually incorrect',
+        ],
+        answer: 1,
+      },
+    ],
+  },
+
+  {
+    id: 'read-b2-5',
+    level: 'B2',
+    title: 'The Gig Economy: Freedom or Precarity?',
+    passage: `The gig economy — characterised by short-term contracts and freelance work as opposed to permanent employment — has grown substantially over the past decade. Platforms such as Uber, Deliveroo, and Fiverr have built entire business models around a workforce that is technically self-employed, bearing its own risks while providing services on demand.
+
+Proponents argue that gig work offers genuine flexibility. Workers can choose their own hours, take time off without asking permission, and supplement existing income with additional earnings. For students, parents, or those with other commitments, this flexibility can be genuinely valuable.
+
+Critics, however, challenge the notion that this flexibility is as free as it appears. Algorithmic management — in which software monitors performance, assigns work, and can effectively terminate a worker's access without human review — creates a form of control that is arguably more intrusive than traditional employment, while offering none of its protections. There is no sick pay, no holiday entitlement, no pension, and no minimum guaranteed income.
+
+Legal systems around the world are struggling to catch up. In the UK, a Supreme Court ruling classified Uber drivers as "workers" rather than self-employed, entitling them to minimum wage and holiday pay. Similar battles are underway across Europe and North America. The outcome will define not just the rights of millions of current gig workers, but the future shape of employment itself.`,
+    questions: [
+      {
+        q: 'What is a key feature of the gig economy according to the text?',
+        options: [
+          'Permanent employment contracts with flexible hours',
+          'Work based on short-term contracts where workers are technically self-employed',
+          'Government-funded work programmes for the unemployed',
+          'Employment exclusively through technology companies',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What is "algorithmic management" as described in the text?',
+        options: [
+          'A system where workers manage their own schedules using an app',
+          'Software that monitors performance and controls work access without human review',
+          'A method of paying workers based on how many tasks they complete',
+          'An AI tool that helps gig workers find better-paying jobs',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What did the UK Supreme Court ruling on Uber drivers establish?',
+        options: [
+          'That Uber drivers are fully self-employed with no additional rights',
+          'That all gig workers must be reclassified as full employees',
+          'That Uber drivers are "workers" entitled to minimum wage and holiday pay',
+          'That gig economy platforms must pay corporate tax in the UK',
+        ],
+        answer: 2,
+      },
+      {
+        q: 'Which of these is NOT listed as a protection missing from gig work?',
+        options: [
+          'Sick pay',
+          'Pension',
+          'Performance bonuses',
+          'Minimum guaranteed income',
+        ],
+        answer: 2,
+      },
+    ],
+  },
+
+  {
+    id: 'read-b2-6',
+    level: 'B2',
+    title: 'Why We Find It Hard to Disagree',
+    passage: `Human beings are remarkably social animals, and much of our social behaviour is oriented towards maintaining harmony within groups. This tendency, while valuable for cooperation, has a significant downside: it makes us poor at constructive disagreement. The instinct to avoid conflict, combined with our desire to be liked, often leads us to agree with things we privately doubt or to stay silent when we should speak up.
+
+Psychologists refer to groupthink as the phenomenon in which the desire for consensus overrides realistic appraisal of alternatives. Classic studies — including Solomon Asch's conformity experiments of the 1950s — demonstrated that people will deny the evidence of their own eyes under social pressure, claiming that shorter lines are longer simply because everyone else in the room says so.
+
+The digital environment has intensified this tendency. Social media platforms reward agreement with likes and shares while making disagreement socially costly. The result is a communication environment in which performance of consensus is more rewarded than honest debate.
+
+And yet disagreement — handled well — is among the most productive forms of human interaction. It is through challenge and counter-argument that ideas are tested, errors exposed, and thinking sharpened. Cultures and organisations that have learned to disagree productively — to separate criticism of ideas from personal attack — consistently outperform those that prioritise harmony at the expense of honesty. The skill of disagreeing well may be one of the most valuable and undervalued abilities of our time.`,
+    questions: [
+      {
+        q: 'What is "groupthink" according to the text?',
+        options: [
+          'A technique for making group decisions more efficiently',
+          'The desire for consensus overriding realistic evaluation of options',
+          'A social media phenomenon unique to the digital age',
+          'A method of brainstorming used in corporate environments',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What did Solomon Asch\'s experiments demonstrate?',
+        options: [
+          'That people are naturally good at detecting when others are lying',
+          'That disagreement makes people more creative',
+          'That people will deny what they can see under social pressure to conform',
+          'That conformity only occurs in large groups',
+        ],
+        answer: 2,
+      },
+      {
+        q: 'According to the text, how has social media affected disagreement?',
+        options: [
+          'It has made people more willing to challenge authority',
+          'It rewards consensus and makes disagreement socially costly',
+          'It has created a culture of healthy debate and open discussion',
+          'It has had no significant effect on how people disagree',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What does the author argue is the key to productive disagreement?',
+        options: [
+          'Avoiding disagreement whenever possible to preserve relationships',
+          'Separating criticism of ideas from personal attack',
+          'Only disagreeing in private, never in public',
+          'Ensuring that the most senior person has the final word',
+        ],
+        answer: 1,
+      },
+    ],
+  },
+
   // ─── C1 ───────────────────────────────────────────────────────────────────
 
   {

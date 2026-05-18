@@ -36,7 +36,7 @@ Inspired by James Clear's *Atomic Habits* and the principle that a 1% improvemen
 - 📚 **Grammar** — 114 exercises across 10 categories (articles, tenses, conditionals, passive voice and more), then write a sentence with the target structure
 - 🎧 **Shadowing** — listen to a sentence, repeat it out loud, get word-level pronunciation feedback; tap any missed word to hear it again
 - 🔀 **Mixed Practice** — one exercise from every section in a single session, with sentence practice for each
-- 📖 **Reading** — 8 short B1/B2 texts with comprehension questions; tap any word to get its Slovak translation
+- 📖 **Reading** — 15 texts across three levels (B1 / B2 / C1) with comprehension questions; choose your level before each session; tap any word to get its Slovak translation; per-question answer review
 - 📗 **My Vocabulary** — a personal word notebook; save words directly from exercises, chat, or reading
 
 ### Word translation on tap
