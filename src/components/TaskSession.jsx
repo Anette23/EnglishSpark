@@ -5,6 +5,7 @@ import SpeechRecorder from './SpeechRecorder'
 import { getDailyPrompt, WRITING_PROMPTS, SPEAKING_PROMPTS } from '../prompts'
 import { formatDuration, todayStr, saveTaskResult } from '../habitStore'
 import { getFeedback } from '../api'
+import { extractAndStore } from '../weakSpotsStore'
 
 const MAX_LENGTH = 2000
 
@@ -37,6 +38,7 @@ export default function TaskSession({ taskType, duration, onComplete, onBack }) 
     try {
       feedbackResult = await getFeedback(taskType, feedbackText)
       setFeedback(feedbackResult)
+      if (feedbackResult) extractAndStore(feedbackResult)
     } catch (e) {
       if (e.message === 'NOT_CONFIGURED') {
         setFeedbackError('AI feedback is not set up yet. See ⚙️ Settings for instructions.')

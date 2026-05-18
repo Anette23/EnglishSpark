@@ -1,17 +1,35 @@
 import { useState } from 'react'
 import { getVocabulary, removeWord } from '../vocabularyStore'
 
-export default function VocabularyView({ onBack }) {
+export default function VocabularyView({ onBack, onStartQuiz }) {
   const [words, setWords] = useState(() => getVocabulary())
   const [search, setSearch] = useState('')
+  const [exportDone, setExportDone] = useState(false)
 
   function handleRemove(word) {
     removeWord(word)
     setWords(getVocabulary())
   }
 
+  function handleExportCSV() {
+    const header = 'Word,Translation,Context,Date'
+    const rows = words.map(w =>
+      [w.word, w.translation, w.context || '', w.date].map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')
+    )
+    const csv = [header, ...rows].join('\n')
+    const blob = new Blob([csv], { type: 'text/csv' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `vocabulary-${new Date().toISOString().slice(0, 10)}.csv`
+    a.click()
+    URL.revokeObjectURL(url)
+    setExportDone(true)
+    setTimeout(() => setExportDone(false), 3000)
+  }
+
   const filtered = words.filter(w =>
-    w.word.includes(search.toLowerCase()) ||
+    w.word.toLowerCase().includes(search.toLowerCase()) ||
     w.translation.toLowerCase().includes(search.toLowerCase())
   )
 
@@ -36,6 +54,15 @@ export default function VocabularyView({ onBack }) {
         </div>
       ) : (
         <>
+          <div style={{ display: 'flex', gap: 8 }}>
+            <button className="btn-primary" onClick={onStartQuiz} style={{ flex: 1, fontSize: 15 }}>
+              🃏 Quiz mode
+            </button>
+            <button className="btn-secondary" onClick={handleExportCSV} style={{ flex: 1, fontSize: 15 }}>
+              {exportDone ? '✓ Downloaded!' : '📤 Export CSV'}
+            </button>
+          </div>
+
           <input
             className="vocab-search"
             type="text"

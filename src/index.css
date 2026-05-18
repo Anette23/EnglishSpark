@@ -2244,3 +2244,166 @@ body {
 }
 .btn-vocab:hover { opacity: .9; }
 .btn-vocab-sub { font-size: 12px; font-weight: 400; opacity: .85; }
+
+/* ── Sentence Reorder ── */
+.reorder-answer-area {
+  min-height: 56px;
+  background: var(--card);
+  border: 2px dashed var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.reorder-bank {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 4px 0;
+}
+.reorder-token {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity .15s, transform .1s;
+}
+.reorder-token:active { transform: scale(.96); }
+.reorder-token:disabled { cursor: default; opacity: .7; }
+.reorder-token-placed {
+  background: var(--purple);
+  color: #fff;
+}
+.reorder-token-bank {
+  background: var(--card);
+  color: var(--text);
+  border: 1.5px solid var(--border);
+}
+.reorder-token-bank:hover:not(:disabled) { border-color: var(--purple); }
+
+/* ── Listening Gaps ── */
+.listening-play-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  border-radius: 50px;
+  border: 2px solid var(--purple);
+  background: var(--card);
+  color: var(--purple);
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .15s;
+}
+.listening-play-btn:hover { background: var(--purple); color: #fff; }
+.listening-play-btn-active {
+  background: var(--purple);
+  color: #fff;
+}
+
+/* ── Word of the Day ── */
+.word-of-day-card {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  border-radius: 16px;
+  padding: 18px 20px 14px;
+  color: #fff;
+  margin-bottom: 4px;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, .25);
+}
+.wotd-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.wotd-badge {
+  background: rgba(255,255,255,.25);
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .5px;
+}
+.wotd-label {
+  font-size: 12px;
+  font-weight: 600;
+  opacity: .85;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+.wotd-word {
+  font-size: 26px;
+  font-weight: 900;
+  margin-bottom: 6px;
+}
+.wotd-definition {
+  font-size: 14px;
+  line-height: 1.5;
+  opacity: .92;
+  margin-bottom: 6px;
+}
+.wotd-example {
+  font-size: 13px;
+  font-style: italic;
+  opacity: .8;
+  margin-bottom: 12px;
+}
+.wotd-save-btn {
+  background: rgba(255,255,255,.2) !important;
+  border-color: rgba(255,255,255,.5) !important;
+  color: #fff !important;
+  font-size: 13px !important;
+  padding: 7px 16px !important;
+  width: auto !important;
+}
+.wotd-save-btn:hover:not(:disabled) { background: rgba(255,255,255,.35) !important; }
+.wotd-saved { opacity: .7 !important; cursor: default !important; }
+
+/* ── Notification Settings ── */
+.notif-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.notif-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 2px solid var(--border);
+  background: var(--bg);
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  width: fit-content;
+  transition: all .15s;
+}
+.notif-toggle:hover { border-color: var(--purple); color: var(--purple); }
+.notif-toggle-on {
+  background: var(--green-light);
+  border-color: var(--green);
+  color: #065f46;
+}
+.notif-hour-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.notif-hour-select {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.notif-hour-select:focus { outline: none; border-color: var(--purple); }

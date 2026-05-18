@@ -37,7 +37,15 @@ Inspired by James Clear's *Atomic Habits* and the principle that a 1% improvemen
 - 🎧 **Shadowing** — listen to a sentence, repeat it out loud, get word-level pronunciation feedback; tap any missed word to hear it again
 - 🔀 **Mixed Practice** — one exercise from every section in a single session, with sentence practice for each
 - 📖 **Reading** — 15 texts across B1 / B2 / C1; spaced repetition (weak texts come back for review); 🔊 TTS listen mode; tap any word for Slovak translation; per-question answer review; words-you-looked-up summary; difficulty feedback (Too easy / Just right / Too hard); write a reaction and get AI grammar feedback; +5–10 XP per text
-- 📗 **My Vocabulary** — a personal word notebook; save words directly from exercises, chat, or reading
+- 📗 **My Vocabulary** — a personal word notebook; save words directly from exercises, chat, or reading; export as CSV
+- 🃏 **Vocabulary Quiz** — test yourself on your saved vocabulary: see the Slovak translation, type the English word
+- 🔀 **Sentence Reorder** — drag-free word-tap interface to arrange shuffled words into a correct sentence (B1/B2)
+- 🎧 **Listening Gaps** — hear a sentence read aloud via TTS, type the missing word; hear it as many times as you need (B1/B2)
+- 📊 **Weak Spots** — automatic error-pattern tracker: reads your AI feedback and counts recurring categories (articles, tenses, prepositions, conditionals, passive voice and more); shows a ranked bar chart
+- 📅 **Word of the Day** — a curated B1/B2/C1 vocabulary word shown each day with definition and example sentence; one-tap save to vocabulary
+
+### Daily reminder
+- 🔔 **Browser notifications** — opt-in daily reminder at a chosen hour; only fires if today's tasks aren't done yet
 
 ### Word translation on tap
 Tap any English word in exercises, chat messages, or reading passages to see its **Slovak translation** in a pop-up. Save words you want to remember — they go straight into your vocabulary notebook. Words are stored locally, no account needed.

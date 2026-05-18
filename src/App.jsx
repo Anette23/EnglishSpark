@@ -10,6 +10,10 @@ import WeeklySession from './components/WeeklySession'
 import ChatSession from './components/ChatSession'
 import VocabularyView from './components/VocabularyView'
 import ReadingSession from './components/ReadingSession'
+import VocabQuiz from './components/VocabQuiz'
+import SentenceReorder from './components/SentenceReorder'
+import ListeningGaps from './components/ListeningGaps'
+import WeakSpots from './components/WeakSpots'
 import { loadState, getTodayStatus, completeTask, getSessionDuration, completeWeeklyChallenge, clearNewMilestone, clearNewLevel, useStreakFreeze, getStreakFreezes } from './habitStore'
 import { getCurrentChallenge } from './weeklyChallenge'
 
@@ -47,6 +51,28 @@ export default function App() {
     document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light')
     localStorage.setItem('theme', darkMode ? 'dark' : 'light')
   }, [darkMode])
+
+  // Daily reminder notification
+  useEffect(() => {
+    if (typeof Notification === 'undefined' || Notification.permission !== 'granted') return
+    try {
+      const notif = JSON.parse(localStorage.getItem('notif_settings') || '{}')
+      if (!notif.enabled) return
+      const now = new Date()
+      const hour = now.getHours()
+      if (hour !== notif.hour) return
+      const todayKey = `notif_shown_${now.toISOString().slice(0, 10)}`
+      if (localStorage.getItem(todayKey)) return
+      const s = loadState()
+      const today = getTodayStatus(s)
+      if (today.writingDone && today.speakingDone) return
+      localStorage.setItem(todayKey, '1')
+      new Notification('EnglishSpark ⚡', {
+        body: 'Time for your 2-minute English practice! Keep your streak alive 🔥',
+        icon: '/icon-192.png',
+      })
+    } catch {}
+  }, [])
 
   useEffect(() => { window.scrollTo(0, 0) }, [view])
 
@@ -116,8 +142,12 @@ export default function App() {
       )}
       {view === 'chat'       && <ChatSession onBack={handleBack} />}
       {view === 'mixed'      && <MixedSession onBack={handleBack} />}
-      {view === 'vocabulary' && <VocabularyView onBack={handleBack} />}
-      {view === 'reading'    && <ReadingSession onBack={handleBack} />}
+      {view === 'vocabulary'  && <VocabularyView onBack={handleBack} onStartQuiz={() => setView('vocabquiz')} />}
+      {view === 'reading'     && <ReadingSession onBack={handleBack} />}
+      {view === 'vocabquiz'   && <VocabQuiz onBack={handleBack} />}
+      {view === 'reorder'     && <SentenceReorder onBack={handleBack} />}
+      {view === 'listening'   && <ListeningGaps onBack={handleBack} />}
+      {view === 'weakspots'   && <WeakSpots onBack={handleBack} />}
       {view === 'weekly' && (
         <WeeklySession
           challenge={getCurrentChallenge()}

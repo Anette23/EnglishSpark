@@ -1,7 +1,18 @@
 import { MILESTONES, getLevel, getNextMilestone, getSessionDuration, formatDuration } from '../habitStore'
 import { getCurrentChallenge, isWeeklyChallengeComplete } from '../weeklyChallenge'
+import { getWordOfDay } from '../wordOfTheDay'
+import { saveWord } from '../vocabularyStore'
+import { useState } from 'react'
 
 export default function Dashboard({ state, todayStatus, onStartTask, onOpenSettings, onOpenHistory, darkMode, onToggleDark, freezesAvailable, onFreezeStreak }) {
+  const wordOfDay = getWordOfDay()
+  const [wotdSaved, setWotdSaved] = useState(false)
+
+  function handleSaveWotd() {
+    saveWord({ word: wordOfDay.word, translation: wordOfDay.definition, context: wordOfDay.example, source: 'wotd' })
+    setWotdSaved(true)
+  }
+
   const { streak, longestStreak, totalDays, xp, unlockedMilestones } = state
   const { level, progress, nextXp, currentFloor } = getLevel(xp)
   const nextMilestone = getNextMilestone(streak, unlockedMilestones)
@@ -190,6 +201,24 @@ export default function Dashboard({ state, todayStatus, onStartTask, onOpenSetti
             <span className="btn-chat-sub">Free conversation with AI</span>
           </button>
 
+          {/* Word of the Day */}
+          <div className="word-of-day-card">
+            <div className="wotd-top">
+              <span className="wotd-badge">{wordOfDay.level}</span>
+              <span className="wotd-label">Word of the Day</span>
+            </div>
+            <div className="wotd-word">{wordOfDay.word}</div>
+            <div className="wotd-definition">{wordOfDay.definition}</div>
+            <div className="wotd-example">"{wordOfDay.example}"</div>
+            <button
+              className={`btn-secondary wotd-save-btn ${wotdSaved ? 'wotd-saved' : ''}`}
+              onClick={handleSaveWotd}
+              disabled={wotdSaved}
+            >
+              {wotdSaved ? '✓ Saved to vocabulary' : '+ Save to vocabulary'}
+            </button>
+          </div>
+
           <div className="bonus-section">
             <h3>Extra Practice</h3>
             <p className="bonus-note">Optional — not required for streak</p>
@@ -230,6 +259,26 @@ export default function Dashboard({ state, todayStatus, onStartTask, onOpenSetti
                 icon="📚" title="Grammar"
                 desc="Fill in the blank — tenses, articles, conditionals and more"
                 color="green" onStart={() => onStartTask('grammar')}
+              />
+              <BonusCard
+                icon="🔀" title="Reorder"
+                desc="Arrange words into a correct sentence"
+                color="orange" onStart={() => onStartTask('reorder')}
+              />
+              <BonusCard
+                icon="🎧" title="Listening"
+                desc="Hear a sentence and fill in the missing word"
+                color="teal" onStart={() => onStartTask('listening')}
+              />
+              <BonusCard
+                icon="🃏" title="Vocab Quiz"
+                desc="Test yourself on your saved vocabulary"
+                color="blue" onStart={() => onStartTask('vocabquiz')}
+              />
+              <BonusCard
+                icon="📊" title="Weak Spots"
+                desc="See your most common error patterns"
+                color="purple" onStart={() => onStartTask('weakspots')}
               />
             </div>
           </div>

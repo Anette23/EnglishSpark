@@ -1,9 +1,16 @@
 import { useState } from 'react'
 import { loadState } from '../habitStore'
 
+function loadNotifSettings() {
+  try { return JSON.parse(localStorage.getItem('notif_settings') || '{"enabled":false,"hour":9}') } catch { return { enabled: false, hour: 9 } }
+}
+function saveNotifSettings(s) { localStorage.setItem('notif_settings', JSON.stringify(s)) }
+
 export default function Settings({ onBack }) {
   const [exportDone, setExportDone] = useState(false)
   const [resetConfirm, setResetConfirm] = useState(false)
+  const [notif, setNotif] = useState(loadNotifSettings)
+  const [notifStatus, setNotifStatus] = useState('')
 
   function handleExport() {
     const state = loadState()
@@ -24,6 +31,25 @@ export default function Settings({ onBack }) {
     localStorage.removeItem('english_habit_v1')
     localStorage.removeItem('syn_perf')
     window.location.reload()
+  }
+
+  async function handleNotifToggle() {
+    if (!notif.enabled) {
+      if (!('Notification' in window)) { setNotifStatus('Notifications not supported in this browser.'); return }
+      const perm = await Notification.requestPermission()
+      if (perm !== 'granted') { setNotifStatus('Permission denied. Allow notifications in browser settings.'); return }
+    }
+    const next = { ...notif, enabled: !notif.enabled }
+    setNotif(next)
+    saveNotifSettings(next)
+    setNotifStatus(next.enabled ? 'Reminders enabled!' : 'Reminders disabled.')
+    setTimeout(() => setNotifStatus(''), 3000)
+  }
+
+  function handleNotifHour(e) {
+    const next = { ...notif, hour: Number(e.target.value) }
+    setNotif(next)
+    saveNotifSettings(next)
   }
 
   return (
@@ -63,6 +89,41 @@ export default function Settings({ onBack }) {
           <li>Get a key at <strong>console.anthropic.com</strong> → API Keys</li>
           <li>Redeploy the project</li>
         </ol>
+      </div>
+
+      <div className="prompt-box">
+        <div className="prompt-label">Daily reminder</div>
+        <p style={{ fontSize: 14, lineHeight: 1.6, color: 'var(--text)', marginBottom: 12 }}>
+          Get a browser notification each day to remind you to practice.
+        </p>
+        <div className="notif-row">
+          <button
+            className={`notif-toggle ${notif.enabled ? 'notif-toggle-on' : ''}`}
+            onClick={handleNotifToggle}
+          >
+            {notif.enabled ? '🔔 Enabled' : '🔕 Disabled'}
+          </button>
+          {notif.enabled && (
+            <div className="notif-hour-row">
+              <label style={{ fontSize: 14, color: 'var(--text)' }}>Remind me at</label>
+              <select
+                className="notif-hour-select"
+                value={notif.hour}
+                onChange={handleNotifHour}
+              >
+                {Array.from({ length: 24 }, (_, h) => (
+                  <option key={h} value={h}>
+                    {String(h).padStart(2, '0')}:00
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+        </div>
+        {notifStatus && <p style={{ fontSize: 13, color: 'var(--green)', marginTop: 8, fontWeight: 600 }}>{notifStatus}</p>}
+        <p style={{ fontSize: 12, color: 'var(--muted)', marginTop: 8 }}>
+          Note: Notifications only work when the app is open in the browser. For reliable reminders, use the PWA installed on your home screen.
+        </p>
       </div>
 
       <div className="prompt-box">
