@@ -494,7 +494,7 @@ function GrammarExercise({ item, onNext }) {
   const score = isCorrect ? 1.0 : 0.0
 
   if (phase === 'useit') {
-    return <UseItPhase targetPhrase={item.category} type="grammar" onDone={() => onNext(score)} />
+    return <UseItPhase targetPhrase={item.answer[0]} type="grammar" onDone={() => onNext(score)} />
   }
 
   return (

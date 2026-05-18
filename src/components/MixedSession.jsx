@@ -139,9 +139,9 @@ function MixFillCard({ type, item, onDone }) {
   const [phase, setPhase]     = useState('blank')
   const isCorrect = checked && item.answer.includes(input.trim().toLowerCase())
   const [before, after] = item.phrase.split('___')
-  const targetPhrase = item.hint
-    ? (type === 'grammar' ? item.category : item.hint.split('=')[0].trim())
-    : item.phrase.replace('___', item.answer[0])
+  const targetPhrase = type === 'grammar'
+    ? item.answer[0]
+    : item.hint ? item.hint.split('=')[0].trim() : item.phrase.replace('___', item.answer[0])
   const score = isCorrect ? 1.0 : 0.0
 
   if (phase === 'useit') {
