@@ -613,6 +613,835 @@ What this suggests is not that solitude itself is harmful, but that the voluntar
     ],
   },
 
+  // ─── NEW EXERCISES read-16 through read-30 ───────────────────────────────
+
+  {
+    id: 'read-16',
+    level: 'B2',
+    title: 'The Sharing Economy',
+    passage: `A decade ago, the idea of sleeping in a stranger's apartment or getting into an unknown person's car would have seemed eccentric at best and dangerous at worst. Today, platforms like Airbnb and Uber have normalised these experiences for hundreds of millions of people worldwide, giving rise to what economists call the sharing economy — a system where individuals rent out assets they already own rather than companies providing services through dedicated infrastructure.
+
+The appeal is clear on both sides of the transaction. For providers, it is a way to monetise underused resources: a spare room, a car that sits idle for twenty hours a day, a set of tools gathering dust in the garage. For consumers, it typically means lower prices, greater variety, and sometimes a more personalised experience than traditional service providers offer.
+
+Critics, however, argue that the "sharing" label is misleading. These are not communities swapping goods out of solidarity but profit-driven platforms extracting value from a workforce with minimal protections. In cities around the world, Airbnb has been blamed for driving up rents by converting long-term housing stock into short-term tourist accommodation, effectively pricing out local residents.
+
+The regulatory response has been uneven. Some cities — Amsterdam, Barcelona, and New York among them — have imposed strict limits on short-term rentals. Others have largely left the platforms to self-regulate. The central dilemma remains unresolved: how to preserve the genuine economic and social benefits of peer-to-peer exchange while protecting workers, communities, and public services from its most damaging consequences.`,
+    questions: [
+      {
+        q: 'What is the "sharing economy" as defined in the text?',
+        options: [
+          'A government programme to redistribute wealth among citizens',
+          'A system where individuals rent out assets they already own via platforms',
+          'A cooperative model where companies share profits with workers',
+          'A non-profit movement promoting the free exchange of goods',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'Why do critics object to calling these platforms part of a "sharing" economy?',
+        options: [
+          'Because users do not actually share ownership of the assets',
+          'Because the platforms charge too much commission',
+          'Because they are profit-driven and offer workers minimal protections, not genuine community sharing',
+          'Because the technology is too complex for ordinary people',
+        ],
+        answer: 2,
+      },
+      {
+        q: 'How has Airbnb been blamed for affecting housing in some cities?',
+        options: [
+          'By reducing the quality of tourist accommodation',
+          'By converting housing stock to short-term lets, driving up rents and displacing residents',
+          'By encouraging foreign investors to buy property',
+          'By reducing the number of hotels and traditional B&Bs',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What does the word "uneven" suggest about the regulatory response to these platforms?',
+        options: [
+          'That regulations are unfair to consumers',
+          'That different places have responded in very different ways, with no consistent approach',
+          'That all regulations have been ineffective',
+          'That only large cities have introduced any rules',
+        ],
+        answer: 1,
+      },
+    ],
+  },
+
+  {
+    id: 'read-17',
+    level: 'B2',
+    title: 'Fast Fashion and Sustainability',
+    passage: `The fashion industry produces an estimated 92 million tonnes of textile waste every year. Behind each cheaply priced T-shirt or disposable dress lies a supply chain that consumes vast quantities of water, emits significant greenhouse gases, and frequently relies on low-paid labour in countries with limited worker protections. Fast fashion — the business model of producing large quantities of low-cost, trend-driven clothing at accelerating speed — has made fashion accessible to more people than ever, while simultaneously generating one of the world's most polluting industries.
+
+The environmental cost is substantial. Producing a single pair of jeans requires roughly 7,500 litres of water — enough drinking water for one person for seven years. Synthetic fabrics like polyester shed microplastics with every wash, which pass through wastewater treatment systems and accumulate in oceans and food chains. Garments bought cheaply are discarded quickly: the average consumer in wealthy countries now buys 60 percent more clothing than fifteen years ago but keeps each item for half as long.
+
+Awareness of these issues has grown considerably, and a generation of younger consumers claims to prioritise sustainability. Yet the evidence suggests a persistent gap between stated values and actual purchasing behaviour. Ultra-fast fashion platforms continue to grow rapidly, suggesting that price remains the dominant factor for most shoppers.
+
+Sustainable alternatives exist — second-hand markets, rental schemes, brands committed to ethical supply chains — but they typically carry higher price tags and require more effort from the consumer. Closing the gap between values and behaviour may ultimately require structural solutions: regulation, extended producer responsibility, and taxation of environmental costs that are currently externalised onto society.`,
+    questions: [
+      {
+        q: 'What is the "fast fashion" business model, according to the text?',
+        options: [
+          'Producing small quantities of high-quality clothing sold at premium prices',
+          'Producing large volumes of low-cost, trend-driven clothing at high speed',
+          'Delivering fashion items to customers within 24 hours of ordering',
+          'Designing clothing to last longer than traditional garments',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What environmental problem is associated with synthetic fabrics like polyester?',
+        options: [
+          'They require more water to produce than natural fabrics',
+          'They release toxic dyes into rivers during manufacturing',
+          'They shed microplastics that accumulate in oceans and food chains',
+          'They generate more carbon emissions during transport',
+        ],
+        answer: 2,
+      },
+      {
+        q: 'What "gap" does the third paragraph describe?',
+        options: [
+          'The price difference between fast fashion and sustainable clothing',
+          'The difference between what consumers say they value and what they actually buy',
+          'The gap in regulation between different countries',
+          'The difference between what brands promise and what they deliver',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What does "externalised onto society" mean in the final paragraph?',
+        options: [
+          'That fashion companies export their waste to other countries',
+          'That the true costs are paid by the public rather than the companies causing the harm',
+          'That consumers voluntarily take on the burden of recycling clothing',
+          'That governments subsidise the fashion industry',
+        ],
+        answer: 1,
+      },
+    ],
+  },
+
+  {
+    id: 'read-18',
+    level: 'B2',
+    title: 'Mindfulness and Meditation in Modern Life',
+    passage: `Mindfulness — the practice of paying deliberate, non-judgmental attention to the present moment — has moved from the margins of alternative culture to the centre of mainstream wellness, corporate wellbeing programmes, and clinical medicine. Originally rooted in Buddhist contemplative traditions, it was secularised and adapted for Western psychological practice in the late 1970s by Jon Kabat-Zinn, whose Mindfulness-Based Stress Reduction (MBSR) programme became the foundation for decades of subsequent research.
+
+The scientific evidence is substantial, if often overstated in popular accounts. Meta-analyses of clinical trials have found that mindfulness-based interventions produce moderate improvements in anxiety, depression, and chronic pain. For conditions where stress is a significant driver, the effects can be meaningful. However, the same research cautions against extravagant claims: mindfulness is not a cure-all, works better for some conditions than others, and may not suit everyone.
+
+The corporate adoption of mindfulness has attracted criticism from a different direction. Critics argue that encouraging employees to manage their own stress responses through meditation deflects attention from the organisational and structural causes of workplace stress — long hours, poor management, job insecurity. If the working environment is the problem, they argue, individual meditation is a response that places the burden of adjustment on the wrong party.
+
+Despite these critiques, the core insight of mindfulness practice — that much human suffering is amplified by automatic, unexamined reactions to experience — retains genuine psychological value. The question is not whether the practice has merit, but how honestly we communicate its limits and who is expected to benefit from it.`,
+    questions: [
+      {
+        q: 'How did mindfulness enter Western clinical practice, according to the text?',
+        options: [
+          'Through corporate wellness programmes in the 1990s',
+          'Via Jon Kabat-Zinn\'s secularised MBSR programme developed in the late 1970s',
+          'Through Buddhist monasteries establishing centres in Western cities',
+          'Through the publication of popular self-help books in the 2000s',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What does the text say about the scientific evidence for mindfulness?',
+        options: [
+          'It is completely unsupported by research',
+          'It proves mindfulness is effective for all mental health conditions',
+          'It shows moderate benefits for some conditions but is sometimes overstated',
+          'It confirms that mindfulness is more effective than medication',
+        ],
+        answer: 2,
+      },
+      {
+        q: 'What is the main criticism of corporate mindfulness programmes?',
+        options: [
+          'That they are too expensive for most companies to implement',
+          'That they focus on individuals rather than addressing structural workplace problems',
+          'That employees do not have enough time to practise meditation at work',
+          'That the scientific evidence does not support their use in workplace settings',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What "core insight" does the author attribute to mindfulness practice in the final paragraph?',
+        options: [
+          'That meditation is more effective than therapy for anxiety',
+          'That suffering is often amplified by automatic, unexamined reactions to experience',
+          'That Buddhist traditions hold the key to modern mental health',
+          'That present-moment awareness eliminates all negative emotions',
+        ],
+        answer: 1,
+      },
+    ],
+  },
+
+  {
+    id: 'read-19',
+    level: 'B2',
+    title: 'Urban Gardening',
+    passage: `In cities around the world, a quiet revolution is taking place in rooftops, vacant lots, and window boxes. Urban gardening — growing food and plants within city environments — has expanded dramatically in recent years, driven by a combination of environmental concern, food insecurity, community activism, and a simple desire among city dwellers to reconnect with the natural world.
+
+The benefits extend well beyond the food itself. Community gardens in particular have been shown to reduce social isolation, particularly among elderly residents, by creating shared spaces where people from different backgrounds meet, work together, and exchange knowledge. In some cities, they have revitalised neglected neighbourhoods, turning derelict land into productive green spaces that improve air quality, manage stormwater, and reduce the urban heat island effect.
+
+Food security is another driver. In low-income urban areas — sometimes described as food deserts because of the lack of affordable fresh produce — community gardens provide access to vegetables and herbs that would otherwise be unavailable or unaffordable. Growing your own food also reconnects people with the origins of what they eat, fostering greater awareness of seasonal cycles and agricultural realities that urban life otherwise obscures.
+
+Challenges remain. Urban soil is frequently contaminated with heavy metals and other pollutants, requiring raised beds and imported compost. Space is finite and often contested — community gardens occupy land that developers frequently covet. And the labour involved is real: unlike buying vegetables at a supermarket, growing them requires sustained commitment across seasons.`,
+    questions: [
+      {
+        q: 'What social benefit of community gardens does the second paragraph highlight?',
+        options: [
+          'They generate income for local councils',
+          'They reduce social isolation by creating shared spaces for diverse communities',
+          'They provide employment for unemployed residents',
+          'They attract tourists to urban neighbourhoods',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What is a "food desert" as used in the text?',
+        options: [
+          'A desert region where food production is impossible',
+          'A restaurant that serves no fresh produce',
+          'An urban area lacking access to affordable fresh food',
+          'A supermarket that stocks only processed foods',
+        ],
+        answer: 2,
+      },
+      {
+        q: 'Why is contaminated urban soil a problem for urban gardening?',
+        options: [
+          'It makes plants grow too slowly to be useful',
+          'It requires raised beds and imported compost to grow safely',
+          'It means only flowers, not food, can be grown in cities',
+          'It attracts pests that destroy crops',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What does the author imply by saying the land developers "covet"?',
+        options: [
+          'That developers want to improve community gardens',
+          'That developers strongly desire the land for other profitable purposes',
+          'That developers are willing to donate land to gardening projects',
+          'That land ownership disputes are common in cities',
+        ],
+        answer: 1,
+      },
+    ],
+  },
+
+  {
+    id: 'read-20',
+    level: 'B2',
+    title: 'Digital Privacy in the Age of Data',
+    passage: `Every time you use a smartphone app, search for something online, or tap a loyalty card at a supermarket, you generate data. Individually, these fragments seem innocuous — a search query here, a location ping there. Aggregated across months and years, however, they build a detailed portrait of your habits, preferences, social relationships, health, and political views. This portrait is extraordinarily valuable to companies, advertisers, and, in some regimes, governments.
+
+The business model of the dominant internet platforms is founded on this data economy. Services that appear free — search engines, social media, email — are in reality exchanged for attention and personal information. The user is not the customer but the product, and the commodity being sold is access to their behaviour. Targeted advertising, the primary revenue source for platforms like Google and Meta, works by exploiting this behavioural data to influence purchasing decisions with remarkable precision.
+
+Regulators have begun to respond. The European Union's General Data Protection Regulation (GDPR), introduced in 2018, established new rights for individuals — including the right to access their data and the right to be forgotten — and imposed significant fines for breaches. Other jurisdictions have followed with their own frameworks. Yet enforcement remains patchy, and the asymmetry of power between large technology companies and individual users persists.
+
+The deeper question is philosophical as much as legal. Privacy is not merely about keeping secrets; it is a precondition for autonomy, the ability to develop thoughts and identities free from surveillance. A society in which every action is recorded and potentially evaluated changes not just what people can do, but what they feel free to think.`,
+    questions: [
+      {
+        q: 'What does the phrase "the user is not the customer but the product" mean in this context?',
+        options: [
+          'That users must pay to access premium features of these platforms',
+          'That users\' data and attention are what the platform sells to advertisers',
+          'That users have no rights when using free online services',
+          'That online platforms manufacture the goods that users buy',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What right introduced by the GDPR is mentioned in the text?',
+        options: [
+          'The right to use the internet for free',
+          'The right to be forgotten',
+          'The right to opt out of all advertising',
+          'The right to compensation for data breaches',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What does the author mean by "enforcement remains patchy"?',
+        options: [
+          'That the GDPR only applies in some European countries',
+          'That the law is inconsistently applied and not fully effective in practice',
+          'That companies comply with privacy laws only on weekdays',
+          'That fines for data breaches are too small to matter',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What philosophical argument about privacy does the final paragraph make?',
+        options: [
+          'That privacy laws are more important than freedom of speech',
+          'That privacy is a precondition for autonomy and free thought, not merely keeping secrets',
+          'That technology has made traditional notions of privacy obsolete',
+          'That individuals must take full responsibility for protecting their own data',
+        ],
+        answer: 1,
+      },
+    ],
+  },
+
+  {
+    id: 'read-21',
+    level: 'B2',
+    title: 'The Future of Education',
+    passage: `The classroom as we know it — thirty students seated in rows facing a teacher — is a product of the Industrial Revolution, designed to instil discipline and deliver standardised knowledge efficiently at scale. Many educators argue that this model, largely unchanged for over a century, is increasingly misaligned with the demands of a world that prizes creativity, collaboration, and adaptability over the memorisation and compliance it was built to produce.
+
+The pandemic accelerated a shift that was already underway. Online learning platforms, video lectures, and interactive tools demonstrated both the potential and the limitations of remote education. Students with reliable internet and supportive home environments often thrived; those without them fell significantly further behind, exposing deep inequalities in educational infrastructure that had previously been easier to ignore.
+
+Personalised learning — adapting content, pace, and style to individual students using data and, increasingly, artificial intelligence — represents perhaps the most radical potential transformation. Proponents argue that a student who grasps fractions quickly should not be held back to wait for the class; one who struggles should receive additional support without shame. Critics worry that algorithmic personalisation may narrow rather than broaden learning, optimising for measurable outcomes at the expense of serendipitous discovery and exposure to unfamiliar ideas.
+
+What seems clear is that the purpose of education is itself contested. Is it to transmit existing knowledge, to develop critical thinking, to prepare workers for the economy, or to cultivate citizens capable of democratic participation? The answer will shape not just how education is delivered, but what it is fundamentally for.`,
+    questions: [
+      {
+        q: 'Why does the author describe the traditional classroom as a "product of the Industrial Revolution"?',
+        options: [
+          'To argue that classrooms should use more industrial machinery',
+          'To suggest the model was designed for a different era\'s priorities, not today\'s',
+          'To praise the efficiency and discipline of traditional education',
+          'To explain why schools were first built in factories',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What inequality did the pandemic expose in education, according to the text?',
+        options: [
+          'That private schools performed better than state schools',
+          'That older students adapted to online learning better than younger ones',
+          'That students without reliable internet or supportive homes fell significantly further behind',
+          'That teachers were not adequately trained to use technology',
+        ],
+        answer: 2,
+      },
+      {
+        q: 'What concern do critics have about AI-driven personalised learning?',
+        options: [
+          'That it will replace teachers entirely within a decade',
+          'That it may narrow learning by optimising for measurable outcomes and limiting serendipitous discovery',
+          'That it will make education more expensive for schools to provide',
+          'That students will not accept being taught by a machine',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What does the author imply is unresolved in the final paragraph?',
+        options: [
+          'Whether online or in-person learning produces better academic results',
+          'The fundamental purpose of education itself',
+          'Which technology companies should be allowed to operate in schools',
+          'Whether teachers or parents bear more responsibility for student outcomes',
+        ],
+        answer: 1,
+      },
+    ],
+  },
+
+  {
+    id: 'read-22',
+    level: 'B2',
+    title: 'Confirmation Bias and Echo Chambers',
+    passage: `Confirmation bias — the tendency to favour information that confirms what we already believe and to dismiss evidence that challenges it — is not a character flaw unique to certain kinds of people. It is a feature of human cognition, documented across cultures, education levels, and political affiliations. Understanding it as a universal tendency, rather than something "other people" suffer from, is the first step to managing its effects.
+
+In the digital age, confirmation bias has found a uniquely powerful amplifier. Social media algorithms are designed to maximise engagement, and the content most likely to engage us is that which confirms our existing beliefs, provokes emotional responses aligned with our identities, or flatters our sense of belonging to a particular group. The result is what researchers call an echo chamber: an information environment in which our views are reflected back to us, reinforced, and rarely seriously challenged.
+
+The consequences extend beyond individual belief formation. When communities share entirely different information landscapes, the possibility of shared factual ground — a prerequisite for democratic deliberation — erodes. Disagreements that might once have been arguments about values become arguments about basic facts, with each side genuinely unable to understand how the other could believe what it does.
+
+Breaking out of echo chambers requires more than good intentions. It demands the deliberate, uncomfortable practice of seeking out credible sources that challenge our assumptions, engaging with the strongest rather than the weakest versions of opposing arguments, and developing the metacognitive habit of asking not "is this true?" but "what would change my mind?"`,
+    questions: [
+      {
+        q: 'How does the text characterise confirmation bias?',
+        options: [
+          'As a flaw mainly found in people with low education',
+          'As a universal feature of human cognition, not a personal failing',
+          'As a problem unique to politically extreme individuals',
+          'As a new phenomenon caused by social media',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'Why do social media algorithms create echo chambers, according to the text?',
+        options: [
+          'Because they are programmed by politically biased engineers',
+          'Because they are designed to maximise engagement by showing content that confirms beliefs',
+          'Because users actively choose to follow only like-minded accounts',
+          'Because mainstream media is excluded from social media platforms',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What democratic consequence of echo chambers does the third paragraph describe?',
+        options: [
+          'Lower voter turnout in elections',
+          'Increased political violence in divided societies',
+          'The erosion of shared factual ground needed for democratic deliberation',
+          'Decreased trust in elected officials and government institutions',
+        ],
+        answer: 2,
+      },
+      {
+        q: 'What does the author mean by engaging with "the strongest rather than the weakest versions of opposing arguments"?',
+        options: [
+          'Reading the most popular rather than the most obscure viewpoints',
+          'Fairly representing opposing views at their best, rather than dismissing poor examples of them',
+          'Only debating experts rather than ordinary members of the public',
+          'Choosing arguments that are easy to refute to build confidence',
+        ],
+        answer: 1,
+      },
+    ],
+  },
+
+  {
+    id: 'read-23',
+    level: 'B2',
+    title: 'The Future of Work: Automation and Human Skills',
+    passage: `Automation has always transformed work. The spinning jenny displaced hand-spinners; the spreadsheet displaced armies of human calculators; ATMs reshaped retail banking. What distinguishes the current wave of technological change is not merely its speed but its scope: artificial intelligence and robotics are encroaching on tasks across the entire spectrum of skill levels simultaneously, from manual assembly to professional services.
+
+Economists debate how to interpret the historical record. Optimists point to the fact that, despite centuries of labour-saving technology, economies have always ultimately generated enough new jobs to employ willing workers — often in roles that could not have been anticipated. The pessimists argue that the pace and breadth of current disruption may make this time genuinely different, and that assuming the past will repeat is itself a form of cognitive bias.
+
+Among the skills that appear most resistant to automation are those involving complex human interaction — empathy, ethical reasoning, creative problem-solving, and the ability to navigate ambiguous social situations. These capabilities are deeply embedded in human experience and extraordinarily difficult to simulate convincingly. The implication for education is significant: technical knowledge alone may be less valuable than it once was, while the so-called "soft skills" have never been harder.
+
+What is perhaps most striking is that we are making decisions about the workforce of 2040 with tools — educational curricula, economic policy, social protection systems — designed for a world that has already changed. The challenge is not prediction but adaptation: building systems flexible enough to respond to changes we cannot fully foresee.`,
+    questions: [
+      {
+        q: 'What makes the current wave of automation different from historical examples, according to the author?',
+        options: [
+          'It is slower but more thorough than previous waves',
+          'It is confined to manufacturing and has no effect on professional work',
+          'Its scope simultaneously covers tasks across the full range of skill levels',
+          'It is driven by robotics rather than digital technology',
+        ],
+        answer: 2,
+      },
+      {
+        q: 'What is the "optimist" view of automation\'s impact on employment?',
+        options: [
+          'That automation will never eliminate significant numbers of jobs',
+          'That economies have always generated enough new jobs to replace those lost',
+          'That governments can legislate to prevent job losses from automation',
+          'That workers can be easily retrained for any new roles that emerge',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'Why does the text suggest "soft skills" are increasingly valuable?',
+        options: [
+          'Because technical skills can now be learned quickly online',
+          'Because employers prefer workers with arts degrees over STEM qualifications',
+          'Because complex human interaction, empathy, and creativity are difficult for automation to replicate',
+          'Because international trade requires strong interpersonal communication',
+        ],
+        answer: 2,
+      },
+      {
+        q: 'What does the author mean by "we are making decisions about the workforce of 2040 with tools designed for a world that has already changed"?',
+        options: [
+          'That we need to wait until 2040 before reforming educational and economic policy',
+          'That our current systems for education and social protection are already outdated for the challenges ahead',
+          'That predictions about 2040 are inherently unreliable and should be ignored',
+          'That only technology companies have the knowledge to prepare for future work changes',
+        ],
+        answer: 1,
+      },
+    ],
+  },
+
+  // ─── C1 level exercises ───────────────────────────────────────────────────
+
+  {
+    id: 'read-24',
+    level: 'C1',
+    title: 'The Philosophy of Happiness',
+    passage: `Happiness, as a philosophical concept, has resisted easy definition for over two millennia. Aristotle distinguished between hedonia — pleasure derived from satisfying desires — and eudaimonia, which he translated as flourishing: a life lived in accordance with one's highest capacities and deepest nature. For Aristotle, the pursuit of hedonic pleasure alone was a degraded form of the good life, one shared with cattle and tyrants; eudaimonia required the cultivation of virtue, reason, and meaningful engagement with community.
+
+Modern positive psychology has revisited this ancient distinction with empirical tools. Research consistently finds that hedonic wellbeing — positive affect, life satisfaction, the experience of pleasure — correlates imperfectly with what people retrospectively describe as the most meaningful experiences of their lives. Raising children, caring for a dying parent, pursuing a difficult creative project: these are rarely pleasant in the moment but are consistently identified as among life's most significant and satisfying dimensions. Meaning, it appears, is orthogonal to comfort.
+
+The hedonic treadmill presents a further complication. Human beings adapt with remarkable speed to positive changes in circumstances — a higher salary, a new home, a desired relationship. The emotional boost from such changes dissipates far faster than anticipated, returning subjective wellbeing roughly to its previous baseline. This adaptation has obvious evolutionary logic but produces the counterintuitive result that relentlessly pursuing pleasurable outcomes is among the least reliable paths to lasting contentment.
+
+What follows from this, philosophically, is not asceticism — the rejection of pleasure as inherently corrupting — but a more nuanced account of the good life: one in which meaning, engagement, relationships, and contribution carry weight alongside pleasure, and in which the willingness to endure difficulty for worthwhile ends is itself constitutive of wellbeing, not merely instrumental to it.`,
+    questions: [
+      {
+        q: 'How does Aristotle\'s concept of eudaimonia differ from hedonia?',
+        options: [
+          'Eudaimonia refers to momentary pleasure; hedonia refers to long-term contentment',
+          'Eudaimonia is about flourishing through virtue and reason; hedonia is about satisfying desires for pleasure',
+          'Eudaimonia is a modern psychological concept; hedonia is ancient Greek',
+          'There is no significant difference — both describe the pursuit of happiness',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What does research suggest about the relationship between meaning and pleasure?',
+        options: [
+          'That pleasurable experiences are always more meaningful than difficult ones',
+          'That meaning and comfort are closely aligned and reinforce each other',
+          'That meaningful experiences are often not pleasant in the moment but are retrospectively valued',
+          'That scientific research cannot measure something as subjective as meaning',
+        ],
+        answer: 2,
+      },
+      {
+        q: 'What is the "hedonic treadmill" as described in the text?',
+        options: [
+          'A form of exercise that generates endorphins and improves mood',
+          'The tendency to want ever-greater pleasures as satisfaction diminishes',
+          'The rapid adaptation of humans to positive changes, returning to a baseline level of wellbeing',
+          'A philosophical argument that pleasure is ultimately self-defeating',
+        ],
+        answer: 2,
+      },
+      {
+        q: 'What philosophical conclusion does the author draw in the final paragraph?',
+        options: [
+          'That pleasure should be rejected in favour of suffering as a path to virtue',
+          'That a good life incorporates meaning, engagement, and willingness to endure difficulty alongside pleasure',
+          'That positive psychology has refuted all ancient philosophical accounts of happiness',
+          'That the question of happiness is ultimately unanswerable and should be set aside',
+        ],
+        answer: 1,
+      },
+    ],
+  },
+
+  {
+    id: 'read-25',
+    level: 'C1',
+    title: 'The Ethics of Gene Editing',
+    passage: `The development of CRISPR-Cas9 gene-editing technology has transformed biology from a discipline of observation into one of intervention with unprecedented precision. Where earlier techniques for genetic modification were cumbersome, expensive, and imprecise, CRISPR allows researchers to make targeted alterations to DNA sequences with relative ease — a development that has accelerated research into genetic diseases, cancer treatment, and agricultural applications while simultaneously opening doors that many scientists and ethicists believe should remain firmly shut.
+
+The therapeutic potential is genuine and substantial. Early clinical applications have produced remarkable results in conditions caused by single-gene mutations: sickle cell disease, certain forms of blindness, and some blood disorders have responded dramatically to CRISPR-based interventions. For patients with these conditions — previously managed at enormous cost with limited efficacy — gene editing offers the prospect of a functional cure.
+
+Yet the same technology that edits a malfunctioning gene in a patient's blood cells could, in principle, edit the germline — the heritable genetic material passed to future generations. The birth of gene-edited babies announced by Chinese scientist He Jiankui in 2018, ostensibly to confer resistance to HIV, provoked near-universal condemnation from the scientific community. Critics objected not merely to the specific application but to the unilateral crossing of a threshold with consequences extending to people not yet born and incapable of consent.
+
+The ethical framework that governs this technology must balance multiple imperatives: the relief of suffering, the protection of future persons, the governance of dual-use research, and the question of who decides what constitutes an enhancement versus a treatment. That these questions remain unresolved in parallel with the technology's rapid advance is itself a cause for concern.`,
+    questions: [
+      {
+        q: 'What made CRISPR-Cas9 a significant advance over earlier gene-editing techniques?',
+        options: [
+          'It was the first technology capable of modifying human DNA at all',
+          'It made targeted genetic alterations far more precise, cheaper, and easier than before',
+          'It eliminated all risk of unintended genetic changes',
+          'It could modify genes without requiring laboratory conditions',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'Why was the scientific community\'s reaction to He Jiankui\'s announcement largely condemnatory?',
+        options: [
+          'Because the research was conducted without proper peer review',
+          'Because the babies died as a result of the procedure',
+          'Because germline editing affects future generations who cannot consent, crossing a widely respected ethical threshold',
+          'Because HIV resistance is not considered a legitimate medical purpose for gene editing',
+        ],
+        answer: 2,
+      },
+      {
+        q: 'What does the text identify as the distinction that makes germline editing ethically distinct from somatic gene therapy?',
+        options: [
+          'Germline editing is more technically difficult and therefore more prone to error',
+          'Its effects are heritable and extend to future people incapable of consent',
+          'Germline editing has not yet produced any therapeutic benefits',
+          'Somatic gene therapy is regulated while germline editing is entirely uncontrolled',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What does the author imply by saying "these questions remain unresolved in parallel with the technology\'s rapid advance"?',
+        options: [
+          'That ethical debate has failed to produce any useful framework for gene editing',
+          'That the science is too complex for ethicists without biology training to evaluate',
+          'That the technology is developing faster than our ethical and regulatory frameworks can keep pace with, which is concerning',
+          'That scientists should pause all gene-editing research until consensus is reached',
+        ],
+        answer: 2,
+      },
+    ],
+  },
+
+  {
+    id: 'read-26',
+    level: 'C1',
+    title: 'Dark Tourism',
+    passage: `Dark tourism — the practice of visiting sites associated with death, tragedy, suffering, or atrocity — has existed as long as human beings have been drawn to places of historical significance. Pilgrims travelled to sites of martyrdom; Victorian tourists flocked to public executions; the battlefield of Waterloo attracted curious visitors within weeks of the fighting ending. What distinguishes contemporary dark tourism is its scale, its commercialisation, and the ethical questions that commercialisation raises.
+
+Sites like Auschwitz-Birkenau, Pompeii, Ground Zero, and the Cambodian Killing Fields attract millions of visitors annually. Proponents of such visits argue that direct encounter with the physical spaces of historical trauma creates a form of empathy and understanding unavailable through textbooks or documentaries. To stand where something happened, many visitors report, is qualitatively different from reading about it. The pilgrimage carries ethical weight: bearing witness to atrocity is, in some traditions, a moral obligation to the dead.
+
+Critics raise disquieting questions about motivation and memorialisation. Is the visitor who photographs themselves grinning at a concentration camp gate engaging in the same morally serious act as one who arrives in silent contemplation? When suffering becomes a spectacle and admission tickets are sold, at what point does commemoration shade into voyeurism? And who controls the narrative at such sites — survivors and their communities, or heritage industry professionals optimising for visitor experience?
+
+There are no clean answers. Dark tourism is neither straightforwardly good nor irredeemably ghoulish. Its ethical valence depends on the attitude of the visitor, the conduct of the institution, and whether the experience ultimately deepens or trivialises the visitor's relationship to human suffering. These are questions that the growing dark tourism industry has an obligation to take seriously.`,
+    questions: [
+      {
+        q: 'What does the author suggest distinguishes contemporary dark tourism from its historical predecessors?',
+        options: [
+          'It involves more distant and exotic locations than before',
+          'It is more often criticised by governments and religious institutions',
+          'Its scale and commercialisation raise ethical questions not previously encountered',
+          'Contemporary visitors are less emotionally affected than historical ones',
+        ],
+        answer: 2,
+      },
+      {
+        q: 'What argument do proponents of visiting dark tourism sites make, according to the text?',
+        options: [
+          'That such visits generate revenue for communities affected by historical trauma',
+          'That physical presence at sites of historical suffering creates unique empathy unavailable through other means',
+          'That tourism helps to prevent the repetition of historical atrocities',
+          'That dark tourism sites preserve physical evidence that would otherwise be lost',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What does the author mean when asking "at what point does commemoration shade into voyeurism"?',
+        options: [
+          'That all forms of dark tourism are inherently voyeuristic and should be banned',
+          'That the line between respectful remembrance and spectacle-seeking is blurred and morally significant',
+          'That photography should be prohibited at all memorial sites',
+          'That voyeurism at dark tourism sites is a criminal offence in many countries',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What determines the ethical value of a dark tourism visit, according to the final paragraph?',
+        options: [
+          'The historical significance of the site and the number of people who died there',
+          'Whether the site charges admission or allows free access',
+          'The visitor\'s attitude, the institution\'s conduct, and whether the experience deepens or trivialises engagement with suffering',
+          'Whether the visit is organised independently or through a tour company',
+        ],
+        answer: 2,
+      },
+    ],
+  },
+
+  {
+    id: 'read-27',
+    level: 'C1',
+    title: 'The Paradox of Choice',
+    passage: `In 1975, a grocery store in the United States stocked approximately 9,000 products. Today, a typical supermarket carries more than 40,000. The expansion has not been confined to groceries: streaming platforms offer thousands of films and series, dating apps present thousands of potential partners, investment platforms list thousands of funds. The contemporary consumer inhabits a world saturated with optionality that previous generations could not have imagined — and, counterintuitively, many people report finding this abundance not liberating but paralysing.
+
+Psychologist Barry Schwartz, in his influential 2004 book The Paradox of Choice, synthesised research demonstrating that beyond a certain threshold, more choice consistently reduces satisfaction. The mechanism operates on several levels. First, the opportunity cost of any choice rises with the number of alternatives: choosing restaurant A over restaurants B through Z means foregoing more potentially superior experiences than choosing A over B and C. Second, more options raise expectations: if there are forty types of jam to choose from, surely one should be perfect; when it proves merely good, disappointment is inevitable. Third, the responsibility for outcomes shifts to the chooser — when something goes wrong in a world of abundant choice, it is harder to blame circumstance.
+
+Not everyone is equally affected. Schwartz distinguishes between "maximisers" — people who feel compelled to identify the objectively best option — and "satisficers," who are content with options that meet a reasonable threshold. Maximisers, predictably, experience higher regret, more anxiety during choice, and lower long-term satisfaction despite often selecting objectively superior options. The satisficer's apparent settling is, paradoxically, the more adaptive strategy.
+
+The implications reach beyond consumer behaviour into politics, relationships, and identity. In societies that frame freedom almost entirely as freedom of choice, learning to limit one's own options — through commitment, routine, and the deliberate narrowing of alternatives — may be among the more counterintuitive paths to genuine liberty.`,
+    questions: [
+      {
+        q: 'What is the "paradox of choice" described in the text?',
+        options: [
+          'That people claim to want more choice but consistently make the same choices',
+          'That more available options, beyond a threshold, reduce rather than increase satisfaction',
+          'That consumers in wealthy countries are less satisfied than those in poorer ones',
+          'That the expansion of product ranges has increased retail prices',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'Why does more choice raise the opportunity cost of any decision, according to the text?',
+        options: [
+          'Because choosing takes longer and therefore has a higher time cost',
+          'Because each additional option represents an additional financial expense',
+          'Because selecting one option means foregoing more potentially superior alternatives',
+          'Because advertising for multiple options increases the cost to businesses',
+        ],
+        answer: 2,
+      },
+      {
+        q: 'What is the difference between a "maximiser" and a "satisficer" according to the text?',
+        options: [
+          'Maximisers always choose the most expensive option; satisficers choose the cheapest',
+          'Maximisers seek the objectively best option; satisficers settle for options meeting a reasonable threshold',
+          'Maximisers make quick decisions; satisficers deliberate at length',
+          'Maximisers are happier with their choices; satisficers experience more regret',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What does the author suggest in the final paragraph about freedom and choice?',
+        options: [
+          'That political freedom is more important than consumer freedom',
+          'That deliberately limiting one\'s options through commitment and routine may paradoxically enable greater genuine freedom',
+          'That modern societies should reduce the number of choices available to citizens',
+          'That identity is primarily determined by the consumer choices we make',
+        ],
+        answer: 1,
+      },
+    ],
+  },
+
+  {
+    id: 'read-28',
+    level: 'C1',
+    title: 'The Anthropocene Epoch',
+    passage: `In 2016, a working group of geologists recommended that the International Union of Geological Sciences formally recognise the Anthropocene as a new geological epoch — a period in Earth's history defined by the dominant influence of human activity on its geology and ecosystems. The proposal reflects a scientific consensus, gradually accumulated over decades, that the scale of human impact on the planet has become so significant that it constitutes a rupture in Earth's geological record comparable to the transition between previous epochs.
+
+The evidence is compelling and multifaceted. Atmospheric concentrations of carbon dioxide and methane are higher than at any point in at least 800,000 years of ice-core records. Nitrogen and phosphorus cycles have been disrupted more profoundly than at any time since the emergence of agriculture. Species are being lost at rates 100 to 1,000 times higher than background extinction rates. And the physical residue of human civilisation — plastics, concrete, novel radioactive isotopes from nuclear testing — will be legible in the geological record for millions of years.
+
+What makes the Anthropocene concept significant beyond geology is the normative weight it carries. To name an epoch after a species is to implicate that species in responsibility. If human beings have become a geological force, then decisions about energy, land use, and resource extraction are not merely economic or political choices but geological ones — interventions in processes operating on timescales that dwarf human civilisation.
+
+Some scholars resist the framing, arguing that "Anthropocene" obscures which humans are responsible: the emissions and resource consumption driving planetary change are profoundly unequally distributed. An "Capitalocene" or "Plantationocene," they contend, might more precisely assign responsibility to the economic systems and historical processes that generated the problem, rather than to humanity as an undifferentiated whole.`,
+    questions: [
+      {
+        q: 'On what basis did geologists propose formally recognising the Anthropocene epoch?',
+        options: [
+          'The emergence of agriculture roughly 10,000 years ago',
+          'Human activity has become the dominant influence on Earth\'s geology and ecosystems, constituting a rupture in the geological record',
+          'The discovery of plastic deposits in deep ocean sediment',
+          'The Industrial Revolution\'s measurable effects on atmospheric temperature',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What does the third paragraph suggest about the significance of naming an epoch after a species?',
+        options: [
+          'That it is primarily a scientific classification with no broader implications',
+          'That it is a recognition of human achievement in transforming the natural world',
+          'That it carries a normative implication of responsibility for geological-scale decisions',
+          'That it should only be applied after the epoch has ended and can be fully evaluated',
+        ],
+        answer: 2,
+      },
+      {
+        q: 'What is the main objection raised by scholars who prefer alternatives like "Capitalocene"?',
+        options: [
+          'That the geological evidence for the Anthropocene is not yet strong enough',
+          'That naming epochs after species violates established geological convention',
+          'That "Anthropocene" falsely implies all humans share equal responsibility for planetary damage',
+          'That capitalism and colonialism are too contested as concepts to appear in scientific terminology',
+        ],
+        answer: 2,
+      },
+      {
+        q: 'What does the author mean by decisions on energy and land use being "geological" choices?',
+        options: [
+          'That such decisions must be approved by geological survey organisations',
+          'That they affect processes operating on timescales far beyond human civilisation, not just immediate human interests',
+          'That geology departments at universities should have a role in energy policy',
+          'That the physical materials involved — rocks, minerals — are geological in origin',
+        ],
+        answer: 1,
+      },
+    ],
+  },
+
+  {
+    id: 'read-29',
+    level: 'C1',
+    title: 'Moral Luck',
+    passage: `In 1979, philosophers Thomas Nagel and Bernard Williams independently published essays introducing the concept of moral luck — the troubling observation that our moral judgements of persons are heavily influenced by factors beyond their control. The case is intuitively obvious once stated: two drivers behave with identical negligence, but one happens to encounter a child running into the road while the other does not. The first driver is condemned as a criminal; the second drives home troubled but unscathed. The moral asymmetry seems profound, yet the blameworthiness of the two drivers — properly assessed in terms of their agency and intentions — was identical before the divergence of outcomes.
+
+Nagel distinguished four types of moral luck: resultant luck (luck in how things turn out), circumstantial luck (luck in the situations one faces), constitutive luck (luck in who one is — one's character, capacities, and dispositions), and causal luck (luck arising from deterministic or probabilistic causation of one's actions). Of these, constitutive luck poses the deepest philosophical challenge to traditional notions of moral responsibility: if our characters are substantially the product of genetics, upbringing, and environment rather than free choice, on what grounds do we praise the virtuous or condemn the vicious?
+
+The problem does not dissolve through compatibilism — the view that free will and determinism can coexist — though compatibilists argue that the relevant kind of freedom (acting from one's own desires and reasoning without external compulsion) survives even if those desires and that reasoning are themselves causally determined. The debate turns on what we think moral responsibility requires.
+
+What moral luck illuminates, practically, is the gap between our moral intuitions and our ideals. Most people simultaneously believe that persons should only be held responsible for what they control and that outcomes matter morally — that negligent drivers who happen to kill are more culpable than those who do not. We have not resolved this tension; we live inside it.`,
+    questions: [
+      {
+        q: 'What does the example of the two negligent drivers illustrate about moral luck?',
+        options: [
+          'That drunk driving should carry harsher criminal penalties',
+          'That identical negligence can result in radically different moral and legal consequences depending on uncontrolled factors',
+          'That moral judgement should be based entirely on outcomes rather than intentions',
+          'That negligent drivers who do not cause accidents should receive no punishment',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'Why does "constitutive luck" pose the deepest challenge to moral responsibility, according to the text?',
+        options: [
+          'Because it is the most common type of moral luck encountered in everyday life',
+          'Because if our characters are largely shaped by factors outside our control, the basis for praising or blaming people is undermined',
+          'Because constitutive luck is the only type that courts of law currently recognise',
+          'Because it suggests that free will does not exist in any meaningful sense',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What do compatibilists argue in response to moral luck, according to the third paragraph?',
+        options: [
+          'That free will and determinism are incompatible and determinism must be rejected',
+          'That moral responsibility requires absolute freedom from causal determination',
+          'That acting from one\'s own desires and reasoning without compulsion is sufficient for moral responsibility, even if causally determined',
+          'That moral luck is a philosophical illusion with no real-world implications',
+        ],
+        answer: 2,
+      },
+      {
+        q: 'What does the author mean by "we have not resolved this tension; we live inside it"?',
+        options: [
+          'That people are hypocrites who privately accept moral luck but publicly deny it',
+          'That moral philosophy has failed to make any progress on questions of responsibility',
+          'That our conflicting intuitions about control and outcomes remain practically operative despite being theoretically irreconcilable',
+          'That legal systems have successfully navigated the problem even if philosophers have not',
+        ],
+        answer: 2,
+      },
+    ],
+  },
+
+  {
+    id: 'read-30',
+    level: 'C1',
+    title: 'The Language of Colour',
+    passage: `Does the language you speak shape the colours you see? The question sits at the intersection of linguistics, cognitive science, and philosophy of mind, and has generated decades of research animated by a seemingly simple observation: languages carve up the colour spectrum in radically different ways. English distinguishes blue from green; Russian has separate basic terms for light blue (goluboy) and dark blue (siniy); the Pirahã of the Amazon use terms that translate roughly as light and dark. Does this mean that speakers of these languages actually perceive colour differently?
+
+The strong version of the Sapir-Whorf hypothesis — the claim that language determines thought, that you cannot perceive what your language does not name — is now largely discredited. People who lack a word for a particular colour can nonetheless distinguish it perceptually under controlled conditions. But the weak version, that language influences perception rather than determining it, has accumulated substantial experimental support. Russian speakers, for example, are faster to discriminate between light and dark blues in the region of the spectrum where their language draws a categorical distinction. The linguistic boundary makes the perceptual boundary more salient.
+
+The implications extend to broader questions about categorisation. Colour is a continuous physical phenomenon — a spectrum of electromagnetic wavelengths — that human perception and language divide into discrete categories. Different cultures have made these cuts differently, and where they make them influences, at the margins, what is cognitively prominent. This is not relativism: the cuts are constrained by universal features of human visual biology. But it suggests that even something as apparently immediate and pre-linguistic as colour perception is subtly mediated by cultural and linguistic frameworks.
+
+The richer lesson may be about the relationship between language and thought generally: not that we are imprisoned by our linguistic categories, but that they provide scaffolding — structuring attention, making some distinctions habitual, others effortful — in ways that are more pervasive and less visible than we tend to assume.`,
+    questions: [
+      {
+        q: 'What was the "strong version" of the Sapir-Whorf hypothesis, and what is the text\'s verdict on it?',
+        options: [
+          'That bilingual people perceive more colours than monolinguals — and the text says this is well supported',
+          'That language determines thought entirely, so you cannot perceive what you have no word for — and the text says this is largely discredited',
+          'That colour perception is entirely cultural with no biological basis — and the text says this remains controversial',
+          'That Russian speakers perceive more colours than English speakers — and the text says this is partially true',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What experimental evidence supports the weak version of the linguistic relativity hypothesis?',
+        options: [
+          'People with colour blindness can learn to distinguish colours if their language provides distinct names',
+          'Russian speakers discriminate light and dark blues faster where their language draws a categorical boundary',
+          'Children learn colour terms before they can reliably perceive colour differences',
+          'English speakers outperform speakers of languages with fewer colour terms on standard visual tests',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What does the author mean by saying colour categorisation is "constrained by universal features of human visual biology"?',
+        options: [
+          'That all cultures will eventually converge on the same colour terminology',
+          'That cultural colour categories are entirely arbitrary and could be drawn anywhere on the spectrum',
+          'That while cultures divide the spectrum differently, the way human vision works sets limits on those divisions',
+          'That biological factors explain why some people are more sensitive to colour than others',
+        ],
+        answer: 2,
+      },
+      {
+        q: 'What metaphor does the author use in the final paragraph to describe the relationship between language and thought?',
+        options: [
+          'A prison, to suggest language confines the range of possible thought',
+          'A lens, to suggest language sharpens certain perceptions while blurring others',
+          'Scaffolding — structures that shape attention and make some distinctions habitual without being imprisoning',
+          'A map, to suggest language helps us navigate a pre-existing landscape of thought',
+        ],
+        answer: 2,
+      },
+    ],
+  },
+
   {
     id: 'read-12',
     level: 'C1',

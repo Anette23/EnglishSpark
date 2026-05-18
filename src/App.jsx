@@ -14,6 +14,8 @@ import VocabQuiz from './components/VocabQuiz'
 import SentenceReorder from './components/SentenceReorder'
 import ListeningGaps from './components/ListeningGaps'
 import WeakSpots from './components/WeakSpots'
+import StatsView from './components/StatsView'
+import OnboardingModal from './components/OnboardingModal'
 import { loadState, getTodayStatus, completeTask, getSessionDuration, completeWeeklyChallenge, clearNewMilestone, clearNewLevel, useStreakFreeze, getStreakFreezes } from './habitStore'
 import { getCurrentChallenge } from './weeklyChallenge'
 
@@ -121,6 +123,7 @@ export default function App() {
           onStartTask={setView}
           onOpenSettings={() => setView('settings')}
           onOpenHistory={() => setView('history')}
+          onOpenStats={() => setView('stats')}
           darkMode={darkMode}
           onToggleDark={() => setDarkMode(d => !d)}
           freezesAvailable={getStreakFreezes(state)}
@@ -137,6 +140,7 @@ export default function App() {
       )}
       {view === 'settings' && <Settings onBack={handleBack} />}
       {view === 'history'  && <HistoryView state={state} onBack={handleBack} />}
+      {view === 'stats'    && <StatsView state={state} onBack={handleBack} />}
       {(view === 'synonyms' || view === 'prepositions' || view === 'idioms' || view === 'shadowing' || view === 'grammar') && (
         <BonusSession type={view} onBack={handleBack} />
       )}
@@ -167,6 +171,7 @@ export default function App() {
           onClose={() => { setShowLevelUp(null); clearNewLevel() }}
         />
       )}
+      <OnboardingModal onClose={() => {}} />
     </div>
   )
 }

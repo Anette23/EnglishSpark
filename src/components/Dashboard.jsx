@@ -4,9 +4,22 @@ import { getWordOfDay } from '../wordOfTheDay'
 import { saveWord } from '../vocabularyStore'
 import { useState } from 'react'
 
-export default function Dashboard({ state, todayStatus, onStartTask, onOpenSettings, onOpenHistory, darkMode, onToggleDark, freezesAvailable, onFreezeStreak }) {
+export default function Dashboard({ state, todayStatus, onStartTask, onOpenSettings, onOpenHistory, onOpenStats, darkMode, onToggleDark, freezesAvailable, onFreezeStreak }) {
   const wordOfDay = getWordOfDay()
   const [wotdSaved, setWotdSaved] = useState(false)
+  const [shareMsg, setShareMsg] = useState('')
+
+  function handleShare() {
+    const text = `I'm on a 🔥 ${streak} day English learning streak with EnglishSpark! ⚡ myenglishspark.vercel.app`
+    if (navigator.share) {
+      navigator.share({ text }).catch(() => {})
+    } else {
+      navigator.clipboard?.writeText(text).then(() => {
+        setShareMsg('Copied to clipboard!')
+        setTimeout(() => setShareMsg(''), 2500)
+      })
+    }
+  }
 
   function handleSaveWotd() {
     saveWord({ word: wordOfDay.word, translation: wordOfDay.definition, context: wordOfDay.example, source: 'wotd' })
@@ -40,6 +53,7 @@ export default function Dashboard({ state, todayStatus, onStartTask, onOpenSetti
         <div className="dash-header-actions">
           <button className="btn-settings" onClick={onToggleDark} title="Toggle dark mode">{darkMode ? '☀️' : '🌙'}</button>
           <button className="btn-settings" onClick={onOpenHistory} title="History">📚</button>
+          <button className="btn-settings" onClick={onOpenStats} title="Stats">📊</button>
           <button className="btn-settings" onClick={onOpenSettings} title="Settings">⚙️</button>
         </div>
       </div>
@@ -80,6 +94,17 @@ export default function Dashboard({ state, todayStatus, onStartTask, onOpenSetti
               <button className="btn-freeze" onClick={onFreezeStreak}>
                 🧊 Freeze streak <span className="freeze-count">({freezesAvailable} left this week)</span>
               </button>
+            )}
+
+            {streak > 0 && (
+              <div style={{ marginTop: 8 }}>
+                <button
+                  onClick={handleShare}
+                  style={{ background: 'none', border: 'none', color: 'var(--muted)', fontSize: 13, cursor: 'pointer', textDecoration: 'underline', padding: 0 }}
+                >
+                  {shareMsg || '📤 Share my streak'}
+                </button>
+              </div>
             )}
 
             {nextMilestone && (

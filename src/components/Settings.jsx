@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { loadState } from '../habitStore'
 
 function loadNotifSettings() {
@@ -8,9 +8,11 @@ function saveNotifSettings(s) { localStorage.setItem('notif_settings', JSON.stri
 
 export default function Settings({ onBack }) {
   const [exportDone, setExportDone] = useState(false)
+  const [importStatus, setImportStatus] = useState('')
   const [resetConfirm, setResetConfirm] = useState(false)
   const [notif, setNotif] = useState(loadNotifSettings)
   const [notifStatus, setNotifStatus] = useState('')
+  const importRef = useRef(null)
 
   function handleExport() {
     const state = loadState()
@@ -25,6 +27,31 @@ export default function Settings({ onBack }) {
     URL.revokeObjectURL(url)
     setExportDone(true)
     setTimeout(() => setExportDone(false), 3000)
+  }
+
+  function handleImport(e) {
+    const file = e.target.files[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = (ev) => {
+      try {
+        const data = JSON.parse(ev.target.result)
+        if (data.state) {
+          localStorage.setItem('english_habit_v1', JSON.stringify(data.state))
+          if (data.synPerf) localStorage.setItem('syn_perf', JSON.stringify(data.synPerf))
+          setImportStatus('✓ Data restored! Reloading...')
+          setTimeout(() => window.location.reload(), 1200)
+        } else {
+          setImportStatus('Invalid backup file.')
+          setTimeout(() => setImportStatus(''), 3000)
+        }
+      } catch {
+        setImportStatus('Could not read file.')
+        setTimeout(() => setImportStatus(''), 3000)
+      }
+    }
+    reader.readAsText(file)
+    e.target.value = ''
   }
 
   function handleReset() {
@@ -68,9 +95,16 @@ export default function Settings({ onBack }) {
         <p style={{ fontSize: '14px', lineHeight: '1.6', color: 'var(--text)', marginBottom: '12px' }}>
           All your progress is stored locally in this browser. Export a backup at any time.
         </p>
-        <button className="btn-primary" onClick={handleExport} style={{ marginBottom: '8px' }}>
-          {exportDone ? '✓ Downloaded!' : 'Export data (JSON)'}
-        </button>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <button className="btn-primary" onClick={handleExport} style={{ flex: 1 }}>
+            {exportDone ? '✓ Downloaded!' : '📥 Export data (JSON)'}
+          </button>
+          <button className="btn-secondary" onClick={() => importRef.current?.click()} style={{ flex: 1 }}>
+            📤 Import backup
+          </button>
+          <input ref={importRef} type="file" accept=".json" style={{ display: 'none' }} onChange={handleImport} />
+        </div>
+        {importStatus && <p style={{ fontSize: 13, color: 'var(--green)', marginTop: 8, fontWeight: 600 }}>{importStatus}</p>}
       </div>
 
       <div className="prompt-box">

@@ -16,6 +16,7 @@ function normalise(str) {
 
 export default function VocabQuiz({ onBack }) {
   const words = useMemo(() => shuffle(getVocabulary()), [])
+  const [mode, setMode] = useState('sk-en') // 'sk-en' = Slovak→English, 'en-sk' = English→Slovak
   const [idx, setIdx] = useState(0)
   const [input, setInput] = useState('')
   const [checked, setChecked] = useState(false)
@@ -39,6 +40,8 @@ export default function VocabQuiz({ onBack }) {
       </div>
     )
   }
+
+  const skToEn = mode === 'sk-en'
 
   if (finished) {
     const total = correct + wrong
@@ -68,7 +71,8 @@ export default function VocabQuiz({ onBack }) {
   function handleCheck() {
     if (!input.trim()) return
     setChecked(true)
-    if (normalise(input) === normalise(word.word)) {
+    const correctAnswer = skToEn ? word.word : word.translation
+    if (normalise(input) === normalise(correctAnswer)) {
       setCorrect(c => c + 1)
     } else {
       setWrong(w => w + 1)
@@ -85,7 +89,8 @@ export default function VocabQuiz({ onBack }) {
     }
   }
 
-  const isCorrect = checked && normalise(input) === normalise(word.word)
+  const correctAnswer = skToEn ? word.word : word.translation
+  const isCorrect = checked && normalise(input) === normalise(correctAnswer)
 
   return (
     <div className="task-session">
@@ -99,10 +104,28 @@ export default function VocabQuiz({ onBack }) {
         </div>
       </div>
 
+      {/* Mode toggle */}
+      <div style={{ display: 'flex', gap: 8 }}>
+        <button
+          className={`level-btn ${skToEn ? 'level-btn-active' : ''}`}
+          onClick={() => { setMode('sk-en'); setIdx(0); setInput(''); setChecked(false); setCorrect(0); setWrong(0) }}
+          style={{ flex: 1 }}
+        >
+          Slovak → English
+        </button>
+        <button
+          className={`level-btn ${!skToEn ? 'level-btn-active' : ''}`}
+          onClick={() => { setMode('en-sk'); setIdx(0); setInput(''); setChecked(false); setCorrect(0); setWrong(0) }}
+          style={{ flex: 1 }}
+        >
+          English → Slovak
+        </button>
+      </div>
+
       <div className="prompt-box" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        <div className="prompt-label">What is the English word for?</div>
+        <div className="prompt-label">{skToEn ? 'What is the English word for?' : 'What is the Slovak translation of?'}</div>
         <div style={{ fontSize: 28, fontWeight: 900, color: 'var(--purple)', textAlign: 'center', padding: '8px 0' }}>
-          {word.translation}
+          {skToEn ? word.translation : word.word}
         </div>
         {word.context && (
           <p style={{ fontSize: 13, color: 'var(--muted)', fontStyle: 'italic', textAlign: 'center' }}>
@@ -115,7 +138,7 @@ export default function VocabQuiz({ onBack }) {
         <input
           className="vocab-search"
           type="text"
-          placeholder="Type the English word..."
+          placeholder={skToEn ? 'Type the English word...' : 'Type the Slovak translation...'}
           value={input}
           onChange={e => setInput(e.target.value)}
           onKeyDown={e => { if (e.key === 'Enter' && !checked) handleCheck() }}
@@ -146,7 +169,7 @@ export default function VocabQuiz({ onBack }) {
           gap: 4,
         }}>
           <div style={{ fontWeight: 700, color: isCorrect ? '#065f46' : '#991b1b', fontSize: 16 }}>
-            {isCorrect ? '✓ Correct!' : `✗ The answer is: ${word.word}`}
+            {isCorrect ? '✓ Correct!' : `✗ The answer is: ${correctAnswer}`}
           </div>
           {!isCorrect && (
             <div style={{ fontSize: 13, color: 'var(--muted)' }}>You typed: {input}</div>

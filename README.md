@@ -43,9 +43,17 @@ Inspired by James Clear's *Atomic Habits* and the principle that a 1% improvemen
 - 🎧 **Listening Gaps** — hear a sentence read aloud via TTS, type the missing word; hear it as many times as you need (B1/B2)
 - 📊 **Weak Spots** — automatic error-pattern tracker: reads your AI feedback and counts recurring categories (articles, tenses, prepositions, conditionals, passive voice and more); shows a ranked bar chart
 - 📅 **Word of the Day** — a curated B1/B2/C1 vocabulary word shown each day with definition and example sentence; one-tap save to vocabulary
+- 📊 **Statistics page** — weekly XP bar chart, session breakdown (writing vs speaking), vocabulary count, top weak spots, reading articles completed
 
 ### Daily reminder
 - 🔔 **Browser notifications** — opt-in daily reminder at a chosen hour; only fires if today's tasks aren't done yet
+
+### Other improvements
+- 🔀 **Vocabulary Quiz** now supports both directions: Slovak → English and English → Slovak
+- 📤 **Import backup** — restore a previously exported JSON backup from Settings
+- 📢 **Share my streak** — share or copy your streak text with one tap
+- 👋 **Onboarding modal** — first-run welcome screen for new users
+- 📖 **30 reading texts** — expanded from 15 to 30 (added 8 B2 + 7 C1 texts)
 
 ### Word translation on tap
 Tap any English word in exercises, chat messages, or reading passages to see its **Slovak translation** in a pop-up. Save words you want to remember — they go straight into your vocabulary notebook. Words are stored locally, no account needed.
