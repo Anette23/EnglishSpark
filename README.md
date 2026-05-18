@@ -28,51 +28,48 @@ Inspired by James Clear's *Atomic Habits* and the principle that a 1% improvemen
 - 🏆 **Milestones** — unlock achievements at 3, 7, 14, 21, 30, 60, 100 and 365 days
 - ⏱️ **Progressive difficulty** — session length grows automatically as you build the habit (2:00 → 4:00)
 - 🏅 **Weekly challenge** — a themed writing/speaking challenge that resets every week (+50 XP)
+- 📊 **Statistics page** — weekly XP bar chart, session breakdown (writing vs speaking), vocabulary count, top weak spots, reading articles completed
 
 ### Extra practice (optional, not required for streak)
 - 🔤 **Synonyms** — recall and recognise synonyms, then write a sentence using one (AI checks it)
 - 📝 **Prepositions** — fill-in-the-blank exercises, then use the phrase in your own sentence
 - 💬 **Idioms** — fill-in-the-blank with common English idioms, then practise using them
-- 📚 **Grammar** — 114 exercises across 10 categories (articles, tenses, conditionals, passive voice and more), then write a sentence with the target structure
+- 📚 **Grammar** — 134 exercises across 11 categories (articles, tenses, conditionals, passive voice, gerunds vs infinitives and more), then write a sentence with the target structure
 - 🎧 **Shadowing** — listen to a sentence, repeat it out loud, get word-level pronunciation feedback; tap any missed word to hear it again
 - 🔀 **Mixed Practice** — one exercise from every section in a single session, with sentence practice for each
-- 📖 **Reading** — 15 texts across B1 / B2 / C1; spaced repetition (weak texts come back for review); 🔊 TTS listen mode; tap any word for Slovak translation; per-question answer review; words-you-looked-up summary; difficulty feedback (Too easy / Just right / Too hard); write a reaction and get AI grammar feedback; +5–10 XP per text
+- 📖 **Reading** — 30 texts across B1 / B2 / C1; spaced repetition (weak texts come back for review); 🔊 TTS listen mode; tap any word for Slovak translation; per-question answer review; words-you-looked-up summary; difficulty feedback (Too easy / Just right / Too hard); write a reaction and get AI grammar feedback; +5–10 XP per text
 - 📗 **My Vocabulary** — a personal word notebook; save words directly from exercises, chat, or reading; export as CSV
-- 🃏 **Vocabulary Quiz** — test yourself on your saved vocabulary: see the Slovak translation, type the English word
+- 🃏 **Vocabulary Quiz** — test yourself on your saved vocabulary in both directions (Slovak → English and English → Slovak); due words shown first (spaced repetition)
 - 🔀 **Sentence Reorder** — drag-free word-tap interface to arrange shuffled words into a correct sentence (B1/B2)
 - 🎧 **Listening Gaps** — hear a sentence read aloud via TTS, type the missing word; hear it as many times as you need (B1/B2)
 - 📊 **Weak Spots** — automatic error-pattern tracker: reads your AI feedback and counts recurring categories (articles, tenses, prepositions, conditionals, passive voice and more); shows a ranked bar chart
 - 📅 **Word of the Day** — a curated B1/B2/C1 vocabulary word shown each day with definition and example sentence; one-tap save to vocabulary
-- 📊 **Statistics page** — weekly XP bar chart, session breakdown (writing vs speaking), vocabulary count, top weak spots, reading articles completed
-
-### Daily reminder
-- 🔔 **Browser notifications** — opt-in daily reminder at a chosen hour; only fires if today's tasks aren't done yet
 
 ### New exercise types
 - 🔧 **Error Correction** — spot and fix the grammar mistake in a sentence (B1/B2/C1, 30 exercises)
 - 🔗 **Collocations** — tap the correct word that goes with the gap: make/do, strong/heavy, take/have, verb+preposition (35 exercises)
 - 🌿 **Word Families** — given a root word, type the correct form (noun/verb/adjective/adverb) that fits the sentence (30 exercises)
 - 💫 **Phrasal Verbs** — choose the right particle for 40 common phrasal verbs: give up, put off, come across, deal with...
-- 📚 **Grammar expanded** — added 20 Gerunds vs Infinitives exercises (remember doing vs remember to do, stop smoking vs stop to smoke, try adding vs try to fix...)
 
 ### Vocabulary spaced repetition
-Each saved word now has an SM-2 spaced repetition schedule. VocabQuiz shows due words first, updates intervals after each answer (correct → interval grows, wrong → resets to tomorrow). "X due" badge appears on the vocabulary button and in the quiz header.
+Each saved word has an SM-2 spaced repetition schedule. The Vocabulary Quiz shows due words first and updates intervals after each answer — correct answers grow the interval, wrong answers reset to tomorrow. A "X due" badge appears on the vocabulary button and in the quiz header.
 
-### Other improvements
-- 🔀 **Vocabulary Quiz** now supports both directions: Slovak → English and English → Slovak
-- 📤 **Import backup** — restore a previously exported JSON backup from Settings
-- 📢 **Share my streak** — share or copy your streak text with one tap
-- 👋 **Onboarding modal** — first-run welcome screen for new users
-- 📖 **30 reading texts** — expanded from 15 to 30 (added 8 B2 + 7 C1 texts)
+### Connected learning
+Sentences you write in exercises are saved. When you open **Chat in English**, the AI is told which phrases you've been practising and naturally steers the conversation so you get a chance to use them for real.
 
 ### Word translation on tap
 Tap any English word in exercises, chat messages, or reading passages to see its **Slovak translation** in a pop-up. Save words you want to remember — they go straight into your vocabulary notebook. Words are stored locally, no account needed.
 
-### Spaced repetition
+### Spaced repetition (bonus exercises)
 Every bonus exercise feeds a per-item spaced repetition system. Weak items come back sooner; mastered items fade out. Each section has a **daily goal of 5** and awards +20 XP on completion. A **Review** button appears whenever cards are due.
 
-### Connected learning
-Sentences you write in exercises are saved. When you open **Chat in English**, the AI is told which phrases you've been practising and naturally steers the conversation so you get a chance to use them for real.
+### Daily reminder
+- 🔔 **Browser notifications** — opt-in daily reminder at a chosen hour; only fires if today's tasks aren't done yet
+
+### Other features
+- 📤 **Import / Export backup** — export a JSON backup of all progress; restore it from Settings
+- 📢 **Share my streak** — share or copy your streak text with one tap
+- 👋 **Onboarding modal** — first-run welcome screen for new users
 
 ### Installable (PWA)
 EnglishSpark is a Progressive Web App — you can install it on your phone's home screen for a native app experience, including offline support for the app shell. The service worker uses network-first for HTML (always gets updates) and cache-first for hashed JS/CSS assets (fast loads).

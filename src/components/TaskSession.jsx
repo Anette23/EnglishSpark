@@ -38,7 +38,14 @@ export default function TaskSession({ taskType, duration, onComplete, onBack }) 
     try {
       feedbackResult = await getFeedback(taskType, feedbackText)
       setFeedback(feedbackResult)
-      if (feedbackResult) extractAndStore(feedbackResult)
+      if (feedbackResult) {
+        const feedbackStr = [
+          ...(feedbackResult.corrections || []),
+          ...(feedbackResult.suggestions || []),
+          feedbackResult.praise || '',
+        ].join(' ')
+        extractAndStore(feedbackStr)
+      }
     } catch (e) {
       if (e.message === 'NOT_CONFIGURED') {
         setFeedbackError('AI feedback is not set up yet. See ⚙️ Settings for instructions.')
