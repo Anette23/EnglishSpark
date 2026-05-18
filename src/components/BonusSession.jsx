@@ -5,6 +5,7 @@ import { GRAMMAR_EXERCISES } from '../grammarExercises'
 import { completeDailyBonusGoal } from '../habitStore'
 import { checkSentence } from '../api'
 import { saveFlashcard, getFlashcardStats, getDailyProgress, incrementDailyProgress, DAILY_GOAL } from '../flashcardStore'
+import { savePracticedSentence } from '../sentenceStore'
 import FlashcardReview from './FlashcardReview'
 
 function dailyStart(arr) {
@@ -77,10 +78,6 @@ export default function BonusSession({ type, onBack }) {
   const startIdx = type === 'synonyms' ? () => smartSynStart(list) : () => dailyStart(list)
   const [idx, setIdx]           = useState(startIdx)
   const [round, setRound]       = useState(0)
-  const [input, setInput]       = useState('')
-  const [checked, setChecked]   = useState(false)
-  const [transcript, setTranscript] = useState('')
-  const [isSpeaking, setIsSpeaking] = useState(false)
   const [dailyCount, setDailyCount] = useState(() => getDailyProgress(type))
   const [goalJustDone, setGoalJustDone] = useState(false)
   const [reviewing, setReviewing]   = useState(false)
@@ -103,9 +100,6 @@ export default function BonusSession({ type, onBack }) {
       const newList = getListForLevel(fullList, l)
       setIdx(type === 'synonyms' ? smartSynStart(newList) : dailyStart(newList))
     }
-    setInput('')
-    setChecked(false)
-    setTranscript('')
   }
 
   function next(score) {
@@ -124,10 +118,6 @@ export default function BonusSession({ type, onBack }) {
     setDailyCount(newCount)
     setIdx(nextIdx)
     setRound(r => r + 1)
-    setInput('')
-    setChecked(false)
-    setTranscript('')
-    setIsSpeaking(false)
 
     if (newCount === DAILY_GOAL) {
       completeDailyBonusGoal(type)
@@ -221,26 +211,24 @@ export default function BonusSession({ type, onBack }) {
       )}
       {type === 'prepositions' && (
         <PrepositionsExercise
+          key={`${level}-${idx}-${round}`}
+          type="prepositions"
           item={item}
-          input={input} setInput={setInput}
-          checked={checked} setChecked={setChecked}
           onNext={next}
         />
       )}
       {type === 'idioms' && (
         <PrepositionsExercise
+          key={`${level}-${idx}-${round}`}
+          type="idioms"
           item={item}
-          input={input} setInput={setInput}
-          checked={checked} setChecked={setChecked}
           onNext={next}
         />
       )}
       {type === 'shadowing' && (
         <ShadowingExercise
+          key={`${level}-${idx}-${round}`}
           sentence={item.sentence}
-          recKey={`${level}-${idx}`}
-          transcript={transcript} setTranscript={setTranscript}
-          isSpeaking={isSpeaking} setIsSpeaking={setIsSpeaking}
           onNext={next}
         />
       )}
@@ -497,13 +485,17 @@ function SynonymsExercise({ item, allItems, onNext }) {
 }
 
 function GrammarExercise({ item, onNext }) {
-  const [input, setInput]   = useState('')
+  const [input, setInput]     = useState('')
   const [checked, setChecked] = useState(false)
+  const [phase, setPhase]     = useState('blank') // 'blank' | 'useit'
   const userAnswer = input.trim().toLowerCase()
   const isCorrect  = checked && item.answer.includes(userAnswer)
   const [before, after] = item.phrase.split('___')
+  const score = isCorrect ? 1.0 : 0.0
 
-  function handleCheck() { if (input.trim()) setChecked(true) }
+  if (phase === 'useit') {
+    return <UseItPhase targetPhrase={item.category} type="grammar" onDone={() => onNext(score)} />
+  }
 
   return (
     <>
@@ -512,13 +504,7 @@ function GrammarExercise({ item, onNext }) {
         <div className="prompt-label">Fill in the blank</div>
         <p className="prompt-text">
           {checked ? (
-            <>
-              {before}
-              <span className={isCorrect ? 'answer-correct' : 'answer-shown'}>
-                {item.answer[0]}
-              </span>
-              {after}
-            </>
+            <>{before}<span className={isCorrect ? 'answer-correct' : 'answer-shown'}>{item.answer[0]}</span>{after}</>
           ) : (
             <>{before}<span className="answer-blank">______</span>{after}</>
           )}
@@ -533,12 +519,12 @@ function GrammarExercise({ item, onNext }) {
           value={input}
           onChange={e => setInput(e.target.value)}
           disabled={checked}
-          onKeyDown={e => e.key === 'Enter' && handleCheck()}
+          onKeyDown={e => e.key === 'Enter' && input.trim() && setChecked(true)}
           autoCapitalize="none"
           autoCorrect="off"
         />
         {!checked && (
-          <button className="btn-primary btn-check" onClick={handleCheck} disabled={!input.trim()}>
+          <button className="btn-primary btn-check" onClick={() => input.trim() && setChecked(true)} disabled={!input.trim()}>
             Check
           </button>
         )}
@@ -551,20 +537,95 @@ function GrammarExercise({ item, onNext }) {
           </p>
           {item.hint && <p className="grammar-hint">💡 {item.hint}</p>}
           <p className="grammar-explanation">{item.explanation}</p>
-          <button className="btn-primary" onClick={() => onNext(isCorrect ? 1.0 : 0.0)}>Next →</button>
+          <button className="btn-primary" onClick={() => setPhase('useit')}>
+            Use it in a sentence →
+          </button>
         </div>
       )}
     </>
   )
 }
 
-function PrepositionsExercise({ item, input, setInput, checked, setChecked, onNext }) {
+function UseItPhase({ targetPhrase, type, onDone }) {
+  const [sentence, setSentence]         = useState('')
+  const [submitted, setSubmitted]       = useState(false)
+  const [check, setCheck]               = useState(null)
+  const [loading, setLoading]           = useState(false)
+
+  async function handleSubmit() {
+    setSubmitted(true)
+    setLoading(true)
+    savePracticedSentence({ type, phrase: targetPhrase, sentence })
+    try {
+      const result = await checkSentence(targetPhrase, sentence)
+      setCheck(result)
+    } catch {
+      setCheck(null)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <>
+      <div className="prompt-box">
+        <div className="prompt-label">Now use it in a sentence</div>
+        <p className="bonus-word" style={{ fontSize: 17 }}>{targetPhrase}</p>
+      </div>
+
+      {!submitted ? (
+        <>
+          <textarea
+            className="text-input"
+            rows={3}
+            placeholder={`Write a sentence using "${targetPhrase}"...`}
+            value={sentence}
+            onChange={e => setSentence(e.target.value)}
+            onKeyDown={e => {
+              if (e.key === 'Enter' && !e.shiftKey && sentence.trim().length >= 5) {
+                e.preventDefault()
+                handleSubmit()
+              }
+            }}
+            autoCapitalize="sentences"
+          />
+          <div className="syn-recall-btns">
+            <button className="btn-hint" type="button" onClick={onDone}>Skip →</button>
+            <button
+              className="btn-primary btn-check"
+              onClick={handleSubmit}
+              disabled={sentence.trim().length < 5}
+            >Submit</button>
+          </div>
+        </>
+      ) : (
+        <div className="bonus-result">
+          {loading && <p className="syn-checking">⏳ Checking your sentence...</p>}
+          {!loading && check && (
+            <p className={check.ok ? 'result-correct' : 'result-wrong'}>
+              {check.ok ? '✅' : '❌'} {check.feedback}
+            </p>
+          )}
+          {!loading && !check && <p className="result-correct">✅ Sentence submitted!</p>}
+          {!loading && <button className="btn-primary" onClick={onDone}>Next →</button>}
+        </div>
+      )}
+    </>
+  )
+}
+
+function PrepositionsExercise({ type, item, onNext }) {
+  const [input, setInput]     = useState('')
+  const [checked, setChecked] = useState(false)
+  const [phase, setPhase]     = useState('blank') // 'blank' | 'useit'
   const userAnswer = input.trim().toLowerCase()
   const isCorrect  = checked && item.answer.includes(userAnswer)
   const [before, after] = item.phrase.split('___')
+  const targetPhrase = item.hint ? item.hint.split('=')[0].trim() : item.phrase.replace('___', item.answer[0])
+  const score = isCorrect ? 1.0 : 0.0
 
-  function handleCheck() {
-    if (input.trim()) setChecked(true)
+  if (phase === 'useit') {
+    return <UseItPhase targetPhrase={targetPhrase} type={type} onDone={() => onNext(score)} />
   }
 
   return (
@@ -573,13 +634,7 @@ function PrepositionsExercise({ item, input, setInput, checked, setChecked, onNe
         <div className="prompt-label">Fill in the missing word</div>
         <p className="prompt-text">
           {checked ? (
-            <>
-              {before}
-              <span className={isCorrect ? 'answer-correct' : 'answer-shown'}>
-                {item.answer.join(' / ')}
-              </span>
-              {after}
-            </>
+            <>{before}<span className={isCorrect ? 'answer-correct' : 'answer-shown'}>{item.answer.join(' / ')}</span>{after}</>
           ) : (
             <>{before}<span className="answer-blank">______</span>{after}</>
           )}
@@ -594,12 +649,12 @@ function PrepositionsExercise({ item, input, setInput, checked, setChecked, onNe
           value={input}
           onChange={e => setInput(e.target.value)}
           disabled={checked}
-          onKeyDown={e => e.key === 'Enter' && handleCheck()}
+          onKeyDown={e => e.key === 'Enter' && input.trim() && setChecked(true)}
           autoCapitalize="none"
           autoCorrect="off"
         />
         {!checked && (
-          <button className="btn-primary btn-check" onClick={handleCheck} disabled={!input.trim()}>
+          <button className="btn-primary btn-check" onClick={() => input.trim() && setChecked(true)} disabled={!input.trim()}>
             Check
           </button>
         )}
@@ -608,18 +663,22 @@ function PrepositionsExercise({ item, input, setInput, checked, setChecked, onNe
       {checked && (
         <div className="bonus-result">
           <p className={isCorrect ? 'result-correct' : 'result-wrong'}>
-            {isCorrect ? '✅ Correct!' : `❌ The answer is: ${item.answer.join(' or ')}`}
+            {isCorrect ? '✅ Correct!' : `❌ Answer: ${item.answer.join(' / ')}`}
           </p>
           <p className="hint-text">💡 {item.hint}</p>
-          <button className="btn-primary" onClick={() => onNext(isCorrect ? 1.0 : 0.0)}>Next →</button>
+          <button className="btn-primary" onClick={() => setPhase('useit')}>
+            Use it in a sentence →
+          </button>
         </div>
       )}
     </>
   )
 }
 
-function ShadowingExercise({ sentence, recKey, transcript, setTranscript, isSpeaking, setIsSpeaking, onNext }) {
-  const [retryKey, setRetryKey] = useState(0)
+function ShadowingExercise({ sentence, onNext }) {
+  const [transcript, setTranscript] = useState('')
+  const [isSpeaking, setIsSpeaking] = useState(false)
+  const [retryKey, setRetryKey]     = useState(0)
   const supported = typeof window !== 'undefined' && 'speechSynthesis' in window
 
   function listen() {
@@ -666,7 +725,7 @@ function ShadowingExercise({ sentence, recKey, transcript, setTranscript, isSpea
         <p className="rec-error">Text-to-speech is not supported in this browser.</p>
       )}
 
-      <SpeechRecorder key={`${recKey}-${retryKey}`} onTranscript={setTranscript} disabled={isSpeaking} />
+      <SpeechRecorder key={retryKey} onTranscript={setTranscript} disabled={isSpeaking} />
 
       {transcript && (
         <div className="bonus-result">

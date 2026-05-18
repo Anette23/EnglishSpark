@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import FeedbackView from './FeedbackView'
 import { sendChatMessage, getChatFeedback } from '../api'
+import { getRecentPhrases } from '../sentenceStore'
 
 function useVoiceInput(onResult) {
   const [isRecording, setIsRecording] = useState(false)
@@ -78,6 +79,7 @@ function getStarter() {
 }
 
 export default function ChatSession({ onBack }) {
+  const practicedPhrases = getRecentPhrases(7)
   const [messages, setMessages]       = useState([
     { role: 'assistant', content: getStarter() },
   ])
@@ -109,7 +111,7 @@ export default function ChatSession({ onBack }) {
     setError(null)
 
     try {
-      const { reply } = await sendChatMessage(newMessages)
+      const { reply } = await sendChatMessage(newMessages, practicedPhrases)
       setMessages(prev => [...prev, { role: 'assistant', content: reply }])
     } catch (e) {
       if (e.message === 'NOT_CONFIGURED') {
@@ -151,6 +153,15 @@ export default function ChatSession({ onBack }) {
           </button>
         )}
       </div>
+
+      {practicedPhrases.length > 0 && (
+        <div className="chat-phrases-bar">
+          <span className="chat-phrases-label">Practicing:</span>
+          {practicedPhrases.slice(0, 4).map(p => (
+            <span key={p} className="chat-phrase-chip">{p}</span>
+          ))}
+        </div>
+      )}
 
       <div className="chat-messages">
         {messages.map((m, i) => (

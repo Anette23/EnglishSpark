@@ -5,6 +5,7 @@ import MilestoneModal from './components/MilestoneModal'
 import Settings from './components/Settings'
 import HistoryView from './components/HistoryView'
 import BonusSession from './components/BonusSession'
+import MixedSession from './components/MixedSession'
 import WeeklySession from './components/WeeklySession'
 import ChatSession from './components/ChatSession'
 import { loadState, getTodayStatus, completeTask, getSessionDuration, completeWeeklyChallenge, clearNewMilestone, clearNewLevel, useStreakFreeze, getStreakFreezes } from './habitStore'
@@ -94,7 +95,8 @@ export default function App() {
       {(view === 'synonyms' || view === 'prepositions' || view === 'idioms' || view === 'shadowing' || view === 'grammar') && (
         <BonusSession type={view} onBack={handleBack} />
       )}
-      {view === 'chat' && <ChatSession onBack={handleBack} />}
+      {view === 'chat'  && <ChatSession onBack={handleBack} />}
+      {view === 'mixed' && <MixedSession onBack={handleBack} />}
       {view === 'weekly' && (
         <WeeklySession
           challenge={getCurrentChallenge()}

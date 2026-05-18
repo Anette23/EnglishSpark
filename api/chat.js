@@ -14,7 +14,7 @@ export default async function handler(req, res) {
     return res.status(503).json({ error: 'Not configured' })
   }
 
-  const { messages, mode } = req.body ?? {}
+  const { messages, mode, practicedPhrases } = req.body ?? {}
 
   if (!Array.isArray(messages) || messages.length === 0) {
     return res.status(400).json({ error: 'Missing messages' })
@@ -53,7 +53,11 @@ Rules:
 - Ask a follow-up question to keep the conversation going.
 - Use vocabulary suitable for B1 level — not too simple, not too advanced.
 - Do NOT explicitly correct grammar mistakes during the conversation — be a natural partner.
-- Be warm, encouraging, and curious.`
+- Be warm, encouraging, and curious.${
+  Array.isArray(practicedPhrases) && practicedPhrases.length > 0
+    ? `\n- The user has recently been practicing these English phrases/structures in exercises: ${practicedPhrases.map(p => `"${p}"`).join(', ')}. Naturally steer the conversation so the user gets a chance to use one or two of them. Do NOT say "use this phrase" — just create a natural context where it fits.`
+    : ''
+}`
 
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {

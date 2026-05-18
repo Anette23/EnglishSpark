@@ -193,6 +193,10 @@ export default function Dashboard({ state, todayStatus, onStartTask, onOpenSetti
           <div className="bonus-section">
             <h3>Extra Practice</h3>
             <p className="bonus-note">Optional — not required for streak</p>
+            <button className="btn-mixed" onClick={() => onStartTask('mixed')}>
+              🔀 Mixed Practice
+              <span className="btn-mixed-sub">5 skills in one session — with sentence practice</span>
+            </button>
             <div className="tasks-grid">
               <BonusCard
                 icon="🔤" title="Synonyms"

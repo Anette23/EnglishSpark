@@ -1188,6 +1188,48 @@ body {
 .shadow-word-tap  { cursor: pointer; text-decoration: underline dotted #ef4444; }
 .shadow-word-tap:hover { opacity: .75; }
 .shadow-tap-hint  { font-size: 12px; color: var(--muted); margin: 2px 0 8px; }
+
+/* ── Chat practiced phrases bar ──────────────────────────────────────────── */
+/* ── Mixed practice button ───────────────────────────────────────────────── */
+.btn-mixed {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 12px;
+  transition: opacity .15s;
+}
+.btn-mixed:hover { opacity: .9; }
+.btn-mixed-sub { font-size: 12px; font-weight: 400; opacity: .85; }
+
+.chat-phrases-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 16px;
+  background: var(--surface2, #f1f5f9);
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.chat-phrases-label { color: var(--muted); font-weight: 600; }
+.chat-phrase-chip {
+  background: var(--accent, #6366f1);
+  color: #fff;
+  border-radius: 12px;
+  padding: 2px 10px;
+  font-size: 12px;
+  font-weight: 600;
+}
 .shadow-transcript { font-size: 13px; color: var(--muted); margin: 6px 0; font-style: italic; }
 .shadow-missed { font-size: 14px; color: var(--muted); margin: 4px 0 10px; }
 .shadow-action-btns { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
