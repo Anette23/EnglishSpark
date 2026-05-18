@@ -152,7 +152,7 @@ export default function Dashboard({ state, todayStatus, onStartTask, onOpenSetti
             </div>
           </div>
 
-          <ActivityGraph history={state.history} />
+          <ActivityGraph history={state.history || []} />
 
           <div className="milestones-section">
             <h3>Milestones</h3>

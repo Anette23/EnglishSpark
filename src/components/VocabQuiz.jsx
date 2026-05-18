@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 import { getWordsSortedBySR, getDueWords, updateWordSR } from '../vocabularyStore'
 
 function normalise(str) {
@@ -6,8 +6,8 @@ function normalise(str) {
 }
 
 export default function VocabQuiz({ onBack }) {
-  const words = useMemo(() => getWordsSortedBySR(), [])
-  const dueCount = useMemo(() => getDueWords().length, [])
+  const [words] = useState(() => getWordsSortedBySR())
+  const [dueCount] = useState(() => getDueWords().length)
   const [mode, setMode] = useState('sk-en')
   const [idx, setIdx] = useState(0)
   const [input, setInput] = useState('')

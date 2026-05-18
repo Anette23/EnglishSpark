@@ -52,6 +52,7 @@ export default function App() {
   const [showMilestone, setShowMilestone] = useState(null)
   const [showLevelUp, setShowLevelUp]     = useState(null)
   const [darkMode, setDarkMode] = useState(() => localStorage.getItem('theme') === 'dark')
+  const [onboarded, setOnboarded] = useState(() => !!localStorage.getItem('onboarded'))
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light')
@@ -179,7 +180,7 @@ export default function App() {
           onClose={() => { setShowLevelUp(null); clearNewLevel() }}
         />
       )}
-      <OnboardingModal onClose={() => {}} />
+      {!onboarded && <OnboardingModal onClose={() => setOnboarded(true)} />}
     </div>
   )
 }

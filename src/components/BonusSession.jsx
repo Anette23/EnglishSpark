@@ -92,6 +92,9 @@ export default function BonusSession({ type, onBack }) {
   function changeLevel(l) {
     localStorage.setItem('exerciseLevel', l)
     setLevel(l)
+    setRound(0)
+    setReviewing(false)
+    setGoalJustDone(false)
     if (type === 'grammar') {
       const shuffled = [...GRAMMAR_EXERCISES.filter(e => e.level === l)].sort(() => Math.random() - 0.5)
       setGrammarShuffled(shuffled)
