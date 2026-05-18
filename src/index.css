@@ -1600,6 +1600,7 @@ body {
   width: 100%;
   background: none;
   border: none;
+  color: var(--text);
   display: flex;
   align-items: center;
   gap: 10px;
@@ -1663,10 +1664,11 @@ body {
 }
 
 .feedback-mini {
-  background: #f8fafc;
+  background: var(--surface2, #f1f5f9);
   border-radius: 8px;
   padding: 10px 12px;
   font-size: 13px;
+  color: var(--text);
   display: flex;
   flex-direction: column;
   gap: 4px;

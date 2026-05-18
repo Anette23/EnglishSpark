@@ -48,6 +48,23 @@ export default function App() {
 
   useEffect(() => { window.scrollTo(0, 0) }, [view])
 
+  // Push a history entry when leaving dashboard so hardware back button works
+  useEffect(() => {
+    if (view !== 'dashboard') {
+      window.history.pushState({ view }, '')
+    }
+  }, [view])
+
+  // Handle hardware/browser back button — return to dashboard instead of exiting
+  useEffect(() => {
+    function onPopState() {
+      setView('dashboard')
+      setState(loadState())
+    }
+    window.addEventListener('popstate', onPopState)
+    return () => window.removeEventListener('popstate', onPopState)
+  }, [])
+
   const duration = getSessionDuration(state.totalDays)
 
   function handleCompleteTask(taskType) {
