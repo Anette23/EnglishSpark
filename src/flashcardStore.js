@@ -96,6 +96,27 @@ export function getDueCards(type, allItems, count) {
   return due
 }
 
+// ── Daily goal tracking ───────────────────────────────────────────────────────
+
+export const DAILY_GOAL = 5
+
+export function getDailyProgress(type) {
+  try {
+    const data = JSON.parse(localStorage.getItem(`dailyBonus_${type}`) || '{}')
+    if (data.date !== todayStr()) return 0
+    return data.count || 0
+  } catch { return 0 }
+}
+
+export function incrementDailyProgress(type) {
+  const current = getDailyProgress(type)
+  const next = current + 1
+  try {
+    localStorage.setItem(`dailyBonus_${type}`, JSON.stringify({ date: todayStr(), count: next }))
+  } catch {}
+  return next
+}
+
 /**
  * Returns stats for the flashcard deck vs the full item list.
  * { total, learned, due }

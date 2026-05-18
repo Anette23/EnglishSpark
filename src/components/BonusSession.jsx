@@ -2,9 +2,9 @@ import { useState } from 'react'
 import SpeechRecorder from './SpeechRecorder'
 import { SYNONYM_WORDS, PREPOSITION_PHRASES, IDIOM_PHRASES, SHADOWING_SENTENCES, getListForLevel } from '../bonusExercises'
 import { GRAMMAR_EXERCISES } from '../grammarExercises'
-import { completeBonusExercise } from '../habitStore'
+import { completeDailyBonusGoal } from '../habitStore'
 import { checkSentence } from '../api'
-import { saveFlashcard, getFlashcardStats } from '../flashcardStore'
+import { saveFlashcard, getFlashcardStats, getDailyProgress, incrementDailyProgress, DAILY_GOAL } from '../flashcardStore'
 import FlashcardReview from './FlashcardReview'
 
 function dailyStart(arr) {
@@ -76,7 +76,8 @@ export default function BonusSession({ type, onBack }) {
   const [checked, setChecked]   = useState(false)
   const [transcript, setTranscript] = useState('')
   const [isSpeaking, setIsSpeaking] = useState(false)
-  const [bonusSaved, setBonusSaved] = useState(false)
+  const [dailyCount, setDailyCount] = useState(() => getDailyProgress(type))
+  const [goalJustDone, setGoalJustDone] = useState(false)
   const [reviewing, setReviewing]   = useState(false)
 
   function itemFlashcardId(item) {
@@ -97,24 +98,30 @@ export default function BonusSession({ type, onBack }) {
   }
 
   function next(score) {
-    if (!bonusSaved) {
-      completeBonusExercise(type)
-      setBonusSaved(true)
-    }
     const item = list[idx % list.length]
     if (score !== undefined) saveFlashcard(type, itemFlashcardId(item), score)
 
+    let nextIdx
     if (type === 'synonyms' && score !== undefined) {
       saveSynWordScore(item.word, score)
-      setIdx(nextSynIdx(list, idx % list.length))
+      nextIdx = nextSynIdx(list, idx % list.length)
     } else {
-      setIdx(i => (i + 1) % list.length)
+      nextIdx = (idx + 1) % list.length
     }
+
+    const newCount = incrementDailyProgress(type)
+    setDailyCount(newCount)
+    setIdx(nextIdx)
     setRound(r => r + 1)
     setInput('')
     setChecked(false)
     setTranscript('')
     setIsSpeaking(false)
+
+    if (newCount === DAILY_GOAL) {
+      completeDailyBonusGoal(type)
+      setGoalJustDone(true)
+    }
   }
 
   const stats = getFlashcardStats(type, list)
@@ -133,6 +140,28 @@ export default function BonusSession({ type, onBack }) {
     return <FlashcardReview type={type} items={list} onClose={() => setReviewing(false)} />
   }
 
+  if (goalJustDone) {
+    return (
+      <div className="task-session">
+        <button className="btn-back" onClick={onBack}>← Back</button>
+        <div className="daily-goal-complete">
+          <div className="complete-icon">🎯</div>
+          <h2>Daily goal done!</h2>
+          <div className="goal-xp-badge">+20 XP</div>
+          <p className="goal-subtitle">You completed {DAILY_GOAL} {config.title} exercises today!</p>
+        </div>
+        <div className="goal-done-btns">
+          <button className="btn-primary" onClick={onBack}>Done ✓</button>
+          <button className="btn-secondary" style={{ width: '100%', padding: 14, fontSize: 16 }} onClick={() => setGoalJustDone(false)}>
+            Keep going →
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  const clampedCount = Math.min(dailyCount, DAILY_GOAL)
+
   return (
     <div className="task-session">
       <button className="btn-back" onClick={onBack}>← Back</button>
@@ -148,6 +177,15 @@ export default function BonusSession({ type, onBack }) {
             🗂 Review {stats.due}
           </button>
         )}
+      </div>
+
+      <div className="daily-progress-row">
+        <div className="daily-progress-bar-wrap">
+          <div className="daily-progress-bar-fill" style={{ width: `${clampedCount / DAILY_GOAL * 100}%` }} />
+        </div>
+        <span className="daily-progress-label">
+          {dailyCount >= DAILY_GOAL ? `✓ ${DAILY_GOAL}/${DAILY_GOAL} done!` : `${dailyCount} / ${DAILY_GOAL} today`}
+        </span>
       </div>
 
       <div className="level-toggle">

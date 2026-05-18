@@ -201,6 +201,24 @@ export function completeBonusExercise(type) {
   return state
 }
 
+export function completeDailyBonusGoal(type) {
+  const state = loadState()
+  const today = todayStr()
+  let entry = state.history.find(h => h.date === today)
+  if (!entry) {
+    entry = { date: today, writingDone: false, speakingDone: false, xpEarned: 0 }
+    state.history.push(entry)
+  }
+  const goalDone = entry.bonusGoalDone || []
+  if (goalDone.includes(type)) { saveState(state); return state }
+  entry.bonusGoalDone = [...goalDone, type]
+  const xpGain = 20
+  entry.xpEarned = (entry.xpEarned || 0) + xpGain
+  state.xp += xpGain
+  saveState(state)
+  return state
+}
+
 export function completeWeeklyChallenge(week) {
   const state = loadState()
   if ((state.weeklyDone || []).includes(week)) return state

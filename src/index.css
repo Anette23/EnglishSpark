@@ -1123,6 +1123,57 @@ body {
   transition: opacity .15s;
 }
 .btn-danger:hover { opacity: .85; }
+/* ── Daily goal progress ─────────────────────────────────────────────────── */
+.daily-progress-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 4px 0 12px;
+}
+.daily-progress-bar-wrap {
+  flex: 1;
+  height: 8px;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.daily-progress-bar-fill {
+  height: 100%;
+  background: var(--green);
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+.daily-progress-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.daily-goal-complete {
+  text-align: center;
+  padding: 40px 0 20px;
+}
+.goal-xp-badge {
+  display: inline-block;
+  background: var(--green);
+  color: #fff;
+  font-weight: 700;
+  font-size: 18px;
+  padding: 4px 18px;
+  border-radius: 20px;
+  margin: 10px 0 4px;
+}
+.goal-subtitle {
+  color: var(--muted);
+  font-size: 15px;
+  margin-top: 8px;
+}
+.goal-done-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .btn-secondary {
   background: var(--surface2, #e2e8f0);
   color: var(--text);
