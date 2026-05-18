@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { translateWord } from '../api'
 import { saveWord, isWordSaved } from '../vocabularyStore'
 
-export default function TranslatableText({ text, className }) {
+export default function TranslatableText({ text, className, onLookup }) {
   const [popup, setPopup] = useState(null) // { word, context, translation, loading, saved }
 
   function handleWordTap(word, fullText) {
@@ -11,7 +11,10 @@ export default function TranslatableText({ text, className }) {
     const alreadySaved = isWordSaved(clean)
     setPopup({ word: clean, context: fullText, translation: null, loading: true, saved: alreadySaved })
     translateWord(clean, fullText)
-      .then(({ translation }) => setPopup(p => p?.word === clean ? { ...p, translation, loading: false } : p))
+      .then(({ translation }) => {
+        setPopup(p => p?.word === clean ? { ...p, translation, loading: false } : p)
+        if (onLookup) onLookup({ word: clean, translation })
+      })
       .catch(() => setPopup(p => p?.word === clean ? { ...p, translation: '—', loading: false } : p))
   }
 

@@ -2112,6 +2112,118 @@ body {
 }
 .reading-nav-btn:hover { opacity: .88; }
 
+/* ── Reading enhancements ───────────────────────────────────────────────── */
+
+.reading-tts-btn {
+  flex-shrink: 0;
+  background: var(--blue-light);
+  color: var(--blue);
+  border: 1.5px solid var(--blue);
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.reading-tts-btn:hover { opacity: .85; }
+.reading-tts-btn-active {
+  background: var(--blue);
+  color: #fff;
+}
+
+.reading-xp-badge {
+  display: inline-block;
+  background: var(--green);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 20px;
+  padding: 4px 16px;
+  margin-top: 10px;
+}
+
+.reading-looked-up {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  box-shadow: var(--shadow);
+}
+.reading-looked-up-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+.reading-looked-up-chips {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.reading-looked-up-chip {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 14px;
+}
+.looked-up-word        { font-weight: 700; color: var(--text); }
+.looked-up-sep         { color: var(--muted); }
+.looked-up-translation { color: var(--purple); font-weight: 600; }
+
+.reading-difficulty {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.reading-difficulty-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.reading-difficulty-row {
+  display: flex;
+  gap: 8px;
+}
+.reading-diff-btn {
+  flex: 1;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  transition: all .15s;
+}
+.reading-diff-btn:hover { border-color: var(--purple); }
+
+.reading-feedback-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+  color: var(--text);
+}
+.reading-feedback-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
 /* Vocab button on dashboard */
 .btn-vocab {
   width: 100%;

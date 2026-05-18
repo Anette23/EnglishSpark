@@ -302,3 +302,17 @@ export function getLevel(xp) {
 export function getNextMilestone(streak, unlockedMilestones) {
   return MILESTONES.find(m => m.days > streak) || null
 }
+
+export function addReadingXP(amount) {
+  const state = loadState()
+  const today = todayStr()
+  let entry = state.history.find(h => h.date === today)
+  if (!entry) {
+    entry = { date: today, writingDone: false, speakingDone: false, xpEarned: 0 }
+    state.history.push(entry)
+  }
+  entry.xpEarned = (entry.xpEarned || 0) + amount
+  state.xp += amount
+  saveState(state)
+  return state
+}
