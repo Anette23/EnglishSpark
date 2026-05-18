@@ -1,4 +1,4 @@
-// Reading comprehension exercises for EnglishSpark — B1/B2 level
+// Reading comprehension exercises for EnglishSpark — B1/B2/C1 level
 
 export const READING_EXERCISES = [
   {
@@ -276,6 +276,228 @@ Interestingly, despite its popularity, coffee remains a complex subject scientif
       {
         q: 'What does the text say about the health effects of coffee?',
         options: ['Coffee is completely safe for everyone', 'It is always harmful to health', 'Research gives mixed results — both positive and negative', 'Scientists agree coffee is healthy'],
+        answer: 2,
+      },
+    ],
+  },
+
+  // ─── C1 ───────────────────────────────────────────────────────────────────
+
+  {
+    id: 'read-9',
+    level: 'C1',
+    title: 'The Cognitive Biases That Shape Our Decisions',
+    passage: `For centuries, economists built their models on the assumption of the rational actor — a human being who carefully weighs all available information and consistently makes decisions that maximise personal benefit. Over the past few decades, behavioural economics has dismantled this comfortable fiction, demonstrating that human reasoning is riddled with systematic errors called cognitive biases.
+
+One of the most pervasive is confirmation bias: the tendency to seek out, interpret, and remember information in ways that confirm what we already believe. Rather than updating our worldview in response to contradictory evidence, we unconsciously filter our information environment to preserve existing convictions. This has profound implications not just for individual decision-making, but for public discourse — particularly in an era of algorithmic content curation that amplifies the effect.
+
+The availability heuristic presents a different kind of distortion. We judge the likelihood of events based on how readily examples come to mind, rather than on actual statistical frequency. Following extensive media coverage of plane crashes, people dramatically overestimate the danger of flying while underestimating far more common risks such as car accidents. Vivid, emotionally charged events dominate our risk perception regardless of their objective probability.
+
+Daniel Kahneman's influential distinction between System 1 (fast, intuitive, emotionally driven) and System 2 (slow, deliberate, analytical) thinking provides a useful framework. Most of our daily decisions are governed by System 1 — efficient but prone to error. Recognising when a situation demands System 2 engagement is itself a cognitive skill that can be cultivated, though rarely without considerable effort.`,
+    questions: [
+      {
+        q: 'What assumption did classical economics make about human decision-making?',
+        options: [
+          'That people are inherently irrational',
+          'That people carefully weigh information to maximise personal benefit',
+          'That emotions always guide economic choices',
+          'That people rely on algorithms to make decisions',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'How does confirmation bias affect people in the digital age, according to the text?',
+        options: [
+          'It makes people better at processing contradictory information',
+          'Algorithmic content curation amplifies its effect by filtering information',
+          'Social media exposes people to more diverse viewpoints',
+          'It only affects people with low education levels',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'Why do people overestimate the danger of flying after media coverage of crashes?',
+        options: [
+          'Because planes are statistically more dangerous than cars',
+          'Because airlines release inaccurate safety data',
+          'Because vivid, memorable events distort risk perception — the availability heuristic',
+          'Because System 2 thinking dominates in such situations',
+        ],
+        answer: 2,
+      },
+      {
+        q: 'What does Kahneman\'s System 2 represent?',
+        options: [
+          'Fast, intuitive, emotionally driven thinking',
+          'Slow, deliberate, analytical reasoning',
+          'The unconscious filtering of information',
+          'Heuristic-based judgement under uncertainty',
+        ],
+        answer: 1,
+      },
+    ],
+  },
+
+  {
+    id: 'read-10',
+    level: 'C1',
+    title: 'Artificial Intelligence and the Transformation of Work',
+    passage: `The relationship between technological progress and employment has historically been more complicated than either utopian or dystopian narratives suggest. The Industrial Revolution did eliminate vast categories of agricultural and craft labour, yet it simultaneously generated entirely new industries and occupations that its contemporaries could scarcely have imagined. Whether artificial intelligence represents a continuation of this pattern or a qualitative rupture with it is one of the defining economic questions of our time.
+
+What distinguishes the current wave of automation from previous ones is its reach into cognitive, rather than merely physical, labour. Earlier mechanisation displaced workers performing repetitive manual tasks; AI systems are now encroaching on domains long considered the exclusive province of educated professionals — legal research, medical diagnosis, financial analysis, even creative writing. This suggests that the middle-skill, middle-income jobs that formed the backbone of post-war prosperity may be particularly vulnerable.
+
+Proponents of technological optimism point to the emergence of new job categories — prompt engineers, AI trainers, data ethicists — and argue that, as in past transitions, human creativity and adaptability will generate demand that technology cannot satisfy. Critics counter that the pace of current displacement may outstrip the economy's capacity to absorb workers, and that the gains from AI productivity will accrue disproportionately to capital rather than labour.
+
+What seems indisputable is that the distribution of AI's benefits will not be automatic or equitable. Active policy choices — around education, retraining, taxation, and social protection — will determine whether this transition produces broadly shared prosperity or deepens existing inequalities.`,
+    questions: [
+      {
+        q: 'What is the author\'s view of the relationship between technology and employment historically?',
+        options: [
+          'Technology has always led to permanent mass unemployment',
+          'It is more complex than either optimistic or pessimistic narratives suggest',
+          'Previous technological revolutions caused no job losses',
+          'The Industrial Revolution is irrelevant to understanding AI\'s impact',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What makes the current wave of AI automation different from earlier mechanisation?',
+        options: [
+          'It only affects low-skill manual workers',
+          'It is slower and more manageable than previous transitions',
+          'It extends into cognitive and professional domains, not just physical labour',
+          'It creates more jobs than it eliminates in all sectors',
+        ],
+        answer: 2,
+      },
+      {
+        q: 'What concern do critics of technological optimism raise?',
+        options: [
+          'That AI will never reach the level of human creativity',
+          'That displacement may happen faster than the economy can absorb workers',
+          'That prompt engineering is not a real profession',
+          'That AI research is underfunded',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What does the author argue is needed to ensure AI benefits are widely shared?',
+        options: [
+          'Slowing down AI research',
+          'Leaving distribution to market forces',
+          'Deliberate policy choices around education, taxation, and social protection',
+          'Encouraging more people to become AI engineers',
+        ],
+        answer: 2,
+      },
+    ],
+  },
+
+  {
+    id: 'read-11',
+    level: 'C1',
+    title: 'Solitude, Loneliness, and the Modern Self',
+    passage: `There is a distinction that philosophy and psychology have long maintained but that everyday language tends to obscure: the difference between solitude and loneliness. Solitude is a chosen condition — a deliberate withdrawal from social life in order to think, create, or simply be. Loneliness, by contrast, is an involuntary sense of disconnection, of wanting company that is absent. The two states may look identical from the outside yet feel profoundly different from within.
+
+The Romantic tradition celebrated solitude as the necessary condition for authentic selfhood and creative achievement. Wordsworth wandered the Lake District in productive isolation; Thoreau retreated to Walden Pond to "live deliberately". This valorisation of aloneness reflected a broader conviction that the noise of society fragmented the self, while withdrawal allowed it to cohere.
+
+Contemporary neuroscience has complicated this picture. Prolonged social isolation demonstrably impairs cognitive function, weakens the immune system, and is associated with elevated cortisol levels comparable to those produced by physical threat. John Cacioppo's landmark research established that chronic loneliness is a significant predictor of premature mortality — comparable in effect size to smoking fifteen cigarettes a day. The social animal, it seems, cannot flourish in sustained isolation regardless of philosophical conviction.
+
+What this suggests is not that solitude itself is harmful, but that the voluntary nature of chosen aloneness may be precisely what differentiates it physiologically and psychologically from loneliness. Control, meaning, and purpose transform the same objective condition into two radically different experiences. In an era of epidemic loneliness, recovering the capacity for intentional solitude — rather than fearing all aloneness equally — may be part of what psychological health requires.`,
+    questions: [
+      {
+        q: 'According to the text, what is the key difference between solitude and loneliness?',
+        options: [
+          'Solitude lasts longer than loneliness',
+          'Solitude is chosen; loneliness is involuntary',
+          'Loneliness is only experienced by older people',
+          'Solitude is always harmful; loneliness is sometimes positive',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What did the Romantic tradition believe about solitude?',
+        options: [
+          'It was dangerous and should be avoided',
+          'It was necessary for authentic selfhood and creative achievement',
+          'It was only valuable for poets and artists',
+          'It strengthened social bonds by providing contrast',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What did John Cacioppo\'s research find about chronic loneliness?',
+        options: [
+          'It has no measurable effect on physical health',
+          'It improves immune function over time',
+          'It is a significant predictor of premature mortality, comparable to heavy smoking',
+          'It only affects people who live alone',
+        ],
+        answer: 2,
+      },
+      {
+        q: 'What does the author suggest transforms solitude from something harmful to something beneficial?',
+        options: [
+          'Duration — short solitude is fine, long solitude is harmful',
+          'Control, meaning, and purpose — the voluntary nature of chosen aloneness',
+          'The presence of creative work during the period of isolation',
+          'Access to nature, as demonstrated by Thoreau and Wordsworth',
+        ],
+        answer: 1,
+      },
+    ],
+  },
+
+  {
+    id: 'read-12',
+    level: 'C1',
+    title: 'The 15-Minute City and the Politics of Urban Mobility',
+    passage: `The concept of the "15-minute city" — an urban design philosophy in which all essential daily needs can be reached within a quarter of an hour on foot or by bicycle — has attracted considerable attention from city planners and policymakers in recent years. Championed most prominently by Paris under Mayor Anne Hidalgo, the model draws on older ideas about neighbourhood self-sufficiency while responding to contemporary concerns about carbon emissions, public health, and post-pandemic urban life.
+
+The appeal is intuitive. Dense, mixed-use neighbourhoods reduce dependence on cars, decrease emissions, and foster the kind of spontaneous social interaction that urban theorists from Jane Jacobs onward have identified as the source of city vitality. Shorter commutes reclaim time; walkable streets improve physical health; local commerce builds community resilience.
+
+Yet the concept has also attracted surprisingly fierce political opposition, particularly in English-speaking countries. Critics have characterised it — sometimes in conspiratorial terms — as an attempt to restrict freedom of movement or confine residents to designated zones. These characterisations fundamentally misrepresent what the proposals actually involve: the 15-minute city does not prohibit car use, it merely redesigns urban environments to make alternatives more viable.
+
+The deeper tension the debate exposes is between two incompatible visions of urban freedom. One equates freedom with unrestricted motorised mobility; the other sees genuine freedom as the capacity to live well without being compelled to own and operate a car. How cities resolve this tension will shape not only their spatial organisation but the character of everyday life for millions of people.`,
+    questions: [
+      {
+        q: 'What is the core principle of the "15-minute city"?',
+        options: [
+          'All car journeys should be limited to 15 minutes',
+          'Cities should be divided into 15 districts',
+          'All essential daily needs should be reachable in 15 minutes on foot or by bike',
+          'Public transport should run every 15 minutes',
+        ],
+        answer: 2,
+      },
+      {
+        q: 'According to the text, what did Jane Jacobs and similar urban theorists value about dense neighbourhoods?',
+        options: [
+          'Lower property prices',
+          'Reduced reliance on public transport',
+          'Spontaneous social interaction as a source of city vitality',
+          'Separation of residential and commercial zones',
+        ],
+        answer: 2,
+      },
+      {
+        q: 'How does the author characterise political opposition to the 15-minute city?',
+        options: [
+          'As a legitimate concern about urban planning overreach',
+          'As a misrepresentation — the policy does not restrict movement, only redesigns space',
+          'As a reasonable response to government overreach',
+          'As a reflection of genuine concerns about emissions policy',
+        ],
+        answer: 1,
+      },
+      {
+        q: 'What fundamental tension does this debate reveal, according to the final paragraph?',
+        options: [
+          'Between cycling infrastructure and public transport investment',
+          'Between local and national government authority over planning',
+          'Between two incompatible visions of what urban freedom means',
+          'Between the needs of car manufacturers and city residents',
+        ],
         answer: 2,
       },
     ],

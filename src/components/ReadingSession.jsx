@@ -2,6 +2,8 @@ import { useState, useMemo } from 'react'
 import { READING_EXERCISES } from '../readingExercises'
 import TranslatableText from './TranslatableText'
 
+const LEVELS = ['B1', 'B2', 'C1']
+
 function shuffle(arr) {
   const a = [...arr]
   for (let i = a.length - 1; i > 0; i--) {
@@ -12,13 +14,112 @@ function shuffle(arr) {
 }
 
 export default function ReadingSession({ onBack }) {
-  const exercises = useMemo(() => shuffle(READING_EXERCISES), [])
-  const [idx, setIdx] = useState(0)
-  const [phase, setPhase] = useState('read') // 'read' | 'questions' | 'done'
-  const [answers, setAnswers] = useState([])   // index of chosen answer per question
-  const [scores, setScores] = useState([])     // total correct per text
+  const [selectedLevel, setSelectedLevel] = useState('B2')
+  const [started, setStarted] = useState(false)
 
-  const ex = exercises[idx]
+  const exercises = useMemo(
+    () => shuffle(READING_EXERCISES.filter(e => e.level === selectedLevel)),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [started]
+  )
+
+  const [idx, setIdx] = useState(0)
+  const [phase, setPhase] = useState('read') // 'read' | 'questions' | 'done' | 'finished'
+  const [answers, setAnswers] = useState([])
+  const [scores, setScores] = useState([])
+
+  function handleStart() {
+    setStarted(true)
+    setIdx(0)
+    setPhase('read')
+    setAnswers([])
+    setScores([])
+  }
+
+  function handleBack() {
+    if (started) {
+      setStarted(false)
+      setPhase('read')
+      setScores([])
+    } else {
+      onBack()
+    }
+  }
+
+  if (!started) {
+    return (
+      <div className="task-session">
+        <button className="btn-back" onClick={onBack}>← Back</button>
+
+        <div className="task-header accent-blue">
+          <span className="task-icon">📖</span>
+          <div>
+            <h2>Reading</h2>
+            <p className="task-subtitle">Choose your level</p>
+          </div>
+        </div>
+
+        <div className="prompt-box" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <p style={{ fontSize: 15, color: 'var(--text)', lineHeight: 1.5 }}>
+            Read short English texts and answer comprehension questions. Tap any word to see its Slovak translation.
+          </p>
+          <div style={{ display: 'flex', gap: 8 }}>
+            {LEVELS.map(l => (
+              <button
+                key={l}
+                className={`level-btn ${selectedLevel === l ? 'level-btn-active' : ''}`}
+                onClick={() => setSelectedLevel(l)}
+                style={{ flex: 1 }}
+              >
+                {l}
+              </button>
+            ))}
+          </div>
+          <div style={{ fontSize: 13, color: 'var(--muted)' }}>
+            {selectedLevel === 'B1' && 'Everyday topics, clear sentences, common vocabulary.'}
+            {selectedLevel === 'B2' && 'Complex topics, nuanced arguments, advanced vocabulary.'}
+            {selectedLevel === 'C1' && 'Academic and abstract texts, sophisticated vocabulary, subtle reasoning.'}
+          </div>
+          <div style={{ fontSize: 13, color: 'var(--muted)' }}>
+            {READING_EXERCISES.filter(e => e.level === selectedLevel).length} texts available
+          </div>
+        </div>
+
+        <button className="btn-primary" onClick={handleStart}>
+          Start reading →
+        </button>
+      </div>
+    )
+  }
+
+  const ex = exercises[idx] ?? null
+
+  if (phase === 'finished' || !ex) {
+    const totalCorrect = scores.reduce((a, b) => a + b, 0)
+    const totalQuestions = exercises.slice(0, scores.length).reduce((a, e) => a + e.questions.length, 0)
+    return (
+      <div className="task-session">
+        <button className="btn-back" onClick={onBack}>← Back</button>
+        <div className="session-complete">
+          <div className="complete-icon">📖</div>
+          <h2>Reading complete!</h2>
+          <div className="reading-score-card" style={{ width: '100%' }}>
+            <div className="reading-score-number">{totalCorrect}/{totalQuestions}</div>
+            <div className="reading-score-label">questions answered correctly</div>
+          </div>
+          <p style={{ color: 'var(--muted)', fontSize: 15 }}>
+            Words you saved appear in your Vocabulary notebook.
+          </p>
+          <button className="btn-primary" onClick={handleBack} style={{ marginTop: 8 }}>
+            Try another level
+          </button>
+          <button className="btn-secondary" onClick={onBack}>
+            Back to dashboard
+          </button>
+        </div>
+      </div>
+    )
+  }
 
   function handleStartQuestions() {
     setAnswers(Array(ex.questions.length).fill(null))
@@ -27,6 +128,7 @@ export default function ReadingSession({ onBack }) {
 
   function handleAnswer(qIdx, optIdx) {
     setAnswers(prev => {
+      if (prev[qIdx] !== null) return prev
       const next = [...prev]
       next[qIdx] = optIdx
       return next
@@ -50,38 +152,16 @@ export default function ReadingSession({ onBack }) {
   }
 
   const allAnswered = answers.length > 0 && answers.every(a => a !== null)
-  const totalCorrect = scores.reduce((a, b) => a + b, 0)
-  const totalQuestions = exercises.slice(0, scores.length).reduce((a, e) => a + e.questions.length, 0)
-
-  if (phase === 'finished') {
-    return (
-      <div className="task-session">
-        <button className="btn-back" onClick={onBack}>← Back</button>
-        <div className="session-complete">
-          <div className="complete-icon">📖</div>
-          <h2>Reading complete!</h2>
-          <div className="reading-score-card" style={{ width: '100%' }}>
-            <div className="reading-score-number">{totalCorrect}/{totalQuestions}</div>
-            <div className="reading-score-label">questions answered correctly</div>
-          </div>
-          <p style={{ color: 'var(--muted)', fontSize: 15 }}>
-            Tap on any word in a passage to see its Slovak translation. Words you save appear in your Vocabulary notebook.
-          </p>
-          <button className="btn-primary" onClick={onBack}>Back to dashboard</button>
-        </div>
-      </div>
-    )
-  }
 
   return (
     <div className="task-session">
-      <button className="btn-back" onClick={onBack}>← Back</button>
+      <button className="btn-back" onClick={handleBack}>← Back</button>
 
       <div className="task-header accent-blue">
         <span className="task-icon">📖</span>
         <div>
-          <h2>Reading</h2>
-          <p className="task-subtitle">Text {idx + 1} of {exercises.length} · {ex.level}</p>
+          <h2>Reading · {selectedLevel}</h2>
+          <p className="task-subtitle">Text {idx + 1} of {exercises.length}</p>
         </div>
       </div>
 
@@ -89,8 +169,8 @@ export default function ReadingSession({ onBack }) {
         <>
           <div className="reading-passage">
             <div className="reading-passage-title">{ex.title}</div>
-            {ex.passage.split('\n\n').map((para, i) => (
-              <p key={i} style={{ marginBottom: i < ex.passage.split('\n\n').length - 1 ? 14 : 0 }}>
+            {ex.passage.split('\n\n').map((para, i, arr) => (
+              <p key={i} style={{ marginBottom: i < arr.length - 1 ? 14 : 0 }}>
                 <TranslatableText text={para} />
               </p>
             ))}
@@ -151,7 +231,7 @@ export default function ReadingSession({ onBack }) {
             <div className="reading-score-label">correct on "{ex.title}"</div>
           </div>
 
-          <div className="reading-question" style={{ border: 'none', boxShadow: 'none', padding: 0, gap: 12 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {ex.questions.map((q, qi) => (
               <div key={qi} style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 12, padding: '12px 16px' }}>
                 <div style={{ fontWeight: 700, fontSize: 14, color: 'var(--text)', marginBottom: 6 }}>{q.q}</div>
