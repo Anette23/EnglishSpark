@@ -1,22 +1,14 @@
 import { useState, useMemo } from 'react'
-import { getVocabulary, removeWord } from '../vocabularyStore'
-
-function shuffle(arr) {
-  const a = [...arr]
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]]
-  }
-  return a
-}
+import { getWordsSortedBySR, getDueWords, updateWordSR } from '../vocabularyStore'
 
 function normalise(str) {
   return str.trim().toLowerCase().replace(/[^a-z'-]/g, '')
 }
 
 export default function VocabQuiz({ onBack }) {
-  const words = useMemo(() => shuffle(getVocabulary()), [])
-  const [mode, setMode] = useState('sk-en') // 'sk-en' = Slovak→English, 'en-sk' = English→Slovak
+  const words = useMemo(() => getWordsSortedBySR(), [])
+  const dueCount = useMemo(() => getDueWords().length, [])
+  const [mode, setMode] = useState('sk-en')
   const [idx, setIdx] = useState(0)
   const [input, setInput] = useState('')
   const [checked, setChecked] = useState(false)
@@ -56,9 +48,7 @@ export default function VocabQuiz({ onBack }) {
             <div className="reading-score-label">correct answers</div>
           </div>
           {correct === total && (
-            <p style={{ color: 'var(--green)', fontWeight: 700, fontSize: 16 }}>
-              ⭐ Perfect score!
-            </p>
+            <p style={{ color: 'var(--green)', fontWeight: 700, fontSize: 16 }}>⭐ Perfect score!</p>
           )}
           <button className="btn-primary" onClick={onBack}>Back to vocabulary</button>
         </div>
@@ -67,16 +57,16 @@ export default function VocabQuiz({ onBack }) {
   }
 
   const word = words[idx]
+  const isDue = word.sr?.due <= new Date().toISOString().slice(0, 10)
 
   function handleCheck() {
     if (!input.trim()) return
     setChecked(true)
     const correctAnswer = skToEn ? word.word : word.translation
-    if (normalise(input) === normalise(correctAnswer)) {
-      setCorrect(c => c + 1)
-    } else {
-      setWrong(w => w + 1)
-    }
+    const isOk = normalise(input) === normalise(correctAnswer)
+    if (isOk) setCorrect(c => c + 1)
+    else setWrong(w => w + 1)
+    updateWordSR(word.word, isOk)
   }
 
   function handleNext() {
@@ -100,7 +90,7 @@ export default function VocabQuiz({ onBack }) {
         <span className="task-icon">🃏</span>
         <div>
           <h2>Vocabulary Quiz</h2>
-          <p className="task-subtitle">{idx + 1} / {words.length}</p>
+          <p className="task-subtitle">{idx + 1} / {words.length}{dueCount > 0 ? ` · 📅 ${dueCount} due` : ''}</p>
         </div>
       </div>
 
@@ -123,6 +113,11 @@ export default function VocabQuiz({ onBack }) {
       </div>
 
       <div className="prompt-box" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        {isDue && (
+          <div style={{ fontSize: 12, color: '#92400e', background: '#fef3c7', borderRadius: 6, padding: '3px 8px', width: 'fit-content' }}>
+            📅 Due for review
+          </div>
+        )}
         <div className="prompt-label">{skToEn ? 'What is the English word for?' : 'What is the Slovak translation of?'}</div>
         <div style={{ fontSize: 28, fontWeight: 900, color: 'var(--purple)', textAlign: 'center', padding: '8px 0' }}>
           {skToEn ? word.translation : word.word}
@@ -173,6 +168,13 @@ export default function VocabQuiz({ onBack }) {
           </div>
           {!isCorrect && (
             <div style={{ fontSize: 13, color: 'var(--muted)' }}>You typed: {input}</div>
+          )}
+          {word.sr && (
+            <div style={{ fontSize: 12, color: 'var(--muted)', marginTop: 4 }}>
+              Next review: {isCorrect
+                ? `in ${word.sr.interval} day${word.sr.interval !== 1 ? 's' : ''}`
+                : 'tomorrow'}
+            </div>
           )}
         </div>
       )}

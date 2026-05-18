@@ -1,12 +1,13 @@
 import { MILESTONES, getLevel, getNextMilestone, getSessionDuration, formatDuration } from '../habitStore'
 import { getCurrentChallenge, isWeeklyChallengeComplete } from '../weeklyChallenge'
 import { getWordOfDay } from '../wordOfTheDay'
-import { saveWord } from '../vocabularyStore'
+import { saveWord, getDueWords } from '../vocabularyStore'
 import { useState } from 'react'
 
 export default function Dashboard({ state, todayStatus, onStartTask, onOpenSettings, onOpenHistory, onOpenStats, darkMode, onToggleDark, freezesAvailable, onFreezeStreak }) {
   const wordOfDay = getWordOfDay()
   const [wotdSaved, setWotdSaved] = useState(false)
+  const vocabDueCount = getDueWords().length
   const [shareMsg, setShareMsg] = useState('')
 
   function handleShare() {
@@ -256,7 +257,14 @@ export default function Dashboard({ state, todayStatus, onStartTask, onOpenSetti
               <span className="btn-vocab-sub">Read short texts and answer comprehension questions</span>
             </button>
             <button className="btn-vocab" onClick={() => onStartTask('vocabulary')} style={{ background: 'linear-gradient(135deg, #10b981, #3b82f6)' }}>
-              📗 My Vocabulary
+              <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                📗 My Vocabulary
+                {vocabDueCount > 0 && (
+                  <span style={{ background: '#fef3c7', color: '#92400e', borderRadius: 10, padding: '1px 8px', fontSize: 12, fontWeight: 700 }}>
+                    {vocabDueCount} due
+                  </span>
+                )}
+              </span>
               <span className="btn-vocab-sub">Words you saved from exercises and chat</span>
             </button>
             <div className="tasks-grid">
@@ -304,6 +312,26 @@ export default function Dashboard({ state, todayStatus, onStartTask, onOpenSetti
                 icon="📊" title="Weak Spots"
                 desc="See your most common error patterns"
                 color="purple" onStart={() => onStartTask('weakspots')}
+              />
+              <BonusCard
+                icon="🔧" title="Error Correction"
+                desc="Find and fix the grammar mistake in each sentence"
+                color="orange" onStart={() => onStartTask('errorcorrection')}
+              />
+              <BonusCard
+                icon="🔗" title="Collocations"
+                desc="Which words go together? make/do, strong/heavy and more"
+                color="blue" onStart={() => onStartTask('collocations')}
+              />
+              <BonusCard
+                icon="🌿" title="Word Families"
+                desc="Complete the sentence with the correct word form"
+                color="green" onStart={() => onStartTask('wordfamilies')}
+              />
+              <BonusCard
+                icon="💫" title="Phrasal Verbs"
+                desc="Choose the right particle: give up, put off, look into..."
+                color="teal" onStart={() => onStartTask('phrasalverbs')}
               />
             </div>
           </div>

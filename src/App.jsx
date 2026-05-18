@@ -16,6 +16,10 @@ import ListeningGaps from './components/ListeningGaps'
 import WeakSpots from './components/WeakSpots'
 import StatsView from './components/StatsView'
 import OnboardingModal from './components/OnboardingModal'
+import ErrorCorrection from './components/ErrorCorrection'
+import Collocations from './components/Collocations'
+import WordFamilies from './components/WordFamilies'
+import PhrasalVerbs from './components/PhrasalVerbs'
 import { loadState, getTodayStatus, completeTask, getSessionDuration, completeWeeklyChallenge, clearNewMilestone, clearNewLevel, useStreakFreeze, getStreakFreezes } from './habitStore'
 import { getCurrentChallenge } from './weeklyChallenge'
 
@@ -151,7 +155,11 @@ export default function App() {
       {view === 'vocabquiz'   && <VocabQuiz onBack={handleBack} />}
       {view === 'reorder'     && <SentenceReorder onBack={handleBack} />}
       {view === 'listening'   && <ListeningGaps onBack={handleBack} />}
-      {view === 'weakspots'   && <WeakSpots onBack={handleBack} />}
+      {view === 'weakspots'       && <WeakSpots onBack={handleBack} />}
+      {view === 'errorcorrection' && <ErrorCorrection onBack={handleBack} />}
+      {view === 'collocations'    && <Collocations onBack={handleBack} />}
+      {view === 'wordfamilies'    && <WordFamilies onBack={handleBack} />}
+      {view === 'phrasalverbs'    && <PhrasalVerbs onBack={handleBack} />}
       {view === 'weekly' && (
         <WeeklySession
           challenge={getCurrentChallenge()}

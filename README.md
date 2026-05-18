@@ -48,6 +48,16 @@ Inspired by James Clear's *Atomic Habits* and the principle that a 1% improvemen
 ### Daily reminder
 - 🔔 **Browser notifications** — opt-in daily reminder at a chosen hour; only fires if today's tasks aren't done yet
 
+### New exercise types
+- 🔧 **Error Correction** — spot and fix the grammar mistake in a sentence (B1/B2/C1, 30 exercises)
+- 🔗 **Collocations** — tap the correct word that goes with the gap: make/do, strong/heavy, take/have, verb+preposition (35 exercises)
+- 🌿 **Word Families** — given a root word, type the correct form (noun/verb/adjective/adverb) that fits the sentence (30 exercises)
+- 💫 **Phrasal Verbs** — choose the right particle for 40 common phrasal verbs: give up, put off, come across, deal with...
+- 📚 **Grammar expanded** — added 20 Gerunds vs Infinitives exercises (remember doing vs remember to do, stop smoking vs stop to smoke, try adding vs try to fix...)
+
+### Vocabulary spaced repetition
+Each saved word now has an SM-2 spaced repetition schedule. VocabQuiz shows due words first, updates intervals after each answer (correct → interval grows, wrong → resets to tomorrow). "X due" badge appears on the vocabulary button and in the quiz header.
+
 ### Other improvements
 - 🔀 **Vocabulary Quiz** now supports both directions: Slovak → English and English → Slovak
 - 📤 **Import backup** — restore a previously exported JSON backup from Settings
