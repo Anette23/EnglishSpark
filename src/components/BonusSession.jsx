@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import SpeechRecorder from './SpeechRecorder'
 import { SYNONYM_WORDS, PREPOSITION_PHRASES, IDIOM_PHRASES, SHADOWING_SENTENCES, getListForLevel } from '../bonusExercises'
 import { GRAMMAR_EXERCISES } from '../grammarExercises'
@@ -551,6 +551,11 @@ function UseItPhase({ targetPhrase, type, onDone }) {
   const [submitted, setSubmitted]       = useState(false)
   const [check, setCheck]               = useState(null)
   const [loading, setLoading]           = useState(false)
+
+  // Save phrase on entering this step — even if the user skips writing a sentence
+  useEffect(() => {
+    savePracticedSentence({ type, phrase: targetPhrase, sentence: '' })
+  }, [])
 
   async function handleSubmit() {
     setSubmitted(true)

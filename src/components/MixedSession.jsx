@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { SYNONYM_WORDS, PREPOSITION_PHRASES, IDIOM_PHRASES, SHADOWING_SENTENCES, getListForLevel } from '../bonusExercises'
 import { GRAMMAR_EXERCISES } from '../grammarExercises'
 import { saveFlashcard, incrementDailyProgress, DAILY_GOAL, getDailyProgress } from '../flashcardStore'
@@ -17,6 +17,10 @@ function UseItPhase({ targetPhrase, type, onDone }) {
   const [submitted, setSubmitted] = useState(false)
   const [check, setCheck]         = useState(null)
   const [loading, setLoading]     = useState(false)
+
+  useEffect(() => {
+    savePracticedSentence({ type, phrase: targetPhrase, sentence: '' })
+  }, [])
 
   async function handleSubmit() {
     setSubmitted(true)
