@@ -41,6 +41,18 @@ export async function checkSentence(word, sentence) {
   return res.json()
 }
 
+export async function translateWord(word, context = '') {
+  const res = await fetch('/api/translate', {
+    method: 'POST',
+    headers: CHAT_HEADERS,
+    body: JSON.stringify({ word, context }),
+  })
+  if (res.status === 401) throw new Error('UNAUTHORIZED')
+  if (res.status === 503) throw new Error('NOT_CONFIGURED')
+  if (!res.ok) throw new Error('API_ERROR')
+  return res.json()
+}
+
 export async function getFeedback(taskType, text) {
   if (!text.trim()) throw new Error('NO_TEXT')
 

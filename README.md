@@ -36,6 +36,11 @@ Inspired by James Clear's *Atomic Habits* and the principle that a 1% improvemen
 - 📚 **Grammar** — 114 exercises across 10 categories (articles, tenses, conditionals, passive voice and more), then write a sentence with the target structure
 - 🎧 **Shadowing** — listen to a sentence, repeat it out loud, get word-level pronunciation feedback; tap any missed word to hear it again
 - 🔀 **Mixed Practice** — one exercise from every section in a single session, with sentence practice for each
+- 📖 **Reading** — 8 short B1/B2 texts with comprehension questions; tap any word to get its Slovak translation
+- 📗 **My Vocabulary** — a personal word notebook; save words directly from exercises, chat, or reading
+
+### Word translation on tap
+Tap any English word in exercises, chat messages, or reading passages to see its **Slovak translation** in a pop-up. Save words you want to remember — they go straight into your vocabulary notebook. Words are stored locally, no account needed.
 
 ### Spaced repetition
 Every bonus exercise feeds a per-item spaced repetition system. Weak items come back sooner; mastered items fade out. Each section has a **daily goal of 5** and awards +20 XP on completion. A **Review** button appears whenever cards are due.
@@ -43,21 +48,25 @@ Every bonus exercise feeds a per-item spaced repetition system. Weak items come 
 ### Connected learning
 Sentences you write in exercises are saved. When you open **Chat in English**, the AI is told which phrases you've been practising and naturally steers the conversation so you get a chance to use them for real.
 
+### Installable (PWA)
+EnglishSpark is a Progressive Web App — you can install it on your phone's home screen for a native app experience, including offline support for the app shell.
+
 ---
 
 ## Tech stack
 
 - **React** + **Vite** — frontend SPA
 - **localStorage** — all progress stored locally; no account, no backend
-- **Anthropic API** (Claude Haiku) — AI feedback, sentence checking, chat
+- **Anthropic API** (Claude Haiku) — AI feedback, sentence checking, chat, word translation
 - **Web Speech API** — voice recording and text-to-speech (browser-native)
 - **Vercel** — hosting + serverless API routes
+- **PWA** — manifest + service worker for installability and offline support
 
 ---
 
 ## AI features setup
 
-AI features (feedback, sentence checking, chat) are optional. To enable them:
+AI features (feedback, sentence checking, chat, word translation) are optional. To enable them:
 
 1. Get an API key at [console.anthropic.com](https://console.anthropic.com)
 2. Open the app → tap ⚙️ in the top right

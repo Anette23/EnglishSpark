@@ -197,6 +197,14 @@ export default function Dashboard({ state, todayStatus, onStartTask, onOpenSetti
               🔀 Mixed Practice
               <span className="btn-mixed-sub">5 skills in one session — with sentence practice</span>
             </button>
+            <button className="btn-vocab" onClick={() => onStartTask('reading')}>
+              📖 Reading
+              <span className="btn-vocab-sub">Read short texts and answer comprehension questions</span>
+            </button>
+            <button className="btn-vocab" onClick={() => onStartTask('vocabulary')} style={{ background: 'linear-gradient(135deg, #10b981, #3b82f6)' }}>
+              📗 My Vocabulary
+              <span className="btn-vocab-sub">Words you saved from exercises and chat</span>
+            </button>
             <div className="tasks-grid">
               <BonusCard
                 icon="🔤" title="Synonyms"

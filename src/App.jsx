@@ -8,6 +8,8 @@ import BonusSession from './components/BonusSession'
 import MixedSession from './components/MixedSession'
 import WeeklySession from './components/WeeklySession'
 import ChatSession from './components/ChatSession'
+import VocabularyView from './components/VocabularyView'
+import ReadingSession from './components/ReadingSession'
 import { loadState, getTodayStatus, completeTask, getSessionDuration, completeWeeklyChallenge, clearNewMilestone, clearNewLevel, useStreakFreeze, getStreakFreezes } from './habitStore'
 import { getCurrentChallenge } from './weeklyChallenge'
 
@@ -112,8 +114,10 @@ export default function App() {
       {(view === 'synonyms' || view === 'prepositions' || view === 'idioms' || view === 'shadowing' || view === 'grammar') && (
         <BonusSession type={view} onBack={handleBack} />
       )}
-      {view === 'chat'  && <ChatSession onBack={handleBack} />}
-      {view === 'mixed' && <MixedSession onBack={handleBack} />}
+      {view === 'chat'       && <ChatSession onBack={handleBack} />}
+      {view === 'mixed'      && <MixedSession onBack={handleBack} />}
+      {view === 'vocabulary' && <VocabularyView onBack={handleBack} />}
+      {view === 'reading'    && <ReadingSession onBack={handleBack} />}
       {view === 'weekly' && (
         <WeeklySession
           challenge={getCurrentChallenge()}
