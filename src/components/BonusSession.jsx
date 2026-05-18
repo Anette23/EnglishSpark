@@ -65,8 +65,13 @@ export default function BonusSession({ type, onBack }) {
                  : type === 'grammar'      ? GRAMMAR_EXERCISES
                  : SHADOWING_SENTENCES
 
+  const [grammarShuffled, setGrammarShuffled] = useState(() => {
+    if (type !== 'grammar') return null
+    return [...GRAMMAR_EXERCISES.filter(e => e.level === level)].sort(() => Math.random() - 0.5)
+  })
+
   const list = type === 'grammar'
-    ? GRAMMAR_EXERCISES.filter(e => e.level === level)
+    ? (grammarShuffled || GRAMMAR_EXERCISES.filter(e => e.level === level))
     : getListForLevel(fullList, level)
 
   const startIdx = type === 'synonyms' ? () => smartSynStart(list) : () => dailyStart(list)
@@ -90,8 +95,14 @@ export default function BonusSession({ type, onBack }) {
   function changeLevel(l) {
     localStorage.setItem('exerciseLevel', l)
     setLevel(l)
-    const newList = getListForLevel(fullList, l)
-    setIdx(type === 'synonyms' ? smartSynStart(newList) : dailyStart(newList))
+    if (type === 'grammar') {
+      const shuffled = [...GRAMMAR_EXERCISES.filter(e => e.level === l)].sort(() => Math.random() - 0.5)
+      setGrammarShuffled(shuffled)
+      setIdx(0)
+    } else {
+      const newList = getListForLevel(fullList, l)
+      setIdx(type === 'synonyms' ? smartSynStart(newList) : dailyStart(newList))
+    }
     setInput('')
     setChecked(false)
     setTranscript('')
