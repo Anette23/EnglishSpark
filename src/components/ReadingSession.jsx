@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import { READING_EXERCISES } from '../readingExercises'
 import { getLevelStats, sortByPriority, markRead, resetLevel, saveDifficulty } from '../readingStore'
 import { addReadingXP } from '../habitStore'
@@ -148,6 +148,9 @@ export default function ReadingSession({ onBack }) {
   const [xpEarned, setXpEarned] = useState(0) // XP for current text
   const [ttsActive, setTtsActive] = useState(false)
   const ttsRef = useRef(null)
+
+  // Always cancel TTS when this component unmounts
+  useEffect(() => () => { window.speechSynthesis?.cancel() }, [])
 
   function handleStart(level) {
     const sorted = sortByPriority(READING_EXERCISES.filter(e => e.level === level))
