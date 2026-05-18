@@ -619,6 +619,7 @@ function PrepositionsExercise({ item, input, setInput, checked, setChecked, onNe
 }
 
 function ShadowingExercise({ sentence, recKey, transcript, setTranscript, isSpeaking, setIsSpeaking, onNext }) {
+  const [retryKey, setRetryKey] = useState(0)
   const supported = typeof window !== 'undefined' && 'speechSynthesis' in window
 
   function listen() {
@@ -633,11 +634,17 @@ function ShadowingExercise({ sentence, recKey, transcript, setTranscript, isSpea
     window.speechSynthesis.speak(utt)
   }
 
+  function handleRetry() {
+    setTranscript('')
+    setRetryKey(k => k + 1)
+  }
+
   const words    = sentence.toLowerCase().replace(/[^a-z\s]/g, '').split(/\s+/)
   const said     = transcript.toLowerCase().replace(/[^a-z\s]/g, '').split(/\s+/).filter(Boolean)
   const matchPct = said.length > 0
     ? Math.round(said.filter(w => words.includes(w)).length / words.length * 100)
     : 0
+  const missedWords = words.filter(w => !said.includes(w))
 
   return (
     <>
@@ -659,14 +666,38 @@ function ShadowingExercise({ sentence, recKey, transcript, setTranscript, isSpea
         <p className="rec-error">Text-to-speech is not supported in this browser.</p>
       )}
 
-      <SpeechRecorder key={recKey} onTranscript={setTranscript} disabled={isSpeaking} />
+      <SpeechRecorder key={`${recKey}-${retryKey}`} onTranscript={setTranscript} disabled={isSpeaking} />
 
       {transcript && (
         <div className="bonus-result">
           <p>Match: <span className="match-pct">{matchPct}%</span>
-            {matchPct >= 80 ? ' — Great!' : matchPct >= 50 ? ' — Keep going!' : ' — Try again!'}
+            {matchPct >= 80 ? ' — Great!' : matchPct >= 50 ? ' — Getting there!' : ' — Keep practicing!'}
           </p>
-          <button className="btn-primary" onClick={() => onNext(matchPct >= 50 ? 0.9 : 0.4)}>Next sentence →</button>
+
+          <div className="shadow-sentence-feedback">
+            {words.map((word, i) => (
+              <span key={i} className={said.includes(word) ? 'shadow-word-ok' : 'shadow-word-miss'}>
+                {word}{' '}
+              </span>
+            ))}
+          </div>
+
+          <p className="shadow-transcript">You said: <em>"{transcript}"</em></p>
+
+          {missedWords.length > 0 && (
+            <p className="shadow-missed">
+              Focus on: <strong>{missedWords.join(', ')}</strong>
+            </p>
+          )}
+
+          <div className="shadow-action-btns">
+            <button className="btn-secondary" style={{ width: '100%', padding: 12, fontSize: 15 }} onClick={handleRetry}>
+              🔄 Try again
+            </button>
+            <button className="btn-primary" onClick={() => onNext(matchPct >= 50 ? 0.9 : 0.4)}>
+              Next sentence →
+            </button>
+          </div>
         </div>
       )}
     </>
