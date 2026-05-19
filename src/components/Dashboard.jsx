@@ -236,8 +236,10 @@ export default function Dashboard({ state, todayStatus, onStartTask, onOpenSetti
               <span className="wotd-badge">{wordOfDay.level}</span>
               <span className="wotd-label">Word of the Day</span>
             </div>
-            <div className="wotd-word">{wordOfDay.word}</div>
-            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.9)', fontWeight: 600, marginBottom: 2 }}>🇸🇰 {wordOfDay.sk}</div>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, flexWrap: 'wrap', marginBottom: 4 }}>
+              <div className="wotd-word" style={{ marginBottom: 0 }}>{wordOfDay.word}</div>
+              <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.85)', fontWeight: 600 }}>🇸🇰 {wordOfDay.sk}</div>
+            </div>
             <div className="wotd-definition">{wordOfDay.definition}</div>
             <div className="wotd-example">"{wordOfDay.example}"</div>
             <button
