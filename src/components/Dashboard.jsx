@@ -234,6 +234,7 @@ export default function Dashboard({ state, todayStatus, onStartTask, onOpenSetti
               <span className="wotd-label">Word of the Day</span>
             </div>
             <div className="wotd-word">{wordOfDay.word}</div>
+            <div style={{ fontSize: 13, color: 'var(--purple)', fontWeight: 600, marginBottom: 2 }}>🇸🇰 {wordOfDay.sk}</div>
             <div className="wotd-definition">{wordOfDay.definition}</div>
             <div className="wotd-example">"{wordOfDay.example}"</div>
             <button
