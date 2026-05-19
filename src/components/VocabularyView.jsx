@@ -76,7 +76,7 @@ export default function VocabularyView({ onBack, onStartQuiz }) {
               <div key={w.word} className="vocab-item">
                 <div className="vocab-item-main">
                   <span className="vocab-word">{w.word}</span>
-                  <span className="vocab-translation">{w.translation}</span>
+                  <span className="vocab-translation">🇸🇰 {w.translation}</span>
                 </div>
                 {w.context && (
                   <p className="vocab-context">"{w.context}"</p>

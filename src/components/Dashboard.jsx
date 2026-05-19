@@ -23,7 +23,7 @@ export default function Dashboard({ state, todayStatus, onStartTask, onOpenSetti
   }
 
   function handleSaveWotd() {
-    saveWord({ word: wordOfDay.word, translation: wordOfDay.definition, context: wordOfDay.example, source: 'wotd' })
+    saveWord({ word: wordOfDay.word, translation: wordOfDay.sk, context: wordOfDay.example, source: 'wotd' })
     setWotdSaved(true)
   }
 

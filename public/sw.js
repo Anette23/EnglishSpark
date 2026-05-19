@@ -1,4 +1,4 @@
-const CACHE = 'englishspark-v2'
+const CACHE = 'englishspark-v3'
 
 self.addEventListener('install', e => {
   e.waitUntil(self.skipWaiting())
