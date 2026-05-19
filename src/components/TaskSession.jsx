@@ -2,10 +2,11 @@ import { useState } from 'react'
 import Timer from './Timer'
 import FeedbackView from './FeedbackView'
 import SpeechRecorder from './SpeechRecorder'
-import { getDailyPrompt, WRITING_PROMPTS, SPEAKING_PROMPTS } from '../prompts'
+import { getAdaptivePrompt } from '../prompts'
 import { formatDuration, todayStr, saveTaskResult } from '../habitStore'
 import { getFeedback } from '../api'
 import { extractAndStore } from '../weakSpotsStore'
+import { getWeakSpots } from '../weakSpotsStore'
 
 const MAX_LENGTH = 2000
 
@@ -19,7 +20,9 @@ export default function TaskSession({ taskType, duration, onComplete, onBack }) 
   const [feedbackError, setFeedbackError] = useState(null)
 
   const isWriting    = taskType === 'writing'
-  const prompt       = getDailyPrompt(isWriting ? WRITING_PROMPTS : SPEAKING_PROMPTS)
+  const topWeakSpot  = getWeakSpots()[0]?.category ?? null
+  const adaptiveResult = getAdaptivePrompt(isWriting ? 'writing' : 'speaking', topWeakSpot)
+  const prompt       = adaptiveResult.text
   const accentColor  = isWriting ? 'accent-purple' : 'accent-green'
   const feedbackText = isWriting ? text : speakingNotes
 
@@ -97,6 +100,11 @@ export default function TaskSession({ taskType, duration, onComplete, onBack }) 
       <div className="prompt-box">
         <div className="prompt-label">Today's prompt</div>
         <p className="prompt-text">"{prompt}"</p>
+        {adaptiveResult.targetedAt && (
+          <div style={{ fontSize: 12, color: '#065f46', background: '#d1fae5', borderRadius: 6, padding: '3px 10px', width: 'fit-content', marginTop: 6 }}>
+            🎯 Chosen to practise {adaptiveResult.targetedAt}
+          </div>
+        )}
       </div>
 
       <Timer

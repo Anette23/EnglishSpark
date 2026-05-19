@@ -28,18 +28,19 @@ Inspired by James Clear's *Atomic Habits* and the principle that a 1% improvemen
 - 🏆 **Milestones** — unlock achievements at 3, 7, 14, 21, 30, 60, 100 and 365 days
 - ⏱️ **Progressive difficulty** — session length grows automatically as you build the habit (2:00 → 4:00)
 - 🏅 **Weekly challenge** — a themed writing/speaking challenge that resets every week (+50 XP)
-- 📊 **Statistics page** — weekly XP bar chart, session breakdown (writing vs speaking), vocabulary count, top weak spots, reading articles completed
+- 📊 **Statistics page** — weekly XP bar chart, 90-day activity heatmap, session breakdown (writing vs speaking), vocabulary count, top weak spots, reading articles completed
 
 ### Extra practice (optional, not required for streak)
 - 🔤 **Synonyms** — recall and recognise synonyms, then write a sentence using one (AI checks it)
 - 📝 **Prepositions** — fill-in-the-blank exercises, then use the phrase in your own sentence
 - 💬 **Idioms** — fill-in-the-blank with common English idioms, then practise using them
 - 📚 **Grammar** — 134 exercises across 11 categories (articles, tenses, conditionals, passive voice, gerunds vs infinitives and more), then write a sentence with the target structure
-- 🎧 **Shadowing** — listen to a sentence, repeat it out loud, get word-level pronunciation feedback; tap any missed word to hear it again
+- 🎧 **Shadowing** — listen to a sentence, repeat it out loud; letter-grade pronunciation score (A/B/C/D), "Play slower" button, tap any missed word to hear it again
 - 🔀 **Mixed Practice** — one exercise from every section in a single session, with sentence practice for each
 - 📖 **Reading** — 30 texts across B1 / B2 / C1; spaced repetition (weak texts come back for review); 🔊 TTS listen mode; tap any word for Slovak translation; per-question answer review; words-you-looked-up summary; difficulty feedback (Too easy / Just right / Too hard); write a reaction and get AI grammar feedback; +5–10 XP per text
 - 📗 **My Vocabulary** — a personal word notebook; save words directly from exercises, chat, or reading; export as CSV
 - 🃏 **Vocabulary Quiz** — test yourself on your saved vocabulary in both directions (Slovak → English and English → Slovak); due words shown first (spaced repetition)
+- 🎙️ **Listening Dictation** — hear a full sentence (text hidden), type every word; "Play slower" button; word-level result after checking
 - 🔀 **Sentence Reorder** — drag-free word-tap interface to arrange shuffled words into a correct sentence (B1/B2)
 - 🎧 **Listening Gaps** — hear a sentence read aloud via TTS, type the missing word; hear it as many times as you need (B1/B2)
 - 📊 **Weak Spots** — automatic error-pattern tracker: reads your AI feedback and counts recurring categories (articles, tenses, prepositions, conditionals, passive voice and more); shows a ranked bar chart
@@ -65,6 +66,9 @@ Every bonus exercise feeds a per-item spaced repetition system. Weak items come 
 
 ### Daily reminder
 - 🔔 **Browser notifications** — opt-in daily reminder at a chosen hour; only fires if today's tasks aren't done yet
+
+### Adaptive daily prompts
+The writing and speaking prompts are now tagged by grammar category. If you have a recurring weak spot (e.g. Articles or Conditionals), the app automatically picks a prompt that targets that area — 3 out of every 5 days. A green badge "🎯 Chosen to practise Articles" appears below the prompt so you know why it was chosen.
 
 ### Other features
 - 📤 **Import / Export backup** — export a JSON backup of all progress; restore it from Settings

@@ -20,6 +20,7 @@ import ErrorCorrection from './components/ErrorCorrection'
 import Collocations from './components/Collocations'
 import WordFamilies from './components/WordFamilies'
 import PhrasalVerbs from './components/PhrasalVerbs'
+import ListeningDictation from './components/ListeningDictation'
 import { loadState, getTodayStatus, completeTask, getSessionDuration, completeWeeklyChallenge, clearNewMilestone, clearNewLevel, useStreakFreeze, getStreakFreezes } from './habitStore'
 import { getCurrentChallenge } from './weeklyChallenge'
 
@@ -161,6 +162,7 @@ export default function App() {
       {view === 'collocations'    && <Collocations onBack={handleBack} />}
       {view === 'wordfamilies'    && <WordFamilies onBack={handleBack} />}
       {view === 'phrasalverbs'    && <PhrasalVerbs onBack={handleBack} />}
+      {view === 'dictation'       && <ListeningDictation onBack={handleBack} />}
       {view === 'weekly' && (
         <WeeklySession
           challenge={getCurrentChallenge()}

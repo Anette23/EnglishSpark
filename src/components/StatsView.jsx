@@ -1,6 +1,34 @@
 import { getVocabulary } from '../vocabularyStore'
 import { getWeakSpots } from '../weakSpotsStore'
 
+function buildHeatmap(history) {
+  const histMap = {}
+  history.forEach(e => {
+    histMap[e.date] = (e.writingDone ? 1 : 0) + (e.speakingDone ? 1 : 0)
+  })
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  const todayStr = today.toISOString().slice(0, 10)
+
+  const start = new Date(today)
+  start.setDate(today.getDate() - 90)
+  const dow = start.getDay()
+  start.setDate(start.getDate() - (dow === 0 ? 6 : dow - 1))
+
+  const cells = []
+  const d = new Date(start)
+  while (d.toISOString().slice(0, 10) <= todayStr) {
+    const ds = d.toISOString().slice(0, 10)
+    cells.push({ date: ds, level: histMap[ds] ?? 0 })
+    d.setDate(d.getDate() + 1)
+  }
+  while (cells.length % 7 !== 0) {
+    d.setDate(d.getDate() + 1)
+    cells.push({ date: d.toISOString().slice(0, 10), level: -1 })
+  }
+  return cells
+}
+
 // Returns the Monday of the week containing the given date string 'YYYY-MM-DD'
 function getWeekStart(dateStr) {
   const d = new Date(dateStr + 'T00:00:00')
@@ -179,6 +207,58 @@ export default function StatsView({ state, onBack }) {
             )
           })}
         </div>
+      </div>
+
+      {/* Activity heatmap */}
+      <div style={sectionStyle}>
+        <div style={sectionTitleStyle}>Activity — last 3 months</div>
+        {(() => {
+          const cells = buildHeatmap(history)
+          const weeks = []
+          for (let i = 0; i < cells.length; i += 7) weeks.push(cells.slice(i, i + 7))
+          return (
+            <>
+              <div style={{ display: 'flex', gap: 3, overflowX: 'auto' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 3, marginRight: 2, paddingTop: 1 }}>
+                  {['M','T','W','T','F','S','S'].map((d, i) => (
+                    <div key={i} style={{ height: 13, fontSize: 8, color: 'var(--muted)', lineHeight: '13px' }}>{i % 2 === 0 ? d : ''}</div>
+                  ))}
+                </div>
+                <div style={{ display: 'flex', gap: 3 }}>
+                  {weeks.map((week, wi) => (
+                    <div key={wi} style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                      {week.map((cell, di) => (
+                        <div
+                          key={di}
+                          title={cell.level >= 0 ? cell.date + (cell.level > 0 ? ` (${cell.level} task${cell.level > 1 ? 's' : ''})` : '') : ''}
+                          style={{
+                            width: 13, height: 13,
+                            borderRadius: 2,
+                            flexShrink: 0,
+                            background: cell.level < 0
+                              ? 'transparent'
+                              : cell.level === 0
+                              ? 'var(--border)'
+                              : cell.level === 1
+                              ? '#86efac'
+                              : '#22c55e',
+                          }}
+                        />
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 8 }}>
+                <span style={{ fontSize: 11, color: 'var(--muted)' }}>Less</span>
+                {[0, 1, 2].map(l => (
+                  <div key={l} style={{ width: 11, height: 11, borderRadius: 2, background: l === 0 ? 'var(--border)' : l === 1 ? '#86efac' : '#22c55e' }} />
+                ))}
+                <span style={{ fontSize: 11, color: 'var(--muted)' }}>More</span>
+              </div>
+            </>
+          )
+        })()}
       </div>
 
       {/* Practice breakdown */}

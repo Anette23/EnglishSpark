@@ -333,6 +333,11 @@ export default function Dashboard({ state, todayStatus, onStartTask, onOpenSetti
                 desc="Choose the right particle: give up, put off, look into..."
                 color="teal" onStart={() => onStartTask('phrasalverbs')}
               />
+              <BonusCard
+                icon="🎙️" title="Dictation"
+                desc="Hear a full sentence and type every word you heard"
+                color="teal" onStart={() => onStartTask('dictation')}
+              />
             </div>
           </div>
         </div>

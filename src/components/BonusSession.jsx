@@ -689,12 +689,12 @@ function ShadowingExercise({ sentence, onNext }) {
   const [retryKey, setRetryKey]     = useState(0)
   const supported = typeof window !== 'undefined' && 'speechSynthesis' in window
 
-  function listen() {
+  function listen(rate = 0.85) {
     if (!supported) return
     window.speechSynthesis.cancel()
     const utt = new SpeechSynthesisUtterance(sentence)
     utt.lang = 'en-US'
-    utt.rate = 0.85
+    utt.rate = rate
     utt.onstart = () => setIsSpeaking(true)
     utt.onend   = () => setIsSpeaking(false)
     utt.onerror = () => setIsSpeaking(false)
@@ -712,6 +712,8 @@ function ShadowingExercise({ sentence, onNext }) {
     ? Math.round(said.filter(w => words.includes(w)).length / words.length * 100)
     : 0
   const missedWords = words.filter(w => !said.includes(w))
+  const grade = matchPct >= 85 ? 'A' : matchPct >= 70 ? 'B' : matchPct >= 50 ? 'C' : 'D'
+  const gradeColor = matchPct >= 85 ? '#22c55e' : matchPct >= 70 ? '#f59e0b' : matchPct >= 50 ? '#f97316' : '#ef4444'
 
   return (
     <>
@@ -720,14 +722,26 @@ function ShadowingExercise({ sentence, onNext }) {
         <p className="prompt-text">"{sentence}"</p>
       </div>
 
-      <button
-        className={`btn-listen ${isSpeaking ? 'btn-listening' : ''}`}
-        onClick={listen}
-        disabled={isSpeaking || !supported}
-        type="button"
-      >
-        {isSpeaking ? '🔊 Playing...' : '🔊 Listen'}
-      </button>
+      <div style={{ display: 'flex', gap: 8 }}>
+        <button
+          className={`btn-listen ${isSpeaking ? 'btn-listening' : ''}`}
+          onClick={() => listen(0.85)}
+          disabled={isSpeaking || !supported}
+          type="button"
+          style={{ flex: 1 }}
+        >
+          {isSpeaking ? '🔊 Playing...' : '🔊 Listen'}
+        </button>
+        <button
+          className="btn-listen"
+          onClick={() => listen(0.65)}
+          disabled={isSpeaking || !supported}
+          type="button"
+          style={{ flex: 1 }}
+        >
+          🐢 Slower
+        </button>
+      </div>
 
       {!supported && (
         <p className="rec-error">Text-to-speech is not supported in this browser.</p>
@@ -737,9 +751,21 @@ function ShadowingExercise({ sentence, onNext }) {
 
       {transcript && (
         <div className="bonus-result">
-          <p>Match: <span className="match-pct">{matchPct}%</span>
-            {matchPct >= 80 ? ' — Great!' : matchPct >= 50 ? ' — Getting there!' : ' — Keep practicing!'}
-          </p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+            <div style={{
+              width: 44, height: 44, borderRadius: '50%',
+              background: gradeColor, color: '#fff',
+              fontWeight: 900, fontSize: 20,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              flexShrink: 0,
+            }}>{grade}</div>
+            <div>
+              <span className="match-pct" style={{ color: gradeColor }}>{matchPct}%</span>
+              <span style={{ fontSize: 14, color: 'var(--muted)', marginLeft: 6 }}>
+                {matchPct >= 85 ? 'Excellent!' : matchPct >= 70 ? 'Good job!' : matchPct >= 50 ? 'Getting there!' : 'Keep practising!'}
+              </span>
+            </div>
+          </div>
 
           <div className="shadow-sentence-feedback">
             {words.map((word, i) => {
