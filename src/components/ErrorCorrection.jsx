@@ -16,6 +16,24 @@ function normalize(str) {
   return str.trim().toLowerCase()
 }
 
+function wholeWord(text, word) {
+  const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  return new RegExp(`\\b${escaped}\\b`, 'i').test(text)
+}
+
+function isAnswerCorrect(input, ex) {
+  const norm = normalize(input)
+  // Accept just the corrected word/phrase
+  if (norm === normalize(ex.correction)) return true
+  // Accept the full corrected sentence: must contain the fix and not the error word
+  return wholeWord(input, ex.correction) && !wholeWord(input, ex.errorWord)
+}
+
+function makeCorrectSentence(ex) {
+  const escaped = ex.errorWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  return ex.sentence.replace(new RegExp(escaped, 'i'), ex.correction)
+}
+
 export default function ErrorCorrection({ onBack }) {
   const [level, setLevel] = useState('B1')
   const [started, setStarted] = useState(false)
@@ -47,8 +65,7 @@ export default function ErrorCorrection({ onBack }) {
   function handleCheck() {
     if (!input.trim()) return
     setChecked(true)
-    const ex = exercises[idx]
-    if (normalize(input) === normalize(ex.correction)) {
+    if (isAnswerCorrect(input, exercises[idx])) {
       setCorrect(c => c + 1)
     }
   }
@@ -88,7 +105,7 @@ export default function ErrorCorrection({ onBack }) {
 
         <div className="prompt-box" style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           <p style={{ fontSize: 15, color: 'var(--text)', lineHeight: 1.5 }}>
-            Each sentence contains one error. Type just the corrected word or phrase — not the whole sentence.
+            Each sentence has one grammar mistake. You can either rewrite the <strong>whole corrected sentence</strong>, or type just the <strong>corrected word</strong> — both work.
           </p>
           <div style={{ display: 'flex', gap: 8 }}>
             {LEVELS.map(l => (
@@ -136,7 +153,8 @@ export default function ErrorCorrection({ onBack }) {
 
   // ── Exercise screen ───────────────────────────────────────────────────────
   const ex = exercises[idx]
-  const isCorrect = checked && normalize(input) === normalize(ex.correction)
+  const isCorrect = checked && isAnswerCorrect(input, ex)
+  const correctSentence = makeCorrectSentence(ex)
 
   return (
     <div className="task-session">
@@ -150,12 +168,10 @@ export default function ErrorCorrection({ onBack }) {
         </div>
       </div>
 
-      {/* Category badge */}
       <div style={{ fontSize: 12, color: 'var(--muted)', textAlign: 'center' }}>
         {ex.category}
       </div>
 
-      {/* Sentence display */}
       <div className="prompt-box" style={{ textAlign: 'center' }}>
         <p className="prompt-label">Find and correct the error:</p>
         <p style={{ fontSize: 17, color: 'var(--text)', lineHeight: 1.6, margin: 0 }}>
@@ -163,35 +179,32 @@ export default function ErrorCorrection({ onBack }) {
         </p>
       </div>
 
-      {/* Input area */}
       {!checked && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           <label style={{ fontSize: 13, color: 'var(--muted)', fontWeight: 600 }}>
-            Type the correction:
+            Rewrite the sentence (or just type the corrected word):
           </label>
-          <input
+          <textarea
             ref={inputRef}
-            className="vocab-search"
-            type="text"
+            className="text-input"
+            rows={3}
             value={input}
             onChange={e => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="corrected word or phrase…"
+            onKeyDown={e => {
+              if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleCheck() }
+              if (e.key === 'Enter' && checked) handleNext()
+            }}
+            placeholder={`e.g. "${correctSentence}"`}
             autoComplete="off"
             autoCorrect="off"
             spellCheck={false}
           />
-          <button
-            className="btn-primary"
-            onClick={handleCheck}
-            disabled={!input.trim()}
-          >
+          <button className="btn-primary" onClick={handleCheck} disabled={!input.trim()}>
             Check
           </button>
         </div>
       )}
 
-      {/* Feedback */}
       {checked && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           {isCorrect ? (
@@ -201,12 +214,11 @@ export default function ErrorCorrection({ onBack }) {
               borderRadius: 12,
               padding: '14px 16px',
             }}>
-              <p style={{ color: 'var(--green)', fontWeight: 700, margin: '0 0 4px' }}>
-                Correct!
+              <p style={{ color: 'var(--green)', fontWeight: 700, margin: '0 0 6px' }}>✓ Correct!</p>
+              <p style={{ color: '#065f46', fontSize: 14, margin: '0 0 4px' }}>
+                ✅ <strong>{correctSentence}</strong>
               </p>
-              <p style={{ color: 'var(--green)', fontSize: 14, margin: 0 }}>
-                "{ex.correction}" is right. {ex.explanation}
-              </p>
+              <p style={{ color: '#065f46', fontSize: 13, margin: 0 }}>{ex.explanation}</p>
             </div>
           ) : (
             <div style={{
@@ -215,18 +227,14 @@ export default function ErrorCorrection({ onBack }) {
               borderRadius: 12,
               padding: '14px 16px',
             }}>
-              <p style={{ color: '#dc2626', fontWeight: 700, margin: '0 0 4px' }}>
-                Not quite.
-              </p>
+              <p style={{ color: '#dc2626', fontWeight: 700, margin: '0 0 6px' }}>✗ Not quite.</p>
               <p style={{ color: '#dc2626', fontSize: 14, margin: '0 0 6px' }}>
-                You wrote: <em>"{input}"</em>
+                Correct: <strong>"{ex.correction}"</strong>
               </p>
-              <p style={{ color: '#dc2626', fontSize: 14, margin: '0 0 6px' }}>
-                Correct answer: <strong>"{ex.correction}"</strong>
+              <p style={{ color: '#1e3a5f', fontSize: 14, margin: '0 0 6px' }}>
+                ✅ <strong>{correctSentence}</strong>
               </p>
-              <p style={{ color: '#7f1d1d', fontSize: 13, margin: 0 }}>
-                {ex.explanation}
-              </p>
+              <p style={{ color: '#7f1d1d', fontSize: 13, margin: 0 }}>{ex.explanation}</p>
             </div>
           )}
 
