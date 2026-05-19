@@ -11,6 +11,7 @@
   --text: #1e293b;
   --muted: #64748b;
   --border: #e2e8f0;
+  --surface2: #f1f5f9;
   --blue: #3b82f6;
   --blue-light: #dbeafe;
   --orange: #f97316;
@@ -22,11 +23,12 @@
 }
 
 [data-theme="dark"] {
-  --bg:     #0f172a;
-  --card:   #1e293b;
-  --text:   #f1f5f9;
-  --muted:  #94a3b8;
-  --border: #334155;
+  --bg:       #0f172a;
+  --card:     #1e293b;
+  --text:     #f1f5f9;
+  --muted:    #94a3b8;
+  --border:   #334155;
+  --surface2: #334155;
   --shadow: 0 2px 16px rgba(0,0,0,.3);
   --purple-light: #1e1b4b;
   --green-light:  #064e3b;
@@ -870,9 +872,9 @@ body {
   transition: border-color .2s;
 }
 .prep-input:focus    { border-color: var(--purple); }
-.prep-input:disabled { background: #f8fafc; color: var(--muted); }
+.prep-input:disabled { background: var(--surface2); color: var(--muted); }
 [data-theme="dark"] .prep-input { background: var(--card); color: var(--text); }
-[data-theme="dark"] .prep-input:disabled { background: #0f172a; }
+[data-theme="dark"] .prep-input:disabled { background: var(--bg); }
 
 .btn-listen {
   background: var(--blue);
@@ -928,7 +930,7 @@ body {
   box-shadow: var(--shadow);
 }
 .milestone-chip.locked {
-  background: #f1f5f9;
+  background: var(--surface2);
   border: 1.5px dashed var(--border);
   color: var(--muted);
 }
@@ -1235,9 +1237,9 @@ body {
 .shadow-action-btns { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
 
 .btn-secondary {
-  background: var(--surface2, #e2e8f0);
+  background: var(--surface2);
   color: var(--text);
-  border: none;
+  border: 1.5px solid var(--border);
   border-radius: 10px;
   font-size: 15px;
   font-weight: 600;
@@ -1712,7 +1714,7 @@ body {
 .cal-half   { background: var(--green-light);  color: #065f46; }
 .cal-bonus  { background: #ccfbf1;             color: #0f766e; }
 .cal-frozen { background: #dbeafe;             color: #1e40af; }
-.cal-empty  { background: #f1f5f9;             color: var(--muted); }
+.cal-empty  { background: var(--surface2);     color: var(--muted); }
 
 .calendar-legend {
   display: flex;
