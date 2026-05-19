@@ -1,12 +1,15 @@
 import { MILESTONES, getLevel, getNextMilestone, getSessionDuration, formatDuration } from '../habitStore'
 import { getCurrentChallenge, isWeeklyChallengeComplete } from '../weeklyChallenge'
 import { getWordOfDay } from '../wordOfTheDay'
-import { saveWord, getDueWords } from '../vocabularyStore'
+import { saveWord, getDueWords, getVocabulary } from '../vocabularyStore'
 import { useState } from 'react'
 
 export default function Dashboard({ state, todayStatus, onStartTask, onOpenSettings, onOpenHistory, onOpenStats, darkMode, onToggleDark, freezesAvailable, onFreezeStreak }) {
   const wordOfDay = getWordOfDay()
-  const [wotdSaved, setWotdSaved] = useState(false)
+  const [wotdSaved, setWotdSaved] = useState(() => {
+    const vocab = getVocabulary()
+    return vocab.some(w => w.word === wordOfDay.word)
+  })
   const vocabDueCount = getDueWords().length
   const [shareMsg, setShareMsg] = useState('')
 
@@ -234,7 +237,7 @@ export default function Dashboard({ state, todayStatus, onStartTask, onOpenSetti
               <span className="wotd-label">Word of the Day</span>
             </div>
             <div className="wotd-word">{wordOfDay.word}</div>
-            <div style={{ fontSize: 13, color: 'var(--purple)', fontWeight: 600, marginBottom: 2 }}>🇸🇰 {wordOfDay.sk}</div>
+            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.9)', fontWeight: 600, marginBottom: 2 }}>🇸🇰 {wordOfDay.sk}</div>
             <div className="wotd-definition">{wordOfDay.definition}</div>
             <div className="wotd-example">"{wordOfDay.example}"</div>
             <button
